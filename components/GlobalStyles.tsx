@@ -1,14 +1,13 @@
-/** @jsxImportSource theme-ui */
 import React from 'react'
 
 export const Spacer = props => (
-  <div {...props} sx={{
+  <div {...props} style={{
     flexGrow: 2,
   }} />
 );
 
 export const CenterDiv = props => (
-  <div {...props} sx={{
+  <div {...props} style={{
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -17,7 +16,7 @@ export const CenterDiv = props => (
 )
 
 export const VerticalStack = props => (
-  <div {...props} sx={{
+  <div {...props} style={{
     display: 'flex',
     flexFlow: 'column nowrap',
     alignItems: props.align || 'flex-start',

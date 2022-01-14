@@ -14,10 +14,11 @@ const OrganisationBox: React.FC<OrganisationBoxProps> = ({ organisation }) => {
 
   return (
     <OrganisationsStyles.Box href={href}>
-      <OrganisationsStyles.Logo imageUrl={organisation.imageUrl} />
+      <OrganisationsStyles.Logo imageUrl={organisation.image_url} />
       <Spacer />
       <p>{organisation.name}</p>
       <Spacer />
+      
     </OrganisationsStyles.Box>
   )
 }

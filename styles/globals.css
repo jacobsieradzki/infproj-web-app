@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+
 html,
 body {
   padding: 0;
@@ -13,23 +15,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-:root {
-
-  --space: 32px;
-  --space-1: 16px;
-  --space-2: 8px;
-  --space-3: 4px;
-
-  --space-h: 16px;
-  --space-h-1: 12px;
-  --space-h-2: 8px;
-  --space-h-3: 4px;
-
-  --space-v: 32px;
-  --space-v-1: 16px;
-  --space-v-2: 8px;
-  --space-v-3: 4px;
-
 }

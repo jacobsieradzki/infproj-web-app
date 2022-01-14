@@ -1,46 +1,41 @@
-/** @jsxImportSource theme-ui */
-import React from 'react'
+import styled from 'styled-components'
 
-const Container = props => (
-  <div {...props} sx={{
+const Container = styled.div`
+  
+`;
 
-    }} />
-)
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+  grid-gap: 1rem;
+`;
 
-const Grid = props => (
-  <div {...props} sx={{
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(265px, 1fr))',
-    gridGap: '1rem'
-  }} />
-)
+const Box = styled.a`
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: var(--primary-color);
+  padding: var(--grid-item-space);
+  
+  p {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  
+  &:hover {
+    background-color: var(--secondary-color);
+  }
+`;
 
-const Box = props => (
-  <a {...props} sx={{
-    display: 'flex',
-    flexFlow: 'column nowrap',
-    backgroundColor: 'primary',
-    padding: '1.5rem',
-    p: {
-      fontSize: '1.5rem',
-      fontWeight: 700,
-      margin: 'var(--space-1) 0'
-    },
-    ':hover': {
-      backgroundColor: 'secondary',
-    }
-  }} />
-)
-
-const Logo = props => (
-  <div {...props} sx={{
-    backgroundImage: `url(${props.imageUrl})`,
-    backgroundPosition: 'center left',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
-    height: '50px',
-  }} />
-)
+type LogoProps = {
+  imageUrl: string;
+}
+const Logo = styled.div<LogoProps>`
+  background-image: url(${props => props.imageUrl});
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 50px;
+`;
 
 const OrganisationsStyles = {
   Container,
