@@ -1,12 +1,8 @@
 import React from 'react'
+import { NextPage } from 'next'
 import AllOrganisations from 'components/Organisations/AllOrganisations'
 
-type PageProps = {
-
-}
-
-const Page: React.FC<PageProps> = ({ }) => {
-
+const Page: NextPage = () => {
   return (
     <AllOrganisations />
   )

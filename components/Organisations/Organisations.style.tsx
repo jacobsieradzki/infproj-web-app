@@ -1,28 +1,14 @@
 import styled from 'styled-components'
+import { Grid } from 'components/GlobalStyles'
 
 const Container = styled.div`
   
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
-  grid-gap: 1rem;
-`;
-
-const Box = styled.a`
-  display: flex;
-  flex-flow: column nowrap;
-  background-color: var(--primary-color);
-  padding: var(--grid-item-space);
-  
+const Box = styled(Grid.Box)`
   p {
     font-size: 1.5rem;
     font-weight: 700;
-  }
-  
-  &:hover {
-    background-color: var(--secondary-color);
   }
 `;
 
@@ -39,7 +25,6 @@ const Logo = styled.div<LogoProps>`
 
 const OrganisationsStyles = {
   Container,
-  Grid,
   Box,
   Logo
 }
