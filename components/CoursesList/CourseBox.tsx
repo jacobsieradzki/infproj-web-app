@@ -10,7 +10,9 @@ type CourseBoxProps = {
 
 const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
 
-  let href = COURSE_ROUTE.replace('[courseId]', course.id);
+  let href = COURSE_ROUTE
+    .replace('[organisationId]', course.organisation_id)
+    .replace('[courseId]', course.id);
 
   return (
     <CoursesListStyles.Box as={"a"} href={href}>
