@@ -1,12 +1,11 @@
+import useGetCourse from 'api/useGetCourse'
+import React from 'react'
 import useGetEvents from 'api/useGetEvents'
 import EventBox from 'components/EventsList/EventBox'
-import React from 'react'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
-import CourseBox from 'components/CoursesList/CourseBox'
-import { Grid } from 'components/GlobalStyles'
+import { CaptionUppercase, Grid, Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import CoursesListStyles from 'components/CoursesList/CoursesList.style'
-import useGetCoursesForOrganisation from 'api/useGetCoursesForOrganisation'
 import useGetOrganisation from 'api/useGetOrganisation'
 import Event from 'models/Event'
 
@@ -23,6 +22,11 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
     error: organisationError
   } = useGetOrganisation({ organisationId });
   const {
+    data: course,
+    loading: courseLoading,
+    error: courseError
+  } = useGetCourse({ courseId });
+  const {
     data: events,
     loading: eventsLoading,
     error: eventsError
@@ -30,7 +34,7 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
 
 
 
-  if (organisationLoading || eventsLoading) {
+  if (organisationLoading || courseLoading || eventsLoading) {
     return (
       <ContentCenterInPage>
         <Loader />
@@ -40,7 +44,12 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
 
   return (
     <CoursesListStyles.Container>
-      <h2>{organisation.name}</h2>
+      <CaptionUppercase>{organisation.name}</CaptionUppercase>
+      <h2>{course.name}</h2>
+      <CaptionUppercase>{course.id}</CaptionUppercase>
+
+      <Spacer height={32} />
+
       <Grid.Container>
         {events?.map(event =>
           <EventBox key={event.id} organisation={organisation} event={new Event(event)} />

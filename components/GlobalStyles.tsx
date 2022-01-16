@@ -4,8 +4,12 @@ import styled from 'styled-components'
 // Layout
 // --------------------------------------------------
 
+type SpacerProps = {
+  height?: number;
+}
 export const Spacer = styled.div`
   flex-grow: 2;
+  ${props => props.height ? `height: ${props.height}px;` : ""}
 `;
 
 export const CenterDiv = styled.div`

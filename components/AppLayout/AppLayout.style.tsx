@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components';
 
-const HEADER_HEIGHT = 85
+export const HEADER_HEIGHT = 75;
 
 export const AppTheme = createGlobalStyle`
   :root {
@@ -18,10 +18,6 @@ export const AppTheme = createGlobalStyle`
     
     --shadow: rgb(0 0 0 / 16%) 0px 4px 16px 4px;
   }
-`;
-
-const Page = styled.div`
-  background-color: var(--background-color);
   
   h1, h2, h3, h4, h5 {
     font-family: Playfair Display, serif;
@@ -31,10 +27,17 @@ const Page = styled.div`
     color: var(--text-color);
   }
   
+  h1 { margin: 0.8rem 0; }
+  p { margin: 0.2rem 0; }
+  
   span {
     color: var(--text2-color);
     font-size: 14px;
   }
+`;
+
+const Page = styled.div`
+  background-color: var(--background-color);
 `;
 
 const Header = styled.div`
@@ -43,15 +46,17 @@ const Header = styled.div`
   align-items: center;
   height: ${HEADER_HEIGHT}px;
   padding: 0 var(--page-space);
+  position: sticky;
+  top: 0;
 `;
 
 const Content = styled.div`
-  padding: var(--page-space);
+  padding: var(--page-space) var(--page-space) 0 var(--page-space);
   min-height: calc(100vh - ${HEADER_HEIGHT}px);
 `;
 
 export const ContentCenterInPage = styled.div`
-  min-height: calc(100vh - ${HEADER_HEIGHT}px - var(--page-space)*2);
+  min-height: calc(100vh - ${HEADER_HEIGHT}px - var(--page-space));
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
