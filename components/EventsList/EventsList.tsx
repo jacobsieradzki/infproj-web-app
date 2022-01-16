@@ -1,4 +1,6 @@
 import useGetCourse from 'api/useGetCourse'
+import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
+import { HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
 import React from 'react'
 import useGetEvents from 'api/useGetEvents'
 import EventBox from 'components/EventsList/EventBox'
@@ -42,9 +44,15 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
     )
   }
 
+  let organisationUrl = ORGANISATION_COURSES_ROUTE.replace("[organisationId]", organisation.id);
+
   return (
     <CoursesListStyles.Container>
-      <CaptionUppercase>{organisation.name}</CaptionUppercase>
+      <Breadcrumbs items={[
+        { label: "Home", url: HOME_ROUTE },
+        { label: organisation.name, url: organisationUrl },
+        { label: "Courses" },
+      ]} />
       <h2>{course.name}</h2>
       <CaptionUppercase>{course.id}</CaptionUppercase>
 

@@ -13,7 +13,7 @@ const Container = styled.div`
 const Header = styled.div`
   margin-bottom: 20px;
   h1 { 
-    margin: 4px; 
+    margin: 8px 0; 
   }
 `;
 
@@ -28,13 +28,16 @@ const Column = styled.div`
   width: 30%;
   position: sticky;
   top: calc(${HEADER_HEIGHT}px + var(--page-space) );
+  height: calc(100vh - ${HEADER_HEIGHT}px - var(--page-space));
+  min-height: calc(100vh - ${HEADER_HEIGHT}px - var(--page-space));
 `;
 
 const ColumnContent = styled.div`
   border: 1px white solid;
   border-bottom: none;
+  height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space));
+  min-height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space));
   overflow: scroll;
-  max-height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space));
   transition: opacity 0.2s;
   
   &.hidden {
@@ -52,11 +55,11 @@ const ColumnTab = styled.button`
   font-size: 1rem;
   color: white;
   cursor: pointer;
+  font-weight: 600;
   
   &.selected {
     background-color: white;
     color: var(--background-color);
-    font-weight: 600;
   }
 `;
 

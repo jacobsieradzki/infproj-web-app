@@ -6,7 +6,7 @@ import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { HorizontalStack, Spacer } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
 import VideoComponent from 'components/Video/VideoComponent'
-import { COURSE_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
+import { COURSE_ROUTE, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
 import Course from 'models/Course'
 import Event from 'models/Event'
 import Organisation from 'models/Organisation'
@@ -54,6 +54,7 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
       <ResourceStyles.Content>
         <ResourceStyles.Header>
           <Breadcrumbs items={[
+            { label: "Home", url: HOME_ROUTE },
             { label: organisation.name, url: organisationUrl },
             { label: course.name, url: courseUrl },
             { label: "Video" },
