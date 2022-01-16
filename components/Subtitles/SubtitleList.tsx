@@ -16,12 +16,18 @@ type SubtitleListProps = {
 export const SubtitleList: React.FC<SubtitleListProps> = ({ course, resource, playerSeconds }) => {
 
   const refList = useRef(null);
+  const [selectedSecs, setSelectedSecs] = useState(0);
   const [autoScroll, setAutoScroll] = useState(true);
 
   useEffect(() => {
-    let element = document.getElementById("secs" + playerSeconds);
+    let element = document.getElementById("secs_" + playerSeconds);
+    let endElement = document.getElementById("secs_end");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      setSelectedSecs(playerSeconds);
+      endElement?.scrollIntoView({ block: 'nearest', inline: 'center' });
+      setTimeout(() => {
+        element?.scrollIntoView({ block: 'nearest', inline: 'center' });
+      }, 10);
     }
   }, [playerSeconds]);
 
@@ -41,14 +47,21 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({ course, resource, pl
   }
 
   return (
-    <SubtitlesStyles.Container ref={refList} id={"subtitles-list"}>
-      {subtitles.map((subtitle, index) => (
-        <SubtitlesStyles.Item key={index} id={"secs" + subtitle.start_seconds}>
-          <span>{formatHHMMSS(subtitle.start_seconds)}</span>
-          <p>{subtitle.content}</p>
-          <AddConnectionButton className={"add"} />
-        </SubtitlesStyles.Item>
-      ))}
+    <SubtitlesStyles.Container ref={refList} id={"subtitles_list"}>
+      <div>
+        {subtitles.map((subtitle, index) => (
+          <SubtitlesStyles.Item
+            key={index}
+            className={subtitle.start_seconds == selectedSecs ? "selected" : ""}
+          >
+            <div id={"secs_" + subtitle.start_seconds} style={{ height: 24 }} />
+            <span>{formatHHMMSS(subtitle.start_seconds)}</span>
+            <p>{subtitle.content}</p>
+            <AddConnectionButton className={"add"} />
+          </SubtitlesStyles.Item>
+        ))}
+      </div>
+      <div id={"secs_end"} />
     </SubtitlesStyles.Container>
   )
 }

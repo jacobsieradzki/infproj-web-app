@@ -3,7 +3,6 @@ import styled from 'styled-components'
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  padding: 24px;
   position: relative;
 `;
 
@@ -11,10 +10,21 @@ const Item = styled.div`
   display: flex;
   flex-flow: column nowrap;
   gap: 2px;
+  padding: 0 24px 0 24px;
   
-  padding: 12px 0;
-  &:first-child { padding-top: 0; }
-  &:last-child { padding-bottom: 0; }
+  &:last-child { padding-bottom: 32px; }
+  
+  &.selected {
+    background-color: var(--secondary-color);
+    padding-bottom: 24px;
+    
+    .add { 
+      margin-top: 16px;
+      max-height: 100px;
+      opacity: 1;
+      padding: 16px;
+    }
+  }
   
   span {
     font-size: 1rem;
@@ -32,15 +42,6 @@ const Item = styled.div`
     padding: 0;
     opacity: 0;
     overflow: hidden;
-  }
-  
-  &:hover {
-    .add { 
-      margin-top: 16px;
-      max-height: 100px;
-      opacity: 1;
-      padding: 16px;
-    }
   }
 `;
 

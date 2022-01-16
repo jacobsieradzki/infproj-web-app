@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
-import { Spacer } from 'components/GlobalStyles'
+import { HorizontalStack, Spacer } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
 import VideoComponent from 'components/Video/VideoComponent'
 import { COURSE_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
@@ -19,6 +19,21 @@ type ResourceContainerProps = {
   resource?: Resource;
 }
 
+type TabType = "RESOURCES" | "DISCUSSION";
+const TabItem = ({ tabId, tab, setTab, children }) => (
+  <ResourceStyles.ColumnTab
+    id={tab.toLowerCase() + "_key"}
+    className={tab == tabId ? "selected" : ""}
+    onClick={() => setTab(tabId)}
+  >{children}</ResourceStyles.ColumnTab>
+)
+
+const TabContent = ({ tabId, tab, children }) => (
+  <ResourceStyles.ColumnContent
+    className={tab == tabId ? "" : "hidden"}
+  >{children}</ResourceStyles.ColumnContent>
+)
+
 const ResourceContainer: React.FC<ResourceContainerProps> = ({
   organisation,
   course,
@@ -26,6 +41,7 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
   resource
 }) => {
 
+  const [tab, setTab] = useState<TabType>("RESOURCES");
   const [currentTime, setCurrentTime] = useState(0);
 
   let organisationUrl = ORGANISATION_COURSES_ROUTE.replace("[organisationId]", organisation.id);
@@ -60,8 +76,22 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
           <pre>{JSON.stringify(resource, null, 2)}</pre>
         </div>
       </ResourceStyles.Content>
+
       <ResourceStyles.Column>
-        <SubtitleList course={course} resource={resource} playerSeconds={currentTime} />
+        <HorizontalStack gap={16}>
+          <TabItem tabId={"RESOURCES"} {...{ tab, setTab }}>
+            Resources
+          </TabItem>
+          <TabItem tabId={"DISCUSSION"} {...{ tab, setTab }}>
+            Discussion
+          </TabItem>
+        </HorizontalStack>
+        <TabContent tabId={"RESOURCES"} tab={tab}>
+          <SubtitleList course={course} resource={resource} playerSeconds={currentTime} />
+        </TabContent>
+        <TabContent tabId={"DISCUSSION"} tab={tab}>
+          <SubtitleList course={course} resource={resource} playerSeconds={currentTime} />
+        </TabContent>
       </ResourceStyles.Column>
     </ResourceStyles.Container>
   )

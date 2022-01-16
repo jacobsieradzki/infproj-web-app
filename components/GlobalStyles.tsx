@@ -19,14 +19,24 @@ export const CenterDiv = styled.div`
   height: 100%;
 `;
 
-type VerticalStackProps = {
-  align: string;
+type StackProps = {
+  align?: string;
+  gap?: number;
 }
-export const VerticalStack = styled.div`
+
+export const VerticalStack = styled.div<StackProps>`
   display: flex;
   flex-flow: column nowrap;
   align-items: ${props => props.align || 'flex-start'};
   justify-content: center;
+`;
+
+export const HorizontalStack = styled.div<StackProps>`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: ${props => props.align || 'flex-start'};
+  justify-content: center;
+  gap: ${props => props.gap || 0}px;
 `;
 
 export const Grid = {
