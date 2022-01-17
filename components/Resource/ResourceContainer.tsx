@@ -51,6 +51,12 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
   let organisationUrl = ORGANISATION_COURSES_ROUTE.replace("[organisationId]", organisation.id);
   let courseUrl = COURSE_ROUTE.replace("[organisationId]", organisation.id).replace("[courseId]", course.id);
 
+  let isLectureVideo = resource.url && resource.type == "VID";
+
+
+  console.log(resource)
+  console.log(resource.getTypeLabel)
+  console.log(resource.getTypeLabel())
   return (
     <ResourceStyles.Container>
       <ResourceStyles.Content>
@@ -59,18 +65,16 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
             { label: "Home", url: HOME_ROUTE },
             { label: organisation.name, url: organisationUrl },
             { label: course.name, url: courseUrl },
-            { label: "Video" },
+            { label: resource.getTypeLabel() },
           ]} />
 
           <h1>
-            <FontAwesomeIcon icon={faVideo} />&nbsp;
-            Lecture: {event.name}
+            <FontAwesomeIcon icon={event.getIcon()} />&nbsp;&nbsp;
+            {event.getTypeLabel()}: {event.name}
           </h1>
         </ResourceStyles.Header>
 
-        {resource.url && resource.type == "VID" &&
-          <VideoComponent resource={resource} onCurrentTimeChange={setCurrentTime} />
-        }
+        {isLectureVideo && <VideoComponent resource={resource} onCurrentTimeChange={setCurrentTime} />}
 
         <div style={{ backgroundColor: "white" }}>
           <pre>{JSON.stringify(organisation, null, 2)}</pre>
@@ -90,12 +94,12 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
           </TabItem>
         </HorizontalStack>
         <TabContent tabId={"RESOURCES"} tab={tab}>
-          <SubtitleList
+          {isLectureVideo && <SubtitleList
             course={course}
             resource={resource}
             links={links}
             playerSeconds={currentTime}
-          />
+          />}
         </TabContent>
         <TabContent tabId={"DISCUSSION"} tab={tab}>
           {/*<SubtitleList course={course} resource={resource} playerSeconds={currentTime} autoPlay={autoPlay} />*/}

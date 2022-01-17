@@ -6,8 +6,9 @@ export class Organisation {
   image_url: string;
 
   constructor(json: any) {
-    let o: Organisation = json;
-    return o;
+    this.id = json.id;
+    this.name = json.name;
+    this.image_url = json.image_url;
   }
 
 }

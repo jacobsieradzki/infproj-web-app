@@ -6,12 +6,16 @@ export class Course {
   public organisation_id: string;
   public organisation: Organisation;
   public name: string;
-  private start_date: string;
-  private end_date: string;
+  private readonly start_date: string;
+  private readonly end_date: string;
 
   constructor(json: any) {
-    let o: Course = json;
-    return o;
+    this.id = json.id;
+    this.organisation_id = json.organisation_id;
+    this.organisation = json.organisation;
+    this.name = json.name;
+    this.start_date = json.start_date;
+    this.end_date = json.end_date;
   }
 
   public getStartDate(): Date {

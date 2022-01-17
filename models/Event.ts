@@ -1,3 +1,5 @@
+import { IconDefinition } from '@fortawesome/fontawesome-common-types'
+import { faFileAlt, faGraduationCap, faVideo } from '@fortawesome/free-solid-svg-icons'
 import Course from 'models/Course'
 import Resource from 'models/Resource'
 
@@ -17,12 +19,20 @@ export class Event {
   public name: string;
   public description: string;
   public type: EventType;
-  private start_date: string;
-  private end_date: string;
+  private readonly start_date: string;
+  private readonly end_date: string;
 
   constructor(json: any) {
-    let o: Event = json;
-    return o;
+    this.id = json.id;
+    this.course_id = json.course_id;
+    this.course = json.course;
+    this.primary_resource_id = json.primary_resource_id;
+    this.primary_resource = json.primary_resource;
+    this.name = json.name;
+    this.description = json.description;
+    this.type = EventType[json.type];
+    this.start_date = json.start_date;
+    this.end_date = json.end_date;
   }
 
   public getTypeLabel(): string {
@@ -30,6 +40,16 @@ export class Event {
       case EventType.LECTURE: return "Lecture";
       case EventType.WORKSHOP: return "Workshop";
       case EventType.ASSIGNMENT: return "Assignment";
+      default: return this.type;
+    }
+  }
+
+  public getIcon(): IconDefinition {
+    switch (this.type) {
+      case EventType.LECTURE: return faVideo;
+      case EventType.WORKSHOP: return faGraduationCap;
+      case EventType.ASSIGNMENT: return faFileAlt;
+      default: return this.type;
     }
   }
 

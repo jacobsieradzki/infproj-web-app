@@ -1,4 +1,5 @@
 import ResourceContainer from 'components/Resource/ResourceContainer'
+import Event from 'models/Event'
 import Course from 'models/Course'
 import Organisation from 'models/Organisation'
 import Resource from 'models/Resource'
@@ -7,7 +8,6 @@ import useGetEvent from 'api/useGetEvent'
 import useGetOrganisation from 'api/useGetOrganisation'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
 import Loader from 'components/Loader/Loader'
-import Event from 'models/Event'
 
 type EventContainerProps = {
   organisationId: string;
@@ -34,10 +34,10 @@ const EventContainer: React.FC<EventContainerProps> = ({ organisationId, courseI
   }
 
   return <ResourceContainer
-    organisation={organisation}
-    course={course}
-    event={event}
-    resource={resource}
+    organisation={new Organisation(organisation)}
+    course={new Course(course)}
+    event={new Event(event)}
+    resource={new Resource(resource)}
   />;
 }
 

@@ -10,8 +10,13 @@ export class Resource {
   public status: "PROCESSING" | "READY" | "ERROR";
 
   constructor(json: any) {
-    let o: Resource = json;
-    return o;
+    this.id = json.id;
+    this.course_id = json.course_id;
+    this.name = json.name;
+    this.description = json.description;
+    this.type = json.type;
+    this.url = json.url;
+    this.status = json.status;
   }
 
   public getTypeLabel(): string {
