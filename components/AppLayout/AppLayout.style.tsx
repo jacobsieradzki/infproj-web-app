@@ -34,6 +34,12 @@ export const AppTheme = createGlobalStyle`
     color: var(--text2-color);
     font-size: 14px;
   }
+  
+  .bg-blur {
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    background-color: rgba(255, 255, 255, 0.72);
+  }
 `;
 
 const Page = styled.div`

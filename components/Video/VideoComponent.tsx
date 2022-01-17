@@ -13,11 +13,16 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource, onCurrentTime
   const videoRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
 
+
   useEffect(() => {
+    let time = currentTime;
     setTimeInterval(setInterval(() => {
       let secs = Math.round(videoRef.current?.currentTime || 0);
-      setCurrentTime(secs);
-      onCurrentTimeChange(secs);
+      if (secs != time) {
+        console.log('sending...', secs, time)
+        setCurrentTime(secs);
+        onCurrentTimeChange(secs);
+      }
     }, 1000));
     return () => clearInterval(timeInterval);
   }, []);

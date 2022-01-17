@@ -35,8 +35,8 @@ const Column = styled.div`
 const ColumnContent = styled.div`
   border: 1px white solid;
   border-bottom: none;
-  height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space));
-  min-height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space));
+  height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space) + 2px);
+  min-height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space) + 2px);
   overflow: scroll;
   transition: opacity 0.2s;
   

@@ -1,9 +1,34 @@
+import { HorizontalStack } from 'components/GlobalStyles'
 import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;
   flex-flow: column nowrap;
   position: relative;
+  
+  &.autoplay {
+    .item:not(.selected) {
+      opacity: 0.5;
+    }
+  }
+`;
+
+const AutoPlay = styled(HorizontalStack)`
+  padding: 16px;
+  justify-content: center;
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+  border: none;
+    
+  &.bg-blur { background-color: rgba(255, 255, 255, 0.20); }
+  & > * { margin: 0; }
+  p {
+    font-size: 16px; 
+    font-weight: 600; 
+  }
+  .svg-inline--fa { font-size: 1.2rem; }
 `;
 
 const Item = styled.div`
@@ -36,6 +61,10 @@ const Item = styled.div`
     font-size: 1.2rem;
   }
   
+  .links {
+    margin-top: 8px;
+  }
+  
   .add {
     max-height: 0px;
     transition: max-height 0.5s, opacity 0.5s, padding 0.5s, margin 0.2s;
@@ -47,6 +76,7 @@ const Item = styled.div`
 
 const SubtitlesStyles = {
   Container,
+  AutoPlay,
   Item,
 }
 

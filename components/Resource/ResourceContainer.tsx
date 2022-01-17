@@ -1,3 +1,4 @@
+import { useGetLinksForResource } from 'api/useGetLinks'
 import SubtitleList from 'components/Subtitles/SubtitleList'
 import React, { useState } from 'react'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
@@ -42,12 +43,13 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
 }) => {
 
   const [tab, setTab] = useState<TabType>("RESOURCES");
+
   const [currentTime, setCurrentTime] = useState(0);
 
+  const { data: links, loading, error } = useGetLinksForResource({ id: resource.id , courseId: course.id });
+
   let organisationUrl = ORGANISATION_COURSES_ROUTE.replace("[organisationId]", organisation.id);
-  let courseUrl = COURSE_ROUTE
-    .replace("[organisationId]", organisation.id)
-    .replace("[courseId]", course.id);
+  let courseUrl = COURSE_ROUTE.replace("[organisationId]", organisation.id).replace("[courseId]", course.id);
 
   return (
     <ResourceStyles.Container>
@@ -88,10 +90,15 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
           </TabItem>
         </HorizontalStack>
         <TabContent tabId={"RESOURCES"} tab={tab}>
-          <SubtitleList course={course} resource={resource} playerSeconds={currentTime} />
+          <SubtitleList
+            course={course}
+            resource={resource}
+            links={links}
+            playerSeconds={currentTime}
+          />
         </TabContent>
         <TabContent tabId={"DISCUSSION"} tab={tab}>
-          <SubtitleList course={course} resource={resource} playerSeconds={currentTime} />
+          {/*<SubtitleList course={course} resource={resource} playerSeconds={currentTime} autoPlay={autoPlay} />*/}
         </TabContent>
       </ResourceStyles.Column>
     </ResourceStyles.Container>

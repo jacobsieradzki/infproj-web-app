@@ -9,6 +9,7 @@ const Box = styled(Grid.Box)`
   p {
     font-size: 1.5rem;
     font-weight: 700;
+    margin: 16px 0 8px 0;
   }
 `;
 
