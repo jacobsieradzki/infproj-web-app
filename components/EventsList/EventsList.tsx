@@ -1,7 +1,7 @@
+import React from 'react'
 import useGetCourse from 'api/useGetCourse'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
-import React from 'react'
 import useGetEvents from 'api/useGetEvents'
 import EventBox from 'components/EventsList/EventBox'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
