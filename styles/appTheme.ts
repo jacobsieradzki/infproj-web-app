@@ -1,6 +1,5 @@
-import type { Theme } from 'theme-ui'
 
-export const appTheme: Theme = {
+export const appTheme = {
   fonts: {
     body: 'system-ui, sans-serif',
   },
