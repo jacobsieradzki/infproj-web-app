@@ -1,6 +1,6 @@
 
 export type LOG_LEVEL = 'fatal' | 'error' | 'warning' | 'info' | 'debug';
-export type LOG_CATEGORY = 'API' | 'ClassroomApp';
+export type LOG_CATEGORY = 'API' | 'ClassroomApp' | 'PDF';
 
 type LogProps = {
   level?: LOG_LEVEL;

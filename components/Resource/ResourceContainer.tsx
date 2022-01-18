@@ -1,7 +1,7 @@
 import { useGetLinksForResource } from 'api/useGetLinks'
+import PDFComponent from 'components/PDF/PDFComponent'
 import SubtitleList from 'components/Subtitles/SubtitleList'
 import React, { useState } from 'react'
-import { faVideo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { HorizontalStack, Spacer } from 'components/GlobalStyles'
@@ -52,11 +52,8 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
   let courseUrl = COURSE_ROUTE.replace("[organisationId]", organisation.id).replace("[courseId]", course.id);
 
   let isLectureVideo = resource.url && resource.type == "VID";
+  let isPDF = resource.url && resource.type == "PDF";
 
-
-  console.log(resource)
-  console.log(resource.getTypeLabel)
-  console.log(resource.getTypeLabel())
   return (
     <ResourceStyles.Container>
       <ResourceStyles.Content>
@@ -75,13 +72,14 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
         </ResourceStyles.Header>
 
         {isLectureVideo && <VideoComponent resource={resource} onCurrentTimeChange={setCurrentTime} />}
+        {isPDF && <PDFComponent resource={resource} />}
 
-        <div style={{ backgroundColor: "white" }}>
-          <pre>{JSON.stringify(organisation, null, 2)}</pre>
-          <pre>{JSON.stringify(course, null, 2)}</pre>
-          <pre>{JSON.stringify(event, null, 2)}</pre>
-          <pre>{JSON.stringify(resource, null, 2)}</pre>
-        </div>
+        {/*<div style={{ backgroundColor: "white" }}>*/}
+        {/*  <pre>{JSON.stringify(organisation, null, 2)}</pre>*/}
+        {/*  <pre>{JSON.stringify(course, null, 2)}</pre>*/}
+        {/*  <pre>{JSON.stringify(event, null, 2)}</pre>*/}
+        {/*  <pre>{JSON.stringify(resource, null, 2)}</pre>*/}
+        {/*</div>*/}
       </ResourceStyles.Content>
 
       <ResourceStyles.Column>
@@ -101,9 +99,9 @@ const ResourceContainer: React.FC<ResourceContainerProps> = ({
             playerSeconds={currentTime}
           />}
         </TabContent>
-        <TabContent tabId={"DISCUSSION"} tab={tab}>
+        {/*<TabContent tabId={"DISCUSSION"} tab={tab}>*/}
           {/*<SubtitleList course={course} resource={resource} playerSeconds={currentTime} autoPlay={autoPlay} />*/}
-        </TabContent>
+        {/*</TabContent>*/}
       </ResourceStyles.Column>
     </ResourceStyles.Container>
   )
