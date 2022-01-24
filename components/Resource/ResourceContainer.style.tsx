@@ -24,6 +24,10 @@ const Content = styled.div`
   padding-right: 44px;
 `;
 
+const Links = styled.div`
+  margin: 24px 0;
+`;
+
 const Column = styled.div`
   width: 30%;
   position: sticky;
@@ -78,6 +82,7 @@ const ResourceStyles = {
   Container,
   Header,
   Content,
+  Links,
   PDFWrapper,
   Column,
   ColumnTab,

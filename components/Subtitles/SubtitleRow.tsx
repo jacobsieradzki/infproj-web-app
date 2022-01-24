@@ -1,6 +1,7 @@
 import AddConnectionButton from 'components/AddConnectionButton'
 import { VerticalStack } from 'components/GlobalStyles'
 import LinkPreview from 'components/Link/LinkPreview'
+import useVideoContext from 'contexts/VideoContext'
 import { formatHHMMSS } from 'helper/time'
 import Link from 'models/Link'
 import Subtitle from 'models/Subtitle'
@@ -15,13 +16,21 @@ type SubtitleRowProps = {
 
 export const SubtitleRow: React.FC<SubtitleRowProps> = ({ subtitle, isSelected, links }) => {
 
+  const { seekPlayer } = useVideoContext();
+
+  const onClick = e => {
+    seekPlayer(subtitle.start_seconds);
+  }
+
   return (
     <SubtitlesStyles.Item className={"item time" + (isSelected ? " selected" : "")}>
       <div id={"secs_" + subtitle.start_seconds} style={{ height: 24 }} />
-      <span className={"subheader"}>{formatHHMMSS(subtitle.start_seconds)}</span>
-      <p>{subtitle.content}</p>
+      <button className={"nostyle"} onClick={onClick}>
+        <span className={"subheader"}>{formatHHMMSS(subtitle.start_seconds)}</span>
+        <p>{subtitle.content}</p>
+      </button>
       {links.length > 0 &&
-        <VerticalStack gap={8} className={'links'}>
+        <VerticalStack gap={16} className={'links'}>
           {links.map((link, index) => (
             <LinkPreview key={index} link={link} />
           ))}

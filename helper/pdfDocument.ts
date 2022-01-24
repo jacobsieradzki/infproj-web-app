@@ -6,6 +6,7 @@ const resetHash = () => {
 };
 
 export const PDF_DOCUMENT_HASH_ID_PREFIX = "highlight-";
+export const PDF_DOCUMENT_HASH_PAGE_ID_PREFIX = "page-";
 
 const parseIdFromHash = (router: NextRouter): string => {
   if (router) {

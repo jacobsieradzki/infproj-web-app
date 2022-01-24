@@ -1,4 +1,5 @@
 import useGetClips from 'api/useGetClips'
+import ResourceHeader from 'components/Header/ResourceHeader'
 import Clip from 'models/Clip'
 import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -57,45 +58,14 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   });
 
   useEffect(() => {
-    const perform = async () => {
-      setPageHighlights(await Clip.forPagesOfPdf(pdfDocument));
-    }
+    const perform = async () => setPageHighlights(await Clip.forPagesOfPdf(pdfDocument));
     if (pdfDocument) perform();
   }, [pdfDocument]);
-
-  console.log(">>> render")
-  console.log(clips);
-  console.log(links);
-  console.log(">>>")
-
-  let resourceOrEventBreadcrumb = event
-    ? { label: "Events", url: generateCourseRoute(organisation.id, course.id) }
-    : { label: "Resources"}
 
   return (
     <ResourceStyles.Container>
       <ResourceStyles.Content>
-        <ResourceStyles.Header>
-          <Breadcrumbs items={[
-            { label: "Home", url: HOME_ROUTE },
-            { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
-            { label: course.name, url: generateCourseRoute(organisation.id, course.id) },
-            resourceOrEventBreadcrumb,
-            { label: resource.getTypeLabel() },
-          ]} />
-
-          {event ? (
-            <h1>
-              <FontAwesomeIcon icon={event.getIcon()} />&nbsp;&nbsp;
-              {event.getTypeLabel()}: {event.name}
-            </h1>
-          ) : (
-            <h1>
-              <FontAwesomeIcon icon={resource.getIcon()} />&nbsp;&nbsp;
-              {resource.name}
-            </h1>
-          )}
-        </ResourceStyles.Header>
+        <ResourceHeader {...{ organisation, course, event, resource }} />
 
         <ResourceStyles.PDFWrapper>
           {pdfDocument && <PDFComponent {...{ resource, pdfDocument, clips, setClips, highlights, setHighlights, currentHighlight }} />}

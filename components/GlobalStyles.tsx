@@ -29,6 +29,7 @@ export const VerticalStack = styled.div<StackProps>`
   flex-flow: column nowrap;
   align-items: ${props => props.align || 'flex-start'};
   justify-content: center;
+  gap: ${props => props.gap || 0}px;
 `;
 
 export const HorizontalStack = styled.div<StackProps>`

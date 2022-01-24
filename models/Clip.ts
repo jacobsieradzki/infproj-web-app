@@ -1,5 +1,3 @@
-import { APIResponseProps } from 'contexts/APIContext'
-import PdfDocumentHelper from 'helper/pdfDocument'
 import { IHighlight, NewHighlight } from 'lib/react-pdf-highlighter'
 import Highlight from 'models/Highlight'
 import Resource from 'models/Resource'
@@ -7,6 +5,7 @@ import { PDFDocumentProxy } from 'pdfjs-dist/types/display/api'
 
 export class Clip {
 
+  public id: string;
   public course_id: string;
   public resource?: Resource;
   public content: string;
@@ -39,7 +38,8 @@ export class Clip {
   }
 
   constructor(json: any) {
-    if (!json) return;
+    if (!json) return null;
+    this.id = json.id;
     this.course_id = json.course_id;
     this.resource = json.resource;
     this.content = json.content;
@@ -67,7 +67,7 @@ export class Clip {
         course_id: 0,
         description: "Page " + i.toString(),
         type: "PDF_PAGE",
-        start_location: 0,
+        start_location: i,
         end_location: 0,
         highlight: {
           id: i,

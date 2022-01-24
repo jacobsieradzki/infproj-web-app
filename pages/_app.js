@@ -12,14 +12,17 @@ import "lib/react-pdf-highlighter/style/AreaHighlight.css"
 import "lib/react-pdf-highlighter/style/Highlight.css"
 import "lib/react-pdf-highlighter/style/MouseSelection.css"
 import "lib/react-pdf-highlighter/style/Tip.css"
+import { VideoContextProvider } from '../contexts/VideoContext'
 
 function MyApp({ Component, pageProps }) {
   return (
     <APIContextProvider>
-      <AppTheme />
-      <AppLayout>
-        <Component {...pageProps} />
-      </AppLayout>
+      <VideoContextProvider>
+        <AppTheme />
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
+      </VideoContextProvider>
     </APIContextProvider>
   )
 }

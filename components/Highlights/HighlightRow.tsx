@@ -39,8 +39,8 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
           {highlight.comment.text}
         </span>
 
-        {highlight.content.text && <p>{highlight.content.text}</p>}
-        {highlight.content.image && <img src={highlight.content.image} alt={highlight.content.text} className={"content"} />}
+        {highlight.content.text && <p className={"content"}>{highlight.content.text}</p>}
+        {highlight.content.image && <img src={highlight.content.image} alt={highlight.content.text} />}
       </button>
 
       {links.length > 0 &&
@@ -51,7 +51,7 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
         </VerticalStack>
       }
 
-      <AddConnectionButton className={"add"} />
+      <AddConnectionButton className={"add"} label={"Add connection to highlight"} />
     </SubtitlesStyles.Item>
   )
 }

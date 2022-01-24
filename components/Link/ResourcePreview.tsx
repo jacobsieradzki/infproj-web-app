@@ -2,7 +2,7 @@ import React from 'react'
 import { useRouter } from 'next/router';
 import { LinkPreviewProps } from 'components/Link/LinkPreview'
 import LinkView from 'components/Link/LinkView'
-import { generateResourceRoute, RESOURCE_ROUTE } from 'constants/navigation'
+import { generateEventRoute, generateResourceRoute, RESOURCE_ROUTE } from 'constants/navigation'
 import Resource from 'models/Resource'
 
 const ResourcePreview: React.FC<LinkPreviewProps> = ({ link }) => {
@@ -19,6 +19,7 @@ const ResourcePreview: React.FC<LinkPreviewProps> = ({ link }) => {
         subtitle={resource.description}
         icon={resource.getIcon()}
         color={"white"}
+        href={generateEventRoute(organisationId, resource.course_id, resource.id)}
       />
     )
   }

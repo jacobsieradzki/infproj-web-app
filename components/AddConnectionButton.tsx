@@ -13,16 +13,18 @@ const Container = styled.button`
   cursor: pointer;
   transition: border 0.2s;
   
+  .svg-inline--fa { margin-right: 8px; }
+  
   &:hover {
     border: 2px white solid;
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
   }
 `;
 
 const AddConnectionButton = (props) => (
   <Container {...props}>
-    <FontAwesomeIcon icon={faPlusCircle} />&nbsp;
-    Add Connection
+    <FontAwesomeIcon icon={faPlusCircle} />
+    {props.label || "Add connection"}
   </Container>
 )
 

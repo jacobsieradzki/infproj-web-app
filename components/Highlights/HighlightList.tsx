@@ -28,15 +28,9 @@ export const HighlightList: React.FC<HighlightListProps> = ({
 
   const refList = useRef(null);
 
-  const getLinksForHighlight = (highlight: IHighlight): Link[] => {
-    return links.filter(link => {
-      return link.link_type == "CLIP" && link.link?.highlight.bounding_rect.page_number == highlight.id;
-    });
-  }
-
-  const getClipsForHighlight = (highlight: IHighlight): Clip[] => {
+  const getClipsForHighlight = (pageClip: Clip): Clip[] => {
     return clips.filter(clip => {
-      return !!clip.highlight && clip.highlight.bounding_rect.page_number.toString() == highlight.id;
+      return !!clip.highlight && clip.highlight.bounding_rect.page_number == pageClip.start_location;
     }).map(x => new Clip(x));
   }
 
@@ -58,8 +52,8 @@ export const HighlightList: React.FC<HighlightListProps> = ({
             key={index}
             pageClip={pageClip}
             currentHighlight={currentHighlight}
-            clips={getClipsForHighlight(pageClip.toLibraryModel())}
-            links={getLinksForHighlight(pageClip.toLibraryModel())}
+            clips={getClipsForHighlight(pageClip)}
+            links={links}
           />
         ))}
       </div>

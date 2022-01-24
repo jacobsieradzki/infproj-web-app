@@ -42,11 +42,14 @@ const PageContainer = styled.div`
     font-weight: 600;
     cursor: default; 
     color: white;
-    padding: 16px 24px;
   }
   
   .item {
     padding: 0 24px;
+  }
+  
+  & > .add {
+    margin: 16px 24px;
   }
   
 `;
@@ -62,7 +65,9 @@ const Item = styled.div`
   
   &.selected {
     background-color: var(--secondary-color);
-    padding-top: 24px;
+    
+    margin-top: 16px;
+    &:not(.time) { padding-top: 24px; } 
     padding-bottom: 24px;
     
     .add { 
@@ -70,6 +75,7 @@ const Item = styled.div`
       max-height: 100px;
       opacity: 1;
       padding: 16px;
+      cursor: pointer;
     }
   }
   
@@ -83,6 +89,7 @@ const Item = styled.div`
     border: 0;
     background-color: transparent;
     text-align: left;
+    cursor: pointer;
   }
   
   img.content {
@@ -97,7 +104,12 @@ const Item = styled.div`
     padding: 0;
     opacity: 0;
     overflow: hidden;
+    cursor: default;
   }
+`;
+
+const Inset = styled.div`
+  padding: 16px 24px 0;
 `;
 
 const SubtitlesStyles = {
@@ -105,6 +117,7 @@ const SubtitlesStyles = {
   AutoPlay,
   PageContainer,
   Item,
+  Inset,
 }
 
 export default SubtitlesStyles

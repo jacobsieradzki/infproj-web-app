@@ -1,6 +1,6 @@
+import Clip from 'models/Clip'
 import Resource from 'models/Resource'
 import Event from 'models/Event'
-// import Clip from 'models/Clip'
 
 export class Link {
 
@@ -10,7 +10,9 @@ export class Link {
   public link_type: "RESOURCE" | "EVENT" | "CLIP";
   public link_id: number;
   public link_other_count: number;
-  public link: Resource | Event | any;
+  public source_link: Resource | Event | Clip;
+  public source_id: number;
+  public link: Resource | Event | Clip;
 
   constructor(json: any) {
     if (!json) return null;
@@ -20,6 +22,7 @@ export class Link {
     this.link_type = json.link_type;
     this.link_id = json.link_id;
     this.link_other_count = json.link_other_count;
+    this.source_id = json.source_id;
     this.link = json.link;
   }
 

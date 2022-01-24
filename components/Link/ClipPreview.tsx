@@ -1,6 +1,6 @@
 import { faExclamationTriangle, faHighlighter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { generateResourcePDFClipRoute } from 'constants/navigation'
+import { generateResourcePDFClipRoute, generateResourceVideoClipRoute } from 'constants/navigation'
 import Clip from 'models/Clip'
 import Resource from 'models/Resource'
 import React from 'react'
@@ -37,6 +37,7 @@ const ClipPreview: React.FC<LinkPreviewProps> = ({ link }) => {
         subtitle={resource.description}
         icon={resource.getIcon()}
         color={"white"}
+        href={generateResourceVideoClipRoute(clip, organisationId)}
       />
     )
   }

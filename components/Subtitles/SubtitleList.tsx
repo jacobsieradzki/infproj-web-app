@@ -5,6 +5,7 @@ import AddConnectionButton from 'components/AddConnectionButton'
 import { Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import SubtitleRow from 'components/Subtitles/SubtitleRow'
+import useVideoContext from 'contexts/VideoContext'
 import { formatHHMMSS } from 'helper/time'
 import Course from 'models/Course'
 import Link from 'models/Link'
@@ -17,26 +18,41 @@ type SubtitleListProps = {
   course: Course;
   resource: Resource;
   links: Link[];
-  playerSeconds: number;
 }
 
 export const SubtitleList: React.FC<SubtitleListProps> = ({
   course,
   resource,
   links,
-  playerSeconds,
 }) => {
+
+  const { videoState, seekPlayer } = useVideoContext();
+  const { playerId, isPlaying, playerSeconds, startClip } = videoState;
 
   const refList = useRef(null);
   const [selectedSecs, setSelectedSecs] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
 
+  const { data: subtitles, loading, error } = useGetSubtitles({
+    courseId: course.id,
+    resourceId: resource.id
+  });
+
+  const getClosestSubtitleSeconds = (secs: number): number => {
+    if (subtitles.length == 0) return 0;
+    let eligible = subtitles.filter(x => x.start_seconds <= secs);
+    return Math.max(...eligible.map(x => x.start_seconds));
+  };
+
   useEffect(() => {
-    let element = document.getElementById("secs_" + playerSeconds);
+    let secs = getClosestSubtitleSeconds(playerSeconds);
+    if (selectedSecs == secs) return;
+
+    setSelectedSecs(secs);
+
+    let element = document.getElementById("secs_" + secs);
     let endElement = document.getElementById("secs_end");
     if (element) {
-      if (selectedSecs != playerSeconds) console.log('set', selectedSecs, playerSeconds);
-      if (selectedSecs != playerSeconds) setSelectedSecs(playerSeconds);
       if (autoPlay) {
         endElement?.scrollIntoView({ block: 'nearest', inline: 'center' });
         setTimeout(() => {
@@ -46,14 +62,18 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
     }
   }, [playerSeconds]);
 
-
-  const { data: subtitles, loading, error } = useGetSubtitles({
-    courseId: course.id,
-    resourceId: resource.id
-  });
+  useEffect(() => {
+    setTimeout(() => seekPlayer(getClosestSubtitleSeconds(startClip)), 50);
+  }, [startClip, subtitles]);
 
   const getLinksForSubtitle = (subtitle: Subtitle): Link[] => {
-    return links.filter(link => link.subtitle_id == subtitle.id);
+    return links.filter(link => {
+      if (link.source_link?.type == "VIDEO_CLIP") {
+        return getClosestSubtitleSeconds(link.source_link.start_location) == subtitle.start_seconds;
+      } else {
+        return link.subtitle_id == subtitle.id;
+      }
+    });
   }
 
   if (loading) {
@@ -64,8 +84,10 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
     )
   }
 
+  console.log(playerId, isPlaying, playerSeconds);
+
   return (
-    <SubtitlesStyles.Container ref={refList} id={"subtitles_list"} className={autoPlay ? "autoplay" : ""}>
+    <SubtitlesStyles.Container ref={refList} id={"subtitles_list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
       <div>
         {subtitles.map((subtitle, index) => (
           <SubtitleRow
@@ -77,7 +99,7 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
         ))}
       </div>
       <div id={"secs_end"} />
-      {subtitles.length > 0 &&
+      {isPlaying && subtitles.length > 0 &&
         <SubtitlesStyles.AutoPlay className={'bg-blur'} as={'button'} onClick={() => setAutoPlay(!autoPlay)}>
           <p>Auto play</p>
           <Spacer />

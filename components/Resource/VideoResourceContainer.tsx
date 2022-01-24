@@ -1,13 +1,16 @@
+import useGetClips from 'api/useGetClips'
 import { useGetLinksForResource } from 'api/useGetLinks'
+import ResourceHeader from 'components/Header/ResourceHeader'
+import LinkPreview from 'components/Link/LinkPreview'
 import { ResourceContainerProps, TabContent, TabItem, TabType } from 'components/Resource/ResourceContainer'
 import SubtitleList from 'components/Subtitles/SubtitleList'
+import useVideoContext from 'contexts/VideoContext'
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { HorizontalStack } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
 import VideoComponent from 'components/Video/VideoComponent'
-import { generateCourseRoute, generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
 
 const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
   organisation,
@@ -17,28 +20,25 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
 }) => {
 
   const [tab, setTab] = useState<TabType>("RESOURCES");
-  const [currentTime, setCurrentTime] = useState(0);
 
   const { data: links } = useGetLinksForResource({ id: resource.id , courseId: course.id });
+  let nonSubtitleLinks = links.filter(x => !x.subtitle_id && x.source_link?.type != "VIDEO_CLIP");
 
   return (
     <ResourceStyles.Container>
       <ResourceStyles.Content>
-        <ResourceStyles.Header>
-          <Breadcrumbs items={[
-            { label: "Home", url: HOME_ROUTE },
-            { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
-            { label: course.name, url: generateCourseRoute(organisation.id, course.id) },
-            { label: resource.getTypeLabel() },
-          ]} />
+        <ResourceHeader {...{ organisation, course, event, resource }} />
 
-          <h1>
-            <FontAwesomeIcon icon={event.getIcon()} />&nbsp;&nbsp;
-            {event.getTypeLabel()}: {event.name}
-          </h1>
-        </ResourceStyles.Header>
+        <VideoComponent resource={resource} />
 
-        <VideoComponent resource={resource} onCurrentTimeChange={setCurrentTime} />
+        {nonSubtitleLinks.length > 0 &&
+          <ResourceStyles.Links>
+            <h2>Connections</h2>
+            {nonSubtitleLinks.map((link, index) => (
+              <LinkPreview key={index} link={link} />
+            ))}
+          </ResourceStyles.Links>
+        }
 
       </ResourceStyles.Content>
 
@@ -56,7 +56,6 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
             course={course}
             resource={resource}
             links={links}
-            playerSeconds={currentTime}
           />
         </TabContent>
         {/*<TabContent tabId={"DISCUSSION"} tab={tab}>*/}
