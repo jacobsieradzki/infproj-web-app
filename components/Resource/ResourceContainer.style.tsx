@@ -26,6 +26,11 @@ const Content = styled.div`
 
 const Links = styled.div`
   margin: 24px 0;
+  
+  .subheader {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
 `;
 
 const Column = styled.div`

@@ -6,10 +6,12 @@ import styled from 'styled-components'
 
 type SpacerProps = {
   height?: number;
+  width?: number;
 }
-export const Spacer = styled.div`
+export const Spacer = styled.div<SpacerProps>`
   flex-grow: 2;
   ${props => props.height ? `height: ${props.height}px;` : ""}
+  ${props => props.width ? `width: ${props.width}px;` : ""}
 `;
 
 export const CenterDiv = styled.div`

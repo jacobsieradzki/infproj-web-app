@@ -1,6 +1,7 @@
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
-import { faFile, faFileAlt, faGraduationCap, faImage, faLink, faPlayCircle, faVideo } from '@fortawesome/free-solid-svg-icons'
+import { faFile, faFileAlt, faImage, faLink, faPlayCircle, faVideo } from '@fortawesome/free-solid-svg-icons'
 import Course from 'models/Course'
+import Event from 'models/Event'
 
 export class Resource {
 
@@ -12,6 +13,7 @@ export class Resource {
   public type: "VID" | "YT" | "PDF" | "URL" | "IMG";
   public url: string;
   public status: "PROCESSING" | "READY" | "ERROR";
+  public parent_events: Event[];
 
   constructor(json: any) {
     if (!json) return;
@@ -23,6 +25,7 @@ export class Resource {
     this.type = json.type;
     this.url = json.url;
     this.status = json.status;
+    this.parent_events = json.parent_events?.map(x => new Event(x)) || [];
   }
 
   public getTypeLabel(): string {

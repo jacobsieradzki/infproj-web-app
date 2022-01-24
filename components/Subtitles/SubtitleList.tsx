@@ -84,8 +84,6 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
     )
   }
 
-  console.log(playerId, isPlaying, playerSeconds);
-
   return (
     <SubtitlesStyles.Container ref={refList} id={"subtitles_list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
       <div>
