@@ -3028,11 +3028,6 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.8.1"
 
-"pspdfkit@^2021.6.2":
-  "integrity" "sha512-kEf5o+fY6GHw0kyx/ZyFC04ZBrIzVDgFdQDeQRTutgs9M84ZiMcQmAb85due3KpbfzA7zSZ/wcEi/JQZK0yQZw=="
-  "resolved" "https://registry.npmjs.org/pspdfkit/-/pspdfkit-2021.6.2.tgz"
-  "version" "2021.6.2"
-
 "public-encrypt@^4.0.0":
   "integrity" "sha512-zVpa8oKZSz5bTMTFClc1fQOnyyEzpl5ozpi1B5YcvBrdohMjH2rfsBtyXcuNuwjsDIXmBYlF2N5FlJYhR29t8Q=="
   "resolved" "https://registry.npmjs.org/public-encrypt/-/public-encrypt-4.0.3.tgz"

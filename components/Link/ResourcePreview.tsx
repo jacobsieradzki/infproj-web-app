@@ -1,25 +1,23 @@
-import {
-  faFile,
-  faFileAlt, faImage,
-  faLink,
-  faPlayCircle,
-  faVideo,
-} from '@fortawesome/free-solid-svg-icons'
+import React from 'react'
+import { useRouter } from 'next/router';
 import { LinkPreviewProps } from 'components/Link/LinkPreview'
 import LinkView from 'components/Link/LinkView'
+import { generateResourceRoute, RESOURCE_ROUTE } from 'constants/navigation'
 import Resource from 'models/Resource'
-import React from 'react'
 
-const ResourcePreview: React.FC<LinkPreviewProps> = ({ link}) => {
+const ResourcePreview: React.FC<LinkPreviewProps> = ({ link }) => {
 
-  let resource = link.link as Resource;
+  const router = useRouter();
+  const organisationId = router?.query?.organisationId?.toString() || "";
+
+  let resource = new Resource(link.link);
 
   if (resource.type == "VID") {
     return (
       <LinkView
         title={resource.name}
         subtitle={resource.description}
-        icon={faVideo}
+        icon={resource.getIcon()}
         color={"white"}
       />
     )
@@ -30,8 +28,9 @@ const ResourcePreview: React.FC<LinkPreviewProps> = ({ link}) => {
       <LinkView
         title={resource.name}
         subtitle={resource.description}
-        icon={faFileAlt}
+        icon={resource.getIcon()}
         color={"white"}
+        href={generateResourceRoute(organisationId, link.course_id, resource.id)}
       />
     )
   }
@@ -41,7 +40,7 @@ const ResourcePreview: React.FC<LinkPreviewProps> = ({ link}) => {
       <LinkView
         title={resource.name}
         subtitle={resource.description}
-        icon={faImage}
+        icon={resource.getIcon()}
         color={"white"}
       />
     )
@@ -52,7 +51,7 @@ const ResourcePreview: React.FC<LinkPreviewProps> = ({ link}) => {
       <LinkView
         title={resource.name}
         subtitle={resource.description}
-        icon={faPlayCircle}
+        icon={resource.getIcon()}
         color={"white"}
       />
     )
@@ -63,7 +62,7 @@ const ResourcePreview: React.FC<LinkPreviewProps> = ({ link}) => {
       <LinkView
         title={resource.name}
         subtitle={resource.description}
-        icon={faLink}
+        icon={resource.getIcon()}
         href={resource.url}
         openInNewTab={true}
         color={"white"}
@@ -75,7 +74,7 @@ const ResourcePreview: React.FC<LinkPreviewProps> = ({ link}) => {
     <LinkView
       title={resource.name}
       subtitle={resource.description}
-      icon={faFile}
+      icon={resource.getIcon()}
       color={"white"}
     />
   )

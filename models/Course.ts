@@ -10,6 +10,7 @@ export class Course {
   private readonly end_date: string;
 
   constructor(json: any) {
+    if (!json) return;
     this.id = json.id;
     this.organisation_id = json.organisation_id;
     this.organisation = json.organisation;

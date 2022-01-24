@@ -1,8 +1,12 @@
+import { IconDefinition } from '@fortawesome/fontawesome-common-types'
+import { faFile, faFileAlt, faGraduationCap, faImage, faLink, faPlayCircle, faVideo } from '@fortawesome/free-solid-svg-icons'
+import Course from 'models/Course'
 
 export class Resource {
 
   public id: string;
   public course_id: string;
+  public course?: Course;
   public name: string;
   public description: string;
   public type: "VID" | "YT" | "PDF" | "URL" | "IMG";
@@ -10,8 +14,10 @@ export class Resource {
   public status: "PROCESSING" | "READY" | "ERROR";
 
   constructor(json: any) {
+    if (!json) return;
     this.id = json.id;
     this.course_id = json.course_id;
+    this.course = json.course;
     this.name = json.name;
     this.description = json.description;
     this.type = json.type;
@@ -26,7 +32,18 @@ export class Resource {
       case "PDF": return "PDF";
       case "URL": return "URL";
       case "IMG": return "Image";
-      default: return "Resource"
+      default: return "Resource";
+    }
+  }
+
+  public getIcon(): IconDefinition {
+    switch (this.type) {
+      case "VID": return faVideo;
+      case "YT": return faPlayCircle;
+      case "PDF": return faFileAlt;
+      case "URL": return faLink;
+      case "IMG": return faImage;
+      default: return faFile;
     }
   }
 

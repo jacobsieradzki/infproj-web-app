@@ -1,7 +1,7 @@
 import React from 'react'
 import useGetCourse from 'api/useGetCourse'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
-import { HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
+import { generateOrganisationRoute, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
 import useGetEvents from 'api/useGetEvents'
 import EventBox from 'components/EventsList/EventBox'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
@@ -44,13 +44,11 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
     )
   }
 
-  let organisationUrl = ORGANISATION_COURSES_ROUTE.replace("[organisationId]", organisation.id);
-
   return (
     <CoursesListStyles.Container>
       <Breadcrumbs items={[
         { label: "Home", url: HOME_ROUTE },
-        { label: organisation.name, url: organisationUrl },
+        { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
         { label: "Courses" },
       ]} />
       <h2>{course.name}</h2>

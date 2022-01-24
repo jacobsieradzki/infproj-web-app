@@ -4,7 +4,7 @@ import CourseBox from 'components/CoursesList/CourseBox'
 import { Grid } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import OrganisationBox from 'components/Organisations/OrganisationBox'
-import { HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
+import { generateOrganisationRoute, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
 import React from 'react'
 import CoursesListStyles from './CoursesList.style'
 import useGetCoursesForOrganisation from 'api/useGetCoursesForOrganisation'
@@ -37,13 +37,11 @@ const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
     )
   }
 
-  let organisationUrl = ORGANISATION_COURSES_ROUTE.replace("[organisationId]", organisation.id);
-
   return (
     <CoursesListStyles.Container>
       <Breadcrumbs items={[
         { label: "Home", url: HOME_ROUTE },
-        { label: organisation.name },
+        { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
         { label: "Courses" },
       ]} />
       <h2>{organisation.name}</h2>

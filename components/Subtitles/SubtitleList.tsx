@@ -31,8 +31,6 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   const [selectedSecs, setSelectedSecs] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
 
-  console.log(autoPlay);
-
   useEffect(() => {
     let element = document.getElementById("secs_" + playerSeconds);
     let endElement = document.getElementById("secs_end");
@@ -79,11 +77,13 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
         ))}
       </div>
       <div id={"secs_end"} />
-      <SubtitlesStyles.AutoPlay className={"bg-blur"} as={"button"} onClick={() => setAutoPlay(!autoPlay)}>
-        <p>Auto play</p>
-        <Spacer />
-        <FontAwesomeIcon icon={autoPlay ? faCheckSquare : faSquare} size={"1x"} color={"white"} />
-      </SubtitlesStyles.AutoPlay>
+      {subtitles.length > 0 &&
+        <SubtitlesStyles.AutoPlay className={'bg-blur'} as={'button'} onClick={() => setAutoPlay(!autoPlay)}>
+          <p>Auto play</p>
+          <Spacer />
+          <FontAwesomeIcon icon={autoPlay ? faCheckSquare : faSquare} size={'1x'} color={'white'} />
+        </SubtitlesStyles.AutoPlay>
+      }
     </SubtitlesStyles.Container>
   )
 }

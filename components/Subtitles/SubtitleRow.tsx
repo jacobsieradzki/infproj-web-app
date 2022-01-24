@@ -16,9 +16,9 @@ type SubtitleRowProps = {
 export const SubtitleRow: React.FC<SubtitleRowProps> = ({ subtitle, isSelected, links }) => {
 
   return (
-    <SubtitlesStyles.Item className={"item" + (isSelected ? " selected" : "")}>
+    <SubtitlesStyles.Item className={"item time" + (isSelected ? " selected" : "")}>
       <div id={"secs_" + subtitle.start_seconds} style={{ height: 24 }} />
-      <span>{formatHHMMSS(subtitle.start_seconds)}</span>
+      <span className={"subheader"}>{formatHHMMSS(subtitle.start_seconds)}</span>
       <p>{subtitle.content}</p>
       {links.length > 0 &&
         <VerticalStack gap={8} className={'links'}>

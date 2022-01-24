@@ -1,6 +1,6 @@
 import React from 'react'
-import { Spacer, Grid, CaptionUppercase } from 'components/GlobalStyles'
-import { COURSE_ROUTE } from 'constants/navigation'
+import { CaptionUppercase } from 'components/GlobalStyles'
+import { generateCourseRoute } from 'constants/navigation'
 import Course from 'models/Course'
 import CoursesListStyles, { BoxContent, LecturePreview } from './CoursesList.style'
 
@@ -9,13 +9,8 @@ type CourseBoxProps = {
 }
 
 const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
-
-  let href = COURSE_ROUTE
-    .replace('[organisationId]', course.organisation_id)
-    .replace('[courseId]', course.id);
-
   return (
-    <CoursesListStyles.Box as={"a"} href={href}>
+    <CoursesListStyles.Box as={"a"} href={generateCourseRoute(course.organisation_id, course.id)}>
       <LecturePreview>
         <CaptionUppercase>{course.id}</CaptionUppercase>
         <p>{course.name}</p>

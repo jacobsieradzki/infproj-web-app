@@ -1,5 +1,5 @@
 import React from "react";
-import type { IHighlight } from "react-pdf-highlighter";
+import type { IHighlight } from "lib/react-pdf-highlighter";
 
 interface Props {
   highlights: Array<IHighlight>;
@@ -40,25 +40,26 @@ export function Sidebar({
           <li
             key={index}
             className="sidebar__highlight"
+            style={{ cursor: "pointer" }}
             onClick={() => {
               updateHash(highlight);
             }}
           >
             <div>
               <strong>{highlight.comment.text}</strong>
-              {highlight.content.text ? (
+              {highlight.content?.text && (
                 <blockquote style={{ marginTop: "0.5rem" }}>
                   {`${highlight.content.text.slice(0, 90).trim()}…`}
                 </blockquote>
-              ) : null}
-              {highlight.content.image ? (
+              )}
+              {highlight.content?.image && (
                 <div
                   className="highlight__image"
                   style={{ marginTop: "0.5rem" }}
                 >
                   <img src={highlight.content.image} alt={"Screenshot"} />
                 </div>
-              ) : null}
+              )}
             </div>
             <div className="highlight__location">
               Page {highlight.position.pageNumber}

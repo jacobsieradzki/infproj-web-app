@@ -184,7 +184,7 @@ export class PdfHighlighter<T_HT extends IHighlight> extends PureComponent<
 
     this.linkService.setDocument(pdfDocument);
     this.linkService.setViewer(this.viewer);
-    this.viewer.setDocument(pdfDocument);
+    const res = this.viewer.setDocument(pdfDocument);
 
     // debug
     (window as any).PdfViewer = this;
@@ -226,7 +226,7 @@ export class PdfHighlighter<T_HT extends IHighlight> extends PureComponent<
 
     const groupedHighlights = {} as Record<number, any[]>;
 
-    for (const pageNumber of pageNumbers) {
+    for (const pageNumber of Array.from(pageNumbers)) {
       groupedHighlights[pageNumber] = groupedHighlights[pageNumber] || [];
       for (const highlight of allHighlights) {
         const pageSpecificHighlight = {

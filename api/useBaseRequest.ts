@@ -12,20 +12,25 @@ type BaseRequestProps<T> = {
   path: string;
   defaultValue?: T;
   skip?: boolean;
+  onCompleted?: (res: T) => void;
 }
 
 const useBaseRequest = <T>({
   path,
   defaultValue = null,
   skip = false,
+  onCompleted = null,
 }: BaseRequestProps<T>): EndpointHook<T> => {
 
   const api = useAPIContext();
 
-  let url = skip ? null : (BASE_URL + path);
+  let url = skip ? null : (LOCAL_BASE_URL + path);
 
   const { data: response, error } = useSWR(url, fetcher, {
-    fallbackData: defaultValue
+    fallbackData: defaultValue,
+    onSuccess: props => {
+      if (!!onCompleted) onCompleted(props.data);
+    }
   });
   let loading = !response && !error;
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-// import "../style/Tip.css";
+const HIGHLIGHT_EMOJIS = ["👍", "👎", "😍", "😎", "🔥", "💡"];
 
 interface State {
   compact: boolean;
@@ -68,9 +68,9 @@ export class Tip extends Component<Props, State> {
                   }
                 }}
               />
-              <div>
-                {["💩", "😱", "😍", "🔥", "😳", "⚠️"].map((_emoji) => (
-                  <label key={_emoji}>
+              <div className={"Tip__emoji"}>
+                {HIGHLIGHT_EMOJIS.map((_emoji) => (
+                  <label key={_emoji} className={emoji === _emoji ? "selected" : ""}>
                     <input
                       checked={emoji === _emoji}
                       type="radio"

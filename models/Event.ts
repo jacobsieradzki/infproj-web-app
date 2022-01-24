@@ -3,11 +3,7 @@ import { faFileAlt, faGraduationCap, faVideo } from '@fortawesome/free-solid-svg
 import Course from 'models/Course'
 import Resource from 'models/Resource'
 
-enum EventType {
-  LECTURE = "Lecture",
-  WORKSHOP = "Workshop",
-  ASSIGNMENT = "Assignment",
-}
+type EventType = "LECTURE" | "WORKSHOP" | "ASSIGNMENT";
 
 export class Event {
 
@@ -23,6 +19,7 @@ export class Event {
   private readonly end_date: string;
 
   constructor(json: any) {
+    if (!json) return null;
     this.id = json.id;
     this.course_id = json.course_id;
     this.course = json.course;
@@ -30,25 +27,25 @@ export class Event {
     this.primary_resource = json.primary_resource;
     this.name = json.name;
     this.description = json.description;
-    this.type = EventType[json.type];
+    this.type = json.type;
     this.start_date = json.start_date;
     this.end_date = json.end_date;
   }
 
   public getTypeLabel(): string {
     switch (this.type) {
-      case EventType.LECTURE: return "Lecture";
-      case EventType.WORKSHOP: return "Workshop";
-      case EventType.ASSIGNMENT: return "Assignment";
+      case "LECTURE": return "Lecture";
+      case "WORKSHOP": return "Workshop";
+      case "ASSIGNMENT": return "Assignment";
       default: return this.type;
     }
   }
 
   public getIcon(): IconDefinition {
     switch (this.type) {
-      case EventType.LECTURE: return faVideo;
-      case EventType.WORKSHOP: return faGraduationCap;
-      case EventType.ASSIGNMENT: return faFileAlt;
+      case "LECTURE": return faVideo;
+      case "WORKSHOP": return faGraduationCap;
+      case "ASSIGNMENT": return faFileAlt;
       default: return this.type;
     }
   }

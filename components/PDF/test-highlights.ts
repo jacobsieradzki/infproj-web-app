@@ -1,5 +1,88 @@
+
 export const testHighlights = {
   "https://arxiv.org/pdf/1708.08021.pdf": [
+    {
+      "id": "40591495559116053",
+      "position": {
+        "boundingRect": {
+          "x1": 0,
+          "y1": 0,
+          "x2": 100,
+          "y2": 1,
+          "width": 100,
+          "height": 1000,
+          "pageNumber": 1
+        },
+        "rects": [],
+        "pageNumber": 1
+      },
+      "content": {},
+      // "content": {
+      //   "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmEAAAANCAYAAADhXLlDAAAAAXNSR0IArs4c6QAAAMZJREFUeF7t1rEJADAMBLF4/6EdyBC5Rl7AIL642d09jgABAgQIECBA4KvAiLCv3p4RIECAAAECBJ6ACDMEAgQIECBAgEAgIMICdC8JECBAgAABAiLMBggQIECAAAECgYAIC9C9JECAAAECBAiIMBsgQIAAAQIECAQCIixA95IAAQIECBAgIMJsgAABAgQIECAQCIiwAN1LAgQIECBAgIAIswECBAgQIECAQCAgwgJ0LwkQIECAAAECIswGCBAgQIAAAQKBwAW53zPaz8r5ogAAAABJRU5ErkJggg=="
+      // },
+      "comment": {
+        "text": "Page 1",
+        "emoji": ""
+      }
+    }
+  ]
+}
+
+export const testHighlights2 = {
+  "https://arxiv.org/pdf/1708.08021.pdf": [
+    {
+      content: {
+        text: "TEST PAGE",
+      },
+      position: {
+        boundingRect: {
+          x1: 0,
+          y1: 0,
+          x2: 100,
+          y2: 100,
+          width: 500,
+          height: 500
+        },
+        rects: [],
+        pageNumber: 3,
+      },
+      comment: {
+        text: "TEST PAGE",
+        emoji: "🔥"
+      },
+      id: "28193436039249975",
+    },
+    {
+      content: {
+        text: " millions of lines of code atFacebookevery day",
+      },
+      position: {
+        boundingRect: {
+          x1: 353.080810546875,
+          y1: 346.390625,
+          x2: 658.6533203125,
+          y2: 363.390625,
+          width: 809.9999999999999,
+          height: 1200,
+        },
+        rects: [
+          {
+            x1: 353.080810546875,
+            y1: 346.390625,
+            x2: 658.6533203125,
+            y2: 363.390625,
+            width: 809.9999999999999,
+            height: 1200,
+          },
+        ],
+        pageNumber: 1,
+      },
+      comment: {
+        text: "impressive",
+        emoji: "",
+      },
+      id: "812807243318874",
+    },
     {
       content: {
         text: " Type Checking for JavaScript",

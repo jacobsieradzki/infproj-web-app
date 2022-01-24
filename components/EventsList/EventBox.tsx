@@ -1,29 +1,26 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Organisation from 'models/Organisation'
 import React from 'react'
-import { Spacer, Grid, CaptionUppercase } from 'components/GlobalStyles'
-import { EVENT_ROUTE } from 'constants/navigation'
+import { generateEventRoute } from 'constants/navigation'
 import Event from 'models/Event'
 import CoursesListStyles, { BoxContent, LecturePreview } from 'components/CoursesList/CoursesList.style'
 
 type EventBoxProps = {
   organisation: Organisation;
-  // course: Course;
   event: Event;
 }
 
 const EventBox: React.FC<EventBoxProps> = ({ organisation, event }) => {
-
-  let href = EVENT_ROUTE
-    .replace('[organisationId]', organisation.id)
-    .replace('[courseId]', event.course_id)
-    .replace('[eventId]', event.id);
-
   return (
-    <CoursesListStyles.Box as={"a"} href={href}>
+    <CoursesListStyles.Box as={"a"} href={generateEventRoute(organisation.id, event.course_id, event.id)}>
       <LecturePreview>
         <p>{event.name}</p>
       </LecturePreview>
       <BoxContent>
+        <p><b>
+          <FontAwesomeIcon icon={event.getIcon()} />&nbsp;&nbsp;
+          {event.getTypeLabel()}
+        </b></p>
         <p>{event.description}</p>
         {/*<CaptionUppercase>{event.getStartDate()} - {event.getEndDate()}</CaptionUppercase>*/}
       </BoxContent>

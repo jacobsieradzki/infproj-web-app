@@ -6,6 +6,7 @@ export class Organisation {
   image_url: string;
 
   constructor(json: any) {
+    if (!json) return;
     this.id = json.id;
     this.name = json.name;
     this.image_url = json.image_url;

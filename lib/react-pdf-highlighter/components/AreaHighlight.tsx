@@ -1,3 +1,5 @@
+import PdfDocumentHelper from 'helper/pdfDocument'
+import Router from 'next/router'
 import React, { Component } from "react";
 
 import { Rnd } from "react-rnd";

@@ -63,10 +63,22 @@ const ColumnTab = styled.button`
   }
 `;
 
+const PDFWrapper = styled.div`
+  width: 100%;
+  height: 85%;
+  
+  & > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
 const ResourceStyles = {
   Container,
   Header,
   Content,
+  PDFWrapper,
   Column,
   ColumnTab,
   ColumnContent,

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import styled from 'styled-components'
 
 type LoaderProps = {
   width?: number;
   height?: number;
+  style?: CSSProperties;
 }
 
 const LoaderStyle = styled.div<LoaderProps>`
@@ -21,8 +22,8 @@ const LoaderStyle = styled.div<LoaderProps>`
   }
 `;
 
-const Loader: React.FC<LoaderProps> = ({ width = 32, height = 32 }) => {
-  return <LoaderStyle className={"loader"} {...{ width, height }} />;
+const Loader: React.FC<LoaderProps> = ({ width = 32, height = 32, style }) => {
+  return <LoaderStyle className={"loader"} {...{ width, height, style }} />;
 }
 
 export default Loader
