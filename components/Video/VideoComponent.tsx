@@ -9,7 +9,7 @@ import Replay10Icon from '@mui/icons-material/Replay10';
 import Forward10Icon from '@mui/icons-material/Forward10';
 import { Spacer } from 'components/GlobalStyles'
 import MiniVideoSlider from 'components/Video/MiniVideoSlider'
-import { VideoOverlayType } from 'components/Video/VideoOverlay'
+import VideoOverlay, { VideoOverlayType } from 'components/Video/VideoOverlay'
 import VideoSlider from 'components/Video/VideoSlider'
 import useVideoContext from 'contexts/VideoContext'
 import Resource from 'models/Resource'
@@ -59,7 +59,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
 
   useEffect(() => {
     let id = videoRef.current?.id;
-    if (!id || playerId == id) return;
+    if (!id) return;
 
     setPlayerId(videoRef.current.id);
     videoRef.current.onplay = e => setPlayerPlaying(true);
@@ -125,7 +125,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
     if (overlayTimeout) clearTimeout(overlayTimeout);
     setOverlayTimeout(setTimeout(() => {
       setOverlayState(null);
-    }, 2500));
+    }, 1000));
   }
 
   // --------------------------------------------------
@@ -140,7 +140,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
         <video id={"video-" + resource.id} ref={videoRef} autoPlay>
           <source src={resource.url} type="video/mp4" />
         </video>
-        {/*<VideoOverlay state={overlayState} />*/}
+        <VideoOverlay state={overlayState} />
         <VideoStyles.SliderOverlay>
           <VideoSlider />
         </VideoStyles.SliderOverlay>

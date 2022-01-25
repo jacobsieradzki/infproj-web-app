@@ -1,3 +1,4 @@
+import { VIDEO_OVERLAY_ANIMATION_TIME_MS } from 'components/Video/VideoOverlay'
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -34,7 +35,6 @@ const VideoWrapper = styled.div`
 `;
 
 const VideoOverlay = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   left: 0;
@@ -43,6 +43,24 @@ const VideoOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+  transition: background-color .2s;
+  
+  p { font-weight: 600; }
+  
+  & > * {
+    transition: opacity .5s, transform .2s;
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  
+  &.visible { 
+    background-color: rgba(0, 0, 0, 0.6);
+    & > * { 
+      opacity: 1;
+      transform: none;
+    }
+  }
 `;
 
 const SliderOverlay = styled.div`
