@@ -35,7 +35,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
         {shouldShowPrimaryEvents &&
           <ResourceStyles.Links>
             {resource.parent_events.map(event => (
-              <div>
+              <div key={event.id}>
                 <h3 className={"subheader"}>From {event.getTypeLabel()}:</h3>
                 <EventPreview event={event} />
               </div>
@@ -48,8 +48,8 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
         {nonSubtitleLinks.length > 0 &&
           <ResourceStyles.Links>
             <h2>Connections</h2>
-            {nonSubtitleLinks.map((link, index) => (
-              <LinkPreview key={index} link={link} />
+            {nonSubtitleLinks.map(link => (
+              <LinkPreview key={link.id} link={link} />
             ))}
           </ResourceStyles.Links>
         }

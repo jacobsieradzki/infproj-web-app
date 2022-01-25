@@ -29,16 +29,12 @@ export class Popup extends Component<Props, State> {
           onMouseOver(
             <MouseMonitor
               onMoveAway={() => {
-                if (this.state.mouseIn) {
-                  return;
-                }
-
+                if (this.state.mouseIn) return;
                 onMouseOut();
               }}
               paddingX={60}
               paddingY={30}
-              children={popupContent}
-            />
+            >{popupContent}</MouseMonitor>
           );
         }}
         onMouseOut={() => {
