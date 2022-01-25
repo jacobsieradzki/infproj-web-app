@@ -6,6 +6,7 @@ type VideoContextProps = {
   isPlaying: boolean;
   playerSeconds: number;
   playerDuration: number;
+  playerVolume: number;
   startClip: number;
   endClip: number;
 }
@@ -21,6 +22,7 @@ const INITIAL_STATE: VideoContextProps = {
   isPlaying: false,
   playerSeconds: 0,
   playerDuration: 0,
+  playerVolume: 1,
   startClip: null,
   endClip: null,
 };
@@ -35,6 +37,7 @@ type ActionType = {
     "SET_CLIP_START" |
     "SET_CLIP_END" |
     "SET_PLAYER_DURATION" |
+    "SET_PLAYER_VOLUME" |
     "SEEK_PLAYER";
   payload?: any;
 };
@@ -58,6 +61,9 @@ function reducer(state: VideoContextProps, action: ActionType): VideoContextProp
       return { ...state, endClip: action.payload };
     case "SET_PLAYER_DURATION":
       return { ...state, playerDuration: action.payload };
+    case "SET_PLAYER_VOLUME":
+      if (player) player.volume = action.payload;
+      return { ...state, playerVolume: action.payload };
     case "SEEK_PLAYER":
       if (player) player.currentTime = action.payload;
       return { ...state, playerSeconds: action.payload };

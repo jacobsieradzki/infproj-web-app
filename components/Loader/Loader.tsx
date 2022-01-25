@@ -2,18 +2,17 @@ import React, { CSSProperties } from 'react'
 import styled from 'styled-components'
 
 type LoaderProps = {
-  width?: number;
-  height?: number;
+  size?: number;
   style?: CSSProperties;
 }
 
 const LoaderStyle = styled.div<LoaderProps>`
   display: inline-block;
-  border: 6px solid rgba(255, 255, 255, 0.25);
-  border-top: 6px solid var(--accent-color);
+  border: ${props => Math.round(props.size/5)}px solid rgba(255, 255, 255, 0.25);
+  border-top: ${props => Math.round(props.size/5)}px solid var(--accent-color);
   border-radius: 50%;
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
   animation: spin 1s ease-in-out infinite;
   
   @keyframes spin {
@@ -22,8 +21,8 @@ const LoaderStyle = styled.div<LoaderProps>`
   }
 `;
 
-const Loader: React.FC<LoaderProps> = ({ width = 32, height = 32, style }) => {
-  return <LoaderStyle className={"loader"} {...{ width, height, style }} />;
+const Loader: React.FC<LoaderProps> = ({ size = 32, style }) => {
+  return <LoaderStyle className={"loader"} {...{ size, style }} />;
 }
 
 export default Loader

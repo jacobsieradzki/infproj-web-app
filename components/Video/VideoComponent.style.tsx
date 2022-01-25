@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
+  margin: 24px 0;
   position: relative;
   padding-top: 56.25%; /* 16:9 Aspect Ratio */
   border: 2px solid rgb(76 95 114);
@@ -84,8 +85,33 @@ const MiniSlider = styled.div`
 const Controls = styled.div`
   background-color: var(--secondary-color);
   display: flex;
+  align-items: center;
   gap: 4px;
   padding: 8px;
+  .loader { margin: 8px; }
+`;
+
+const VolumeControl = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  .slider {
+    width: 100px;
+    margin-right: 8px;
+  }
+  
+  .slider, .mute:not(.active) {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  &.expand {
+    .slider, .mute {
+      opacity: 1;
+      max-width: 100px;
+    }
+  }
 `;
 
 const Button = styled.button`
@@ -96,9 +122,17 @@ const Button = styled.button`
   color: white;
   border-radius: 8px;
   cursor: pointer;
+  font-size: small;
+  flex-shrink: 0;
   
-  &:hover {
-    background-color: var(--primary-color);
+  &:hover, &.active { background-color: var(--primary-color); }
+  svg.svg-inline--fa { margin: auto; }
+  
+  .tooltip-text {
+    bottom: 120%;
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+    font-weight: 600;
   }
 `;
 
@@ -109,6 +143,7 @@ const VideoStyles = {
   SliderOverlay,
   MiniSlider,
   Controls,
+  VolumeControl,
   Button,
 }
 

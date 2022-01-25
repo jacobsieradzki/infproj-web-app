@@ -5,10 +5,10 @@ import React, { useRef, useState } from 'react'
 import VideoStyles, { SliderStyle } from './VideoComponent.style'
 import Slider from 'react-slider'
 
-const M = 100000;
+const M = 100000000;
 const THUMB_SIZE = 16;
-export const START_SHOW_TIME_INTERVAL = 6;
-export const END_SHOW_TIME_INTERVAL = 30;
+export const START_SHOW_TIME_INTERVAL = 4;
+export const END_SHOW_TIME_INTERVAL = 15;
 
 const VideoSlider: React.FC = () => {
 
@@ -27,6 +27,7 @@ const VideoSlider: React.FC = () => {
 
   const calculateTimelinePosition = (x: number): number => {
     if (!(leftLabelRef.current && rightLabelRef.current && sliderRef.current)) return 0;
+    if (playerDuration == 0) return 0;
     let leftLabelWidth = leftLabelRef.current.offsetWidth;
     let rightLabelWidth = rightLabelRef.current.offsetWidth;
     let sliderWidth = sliderRef.current.offsetWidth - THUMB_SIZE;
@@ -43,7 +44,7 @@ const VideoSlider: React.FC = () => {
 
   return (
     <VideoStyles.SliderOverlay className={"timeline " + (showTime ? "showTime" : "")}>
-      <HorizontalStack className={"time"}>
+      <HorizontalStack className={"time"} align={"center"}>
         <div style={{ width: calculateTimelinePosition(playerSeconds) }} />
         <p ref={leftLabelRef}>
           {formatHHMMSS(playerSeconds)}

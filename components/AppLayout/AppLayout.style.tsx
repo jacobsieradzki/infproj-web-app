@@ -40,6 +40,31 @@ export const AppTheme = createGlobalStyle`
     backdrop-filter: saturate(180%) blur(20px);
     background-color: rgba(255, 255, 255, 0.72);
   }
+  
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltip-text {
+    width: 120px;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all .2s;
+  }
+  
+  .tooltip:hover .tooltip-text {
+    opacity: 1;
+    transform: none;
+  }
 `;
 
 const Page = styled.div`

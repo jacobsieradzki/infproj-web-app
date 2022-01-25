@@ -25,8 +25,6 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
   const { data: links } = useGetLinksForResource({ id: resource.id , courseId: course.id });
   let nonSubtitleLinks = links.filter(x => !x.subtitle_id && x.source_link?.type != "VIDEO_CLIP");
 
-  console.log(resource);
-
   let shouldShowPrimaryEvents = !event && resource.parent_events.length > 0;
 
   return (
