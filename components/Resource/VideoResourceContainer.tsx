@@ -1,5 +1,5 @@
-import useGetClips from 'api/useGetClips'
-import { useGetLinksForResource } from 'api/useGetLinks'
+import useGetClips from 'classroomapi/useGetClips'
+import { useGetLinksForResource } from 'classroomapi/useGetLinks'
 import ResourceHeader from 'components/Header/ResourceHeader'
 import EventPreview from 'components/Link/EventPreview'
 import LinkPreview from 'components/Link/LinkPreview'

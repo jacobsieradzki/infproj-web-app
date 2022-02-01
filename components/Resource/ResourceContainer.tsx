@@ -1,4 +1,4 @@
-import { useGetLinksForResource } from 'api/useGetLinks'
+import { useGetLinksForResource } from 'classroomapi/useGetLinks'
 import PDFComponent from 'components/PDF/PDFComponent'
 import PDFResourceContainer from 'components/Resource/PDFResourceContainer'
 import VideoResourceContainer from 'components/Resource/VideoResourceContainer'

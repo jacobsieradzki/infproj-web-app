@@ -1,14 +1,14 @@
 import React from 'react'
-import useGetCourse from 'api/useGetCourse'
+import useGetCourse from 'classroomapi/useGetCourse'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { generateOrganisationRoute, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
-import useGetEvents from 'api/useGetEvents'
+import useGetEvents from 'classroomapi/useGetEvents'
 import EventBox from 'components/EventsList/EventBox'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
 import { CaptionUppercase, Grid, Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import CoursesListStyles from 'components/CoursesList/CoursesList.style'
-import useGetOrganisation from 'api/useGetOrganisation'
+import useGetOrganisation from 'classroomapi/useGetOrganisation'
 import Event from 'models/Event'
 
 type EventsListProps = {

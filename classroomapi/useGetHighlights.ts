@@ -1,4 +1,4 @@
-import useBaseRequest from 'api/useBaseRequest'
+import useBaseRequest from 'classroomapi/useBaseRequest'
 import { EndpointHook } from 'models/API'
 import Highlight from 'models/Highlight'
 

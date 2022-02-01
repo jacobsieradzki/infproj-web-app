@@ -1,7 +1,7 @@
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
 import Loader from 'components/Loader/Loader'
 import React from 'react'
-import useGetAllOrganisations from 'api/useGetAllOrganisations'
+import useGetAllOrganisations from 'classroomapi/useGetAllOrganisations'
 import OrganisationBox from 'components/Organisations/OrganisationBox'
 import AllOrganisationsStyle from './Organisations.style'
 import { Grid } from 'components/GlobalStyles'

@@ -1,5 +1,5 @@
 import Course from 'models/Course'
-import useBaseRequest from 'api/useBaseRequest'
+import useBaseRequest from 'classroomapi/useBaseRequest'
 import { EndpointHook } from 'models/API'
 
 type GetCoursesForOrganisationProps = (props: {

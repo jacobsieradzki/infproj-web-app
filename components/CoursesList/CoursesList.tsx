@@ -7,8 +7,8 @@ import OrganisationBox from 'components/Organisations/OrganisationBox'
 import { generateOrganisationRoute, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
 import React from 'react'
 import CoursesListStyles from './CoursesList.style'
-import useGetCoursesForOrganisation from 'api/useGetCoursesForOrganisation'
-import useGetOrganisation from 'api/useGetOrganisation'
+import useGetCoursesForOrganisation from 'classroomapi/useGetCoursesForOrganisation'
+import useGetOrganisation from 'classroomapi/useGetOrganisation'
 
 type CoursesListProps = {
   organisationId: string;

@@ -1,10 +1,10 @@
-import useGetResource from 'api/useGetResource'
+import useGetResource from 'classroomapi/useGetResource'
 import ResourceContainer from 'components/Resource/ResourceContainer'
 import Course from 'models/Course'
 import Organisation from 'models/Organisation'
 import Resource from 'models/Resource'
 import React from 'react'
-import useGetOrganisation from 'api/useGetOrganisation'
+import useGetOrganisation from 'classroomapi/useGetOrganisation'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
 import Loader from 'components/Loader/Loader'
 
