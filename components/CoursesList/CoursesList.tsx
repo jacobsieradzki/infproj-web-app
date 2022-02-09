@@ -1,10 +1,10 @@
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import CourseBox from 'components/CoursesList/CourseBox'
-import { Grid } from 'components/GlobalStyles'
+import { CaptionUppercase, Grid } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
-import OrganisationBox from 'components/Organisations/OrganisationBox'
-import { generateOrganisationRoute, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
+import { generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
+import useAuthContext from 'contexts/AuthContext'
 import React from 'react'
 import CoursesListStyles from './CoursesList.style'
 import useGetCoursesForOrganisation from 'classroomapi/useGetCoursesForOrganisation'
@@ -16,15 +16,15 @@ type CoursesListProps = {
 
 const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
 
+  const { membership } = useAuthContext();
+
   const {
     data: organisation,
     loading: organisationLoading,
-    error: organisationError
   } = useGetOrganisation({ organisationId });
   const {
     data: courses,
     loading: coursesLoading,
-    error: coursesError
   } = useGetCoursesForOrganisation({ organisationId });
 
 
@@ -45,6 +45,11 @@ const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
         { label: "Courses" },
       ]} />
       <h2>{organisation.name}</h2>
+
+      {membership.hasStaffPermissionForOrganisation(organisation) && (
+        <p>You have staff permission to edit this organisation.</p>
+      )}
+
       <Grid.Container>
         {courses?.map(course =>
           <CourseBox key={course.id} course={course} />

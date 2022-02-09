@@ -11,6 +11,8 @@ export const AppTheme = createGlobalStyle`
     --primary-color: #243b53;
     --secondary-color: #334e68;
     --accent-color: #ffeb3b;
+
+    --border-color: #ffffff;
   
     --page-space: 32px;
     --grid-item-space: 20px;
