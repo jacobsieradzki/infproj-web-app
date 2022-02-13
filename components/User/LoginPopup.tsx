@@ -1,10 +1,10 @@
 import { fetchUser } from 'classroomapi/useGetUser'
+import Button from 'components/Button/Button'
 import Loader from 'components/Loader/Loader'
 import useAuthContext from 'contexts/AuthContext'
 import User from 'models/User'
 import React, { useEffect, useState } from 'react'
 import { Spacer } from 'components/GlobalStyles'
-import Button from '@mui/material/Button'
 import Popup, { PopupProps } from 'components/Popup/Popup'
 import LoginPopupStyles from 'components/User/LoginPopup.style'
 import TextField from '@mui/material/TextField';
@@ -96,11 +96,11 @@ export const LoginPopup: React.FC<PopupProps & LoginPopupProps> = ({ isOpen, clo
 
         {!loading ? (
           <div className={'buttons'}>
-            <Button onClick={closeModal}>
+            <Button onClick={closeModal} style={"inverse-neutral"}>
               Close
             </Button>
             <Spacer />
-            <Button onClick={onLogin} variant="outlined" color="success">
+            <Button onClick={onLogin} style={"inverse"} variant={"filled"}>
               Login
             </Button>
           </div>

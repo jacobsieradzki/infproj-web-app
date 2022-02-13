@@ -92,6 +92,8 @@ export const AuthContextProvider: React.FunctionComponent = ({ children }) => {
 
   const { rehydrated, error } = useStorage(authState, payload => authDispatch({ type: 'REHYDRATE', payload }));
 
+  console.log('!!!', rehydrated, error);
+
   return (
     <AuthContext.Provider value={props}>
       {children}

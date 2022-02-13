@@ -58,9 +58,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
   const setClipEnd = (x: number) => videoDispatch({ type: "SET_CLIP_END", payload: x });
 
   useEffect(() => {
-    let id = videoRef.current?.id;
-    if (!id) return;
-
+    if (!videoRef.current) return;
     setPlayerId(videoRef.current.id);
     videoRef.current.onplay = e => setPlayerPlaying(true);
     videoRef.current.onpause = e => setPlayerPlaying(false);

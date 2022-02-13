@@ -7,6 +7,8 @@ export const AppTheme = createGlobalStyle`
   :root {
     --text-color: rgba(255, 255, 255, 1);
     --text2-color: rgba(255, 255, 255, 0.5);
+    --light-text-color: #102a43;
+    --light-text2-color: rgba(16, 42, 67, 0.72);
     --background-color: #102a43;
     --primary-color: #243b53;
     --secondary-color: #334e68;

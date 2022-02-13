@@ -14,7 +14,10 @@ const useGetUser: GetUserProps = (username, password, onCompleted) => {
 }
 
 export const fetchUser = (username: string, password: string): Promise<User> => {
-  return fetchBaseRequest("user/", { username, password });
+  return fetchBaseRequest({
+    path: "user/",
+    username, password
+  });
 }
 
 export default useGetUser

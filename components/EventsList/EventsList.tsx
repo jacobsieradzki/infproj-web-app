@@ -1,5 +1,8 @@
-import useAuthContext from 'contexts/AuthContext'
+import { faClipboard } from '@fortawesome/free-solid-svg-icons'
+import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
 import React from 'react'
+import Alert from 'components/Alert/Alert'
+import useAuthContext from 'contexts/AuthContext'
 import useGetCourse from 'classroomapi/useGetCourse'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
@@ -19,7 +22,7 @@ type EventsListProps = {
 
 const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => {
 
-  const { membership } = useAuthContext();
+  const { authState, membership } = useAuthContext();
 
   const {
     data: organisation,
@@ -60,11 +63,18 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
       <h2>{course.name}</h2>
       <CaptionUppercase>{course.id}</CaptionUppercase>
 
+      <pre>{JSON.stringify(authState, null, 2)}</pre>
+
       {membership.hasStaffPermissionForCourse(course) && (
-        <p>You have staff permission to edit this course.</p>
+        <Alert title={"You have staff permission to edit this course."} icon={faClipboard}>
+          <p>You have permission to add events, resources and links, and manage discussion within this course.</p>
+        </Alert>
       )}
+
       {membership.hasStudentMembershipToCourse(course) && (
-        <p>You are registered as a student to this course.</p>
+        <Alert title={"You are enrolled in this course."} icon={faGraduationCap}>
+          <p>You are enrolled in this course. You can comment in discussions and events will display in your feed.</p>
+        </Alert>
       )}
 
       <Spacer height={32} />
