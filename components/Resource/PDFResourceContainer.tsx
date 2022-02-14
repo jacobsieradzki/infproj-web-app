@@ -1,22 +1,21 @@
 import useGetClips from 'classroomapi/useGetClips'
+import useGetHighlights from 'classroomapi/useGetHighlights'
 import ResourceHeader from 'components/Header/ResourceHeader'
 import Clip from 'models/Clip'
+import Highlight from 'models/Highlight'
+import Link from 'models/Link'
 import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import useGetHighlights from 'classroomapi/useGetHighlights'
 import HighlightList from 'components/Highlights/HighlightList'
 import PdfDocumentHelper from 'helper/pdfDocument'
 import { IHighlight } from 'lib/react-pdf-highlighter'
 import { useGetLinksForResource } from 'classroomapi/useGetLinks'
 import Loader from 'components/Loader/Loader'
-import { ResourceContainerProps, TabContent, TabItem, TabType } from 'components/Resource/ResourceContainer'
+import { ResourceContainerProps, TabItem, TabType } from 'components/Resource/ResourceContainer'
 import usePdfLoader from 'lib/react-pdf-highlighter/components/usePdfLoader'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { HorizontalStack } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
-import { COURSE_ROUTE, generateCourseRoute, generateOrganisationRoute, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
 const PDFComponent = dynamic(import('components/PDF/PDFComponent'), { ssr: false });
 
 const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
@@ -35,10 +34,11 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     beforeLoad: <Loader style={{ margin: "24px auto" }} />
   });
 
-  const [clips, setClips] = useState<Clip[]>([]);
-  const [highlights, setHighlights] = useState<IHighlight[]>([]);
-  const [pageHighlights, setPageHighlights] = useState<Clip[]>([]);
-
+  const [pages, setPages] = useState<Clip[]>([]);
+  const [apiPages, setApiPages] = useState<Clip[]>([]);
+  const [highlights, setHighlights] = useState<Clip[]>([]);
+  const [libraryHighlights, setLibraryHighlights] = useState<IHighlight[]>([]);
+  const [_links, setLinks] = useState<Link[]>([]);
 
 
   let _currentHighlight = PdfDocumentHelper.parseIdFromHash(router);
@@ -47,20 +47,46 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     setCurrentHighlight(PdfDocumentHelper.parseIdFromHash(router));
   }, [_currentHighlight]);
 
-  const { data: links } = useGetLinksForResource({ id: resource.id, courseId: course.id });
-
-  useGetClips({ resourceId: resource.id, courseId: course.id,
+  const { data: links, loading: linksLoading } = useGetLinksForResource({ id: resource.id, courseId: course.id,
     onCompleted: res => {
-      let clipHighlights = res.filter(x => !!x.highlight).map(x => new Clip(x).toLibraryModel());
-      setClips(res);
-      setHighlights(clipHighlights);
+
     }
   });
 
+  const { loading: clipsLoading } = useGetClips({ resourceId: resource.id, courseId: course.id,
+    onCompleted: res => {
+      console.log('AAAAALL CLIPS', res);
+      let results = res.map(x => new Clip(x));
+      let clipHighlights = results.filter(x => !!x.highlight && x.type == "PDF_CLIP");
+      setApiPages(results.filter(x => x.type == "PDF_PAGE"));
+      setHighlights(clipHighlights);
+      setLibraryHighlights(clipHighlights.map(x => new Clip(x).toLibraryModel()));
+    }
+  });
+
+  // Fill API pages with pre made pages
   useEffect(() => {
-    const perform = async () => setPageHighlights(await Clip.forPagesOfPdf(pdfDocument));
+    const perform = async () => {
+      let _clips: Clip[] = [];
+      console.log("API PAGES", apiPages);
+      for (let i = 1; i <= pdfDocument.numPages; i++) {
+        let existingClip = apiPages.find(x => x.type == "PDF_PAGE" && x.start_location == i);
+        let pageClip = await Clip.forPageOfPdf(pdfDocument, i, existingClip?.description);
+        _clips.push(pageClip);
+      }
+      setPages(_clips);
+    }
     if (pdfDocument) perform();
-  }, [pdfDocument]);
+  }, [pdfDocument, apiPages]);
+
+
+  let loading = clipsLoading || linksLoading;
+
+  // let pages = pages that contain highlights and links
+  // let apiPages = pages created from the API, null coalesced with a created one
+  // let highlights = highlights that are specific to a page number and contain links
+  // let links = links that are attributed to either a page or a link
+
 
   return (
     <ResourceStyles.Container>
@@ -68,7 +94,15 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
         <ResourceHeader {...{ organisation, course, event, resource }} />
 
         <ResourceStyles.PDFWrapper>
-          {pdfDocument && <PDFComponent {...{ resource, pdfDocument, clips, setClips, highlights, setHighlights, currentHighlight }} />}
+          {pdfDocument && <PDFComponent {...{
+            resource,
+            pdfDocument,
+            clips: [],
+            setClips: c => console.log(c),
+            highlights: highlights.map(x => x.toLibraryModel()),
+            setHighlights: h => console.log(h),
+            currentHighlight
+          }} />}
           {pdfError && <p>Something went wrong loading this PDF:<br/>{JSON.stringify(pdfError)}</p>}
         </ResourceStyles.PDFWrapper>
 
@@ -83,19 +117,31 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
             Discussion
           </TabItem>
         </HorizontalStack>
-        <TabContent tabId={"RESOURCES"} tab={tab}>
-          <HighlightList
-            course={course}
-            resource={resource}
-            links={links}
-            clips={clips}
-            pageClips={pageHighlights}
-            currentHighlight={currentHighlight}
-          />
-        </TabContent>
-        {/*<TabContent tabId={"DISCUSSION"} tab={tab}>*/}
-        {/*<SubtitleList course={course} resource={resource} playerSeconds={currentTime} autoPlay={autoPlay} />*/}
-        {/*</TabContent>*/}
+        <ResourceStyles.ColumnContent>
+          {tab === "RESOURCES" ? (
+            <HighlightList
+              loading={loading}
+              course={course}
+              resource={resource}
+              highlights={highlights}
+              links={links}
+              pageClips={pages}
+              currentHighlight={currentHighlight}
+              isDiscussion={false}
+            />
+          ) : (
+            <HighlightList
+              loading={loading}
+              course={course}
+              resource={resource}
+              highlights={highlights}
+              links={[]}
+              pageClips={[]}
+              currentHighlight={null}
+              isDiscussion={true}
+            />
+          )}
+        </ResourceStyles.ColumnContent>
       </ResourceStyles.Column>
     </ResourceStyles.Container>
   )

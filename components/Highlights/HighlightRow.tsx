@@ -15,15 +15,15 @@ type HighlightRowProps = {
   highlight: IHighlight;
   isSelected: boolean;
   links?: Link[];
+  showAddConnection?: boolean;
 }
 
 export const HighlightRow: React.FC<HighlightRowProps> = ({
   highlight,
   isSelected,
-  links = []
+  links = [],
+  showAddConnection = false,
 }) => {
-
-  console.log("ROW", highlight, links);
 
   const router = useRouter();
 
@@ -51,7 +51,7 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
         </VerticalStack>
       }
 
-      <AddConnectionButton className={"add"} label={"Add connection to highlight"} />
+      {showAddConnection && <AddConnectionButton className={'add'} label={'Add connection to highlight'} />}
     </SubtitlesStyles.Item>
   )
 }

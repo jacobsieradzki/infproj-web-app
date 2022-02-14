@@ -6,6 +6,7 @@ import PdfDocumentHelper from 'helper/pdfDocument'
 import { formatHHMMSS } from 'helper/time'
 import { IHighlight } from 'lib/react-pdf-highlighter'
 import Clip from 'models/Clip'
+import Highlight from 'models/Highlight'
 import Link from 'models/Link'
 import Subtitle from 'models/Subtitle'
 import { useRouter } from 'next/router'
@@ -15,36 +16,41 @@ import SubtitlesStyles from 'components/Subtitles/SubtitleList.style'
 type HighlightPageRowProps = {
   pageClip: Clip;
   currentHighlight: string;
-  clips?: Clip[];
+  highlights: Clip[];
   links?: Link[];
+  showAddConnection: boolean;
 }
 
 export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
   pageClip,
   currentHighlight,
-  clips = [],
-  links = []
+  highlights,
+  links = [],
+  showAddConnection = false,
 }) => {
 
+  console.log(">>> PAGE", pageClip);
   let highlight = pageClip.toLibraryModel();
 
-  console.log("ROW", highlight, links);
-
-  const getLinksForHighlight = (highlightClip: Clip): Link[] => {
-    console.log("getLinksForHighlight", links, highlightClip);
+  const getPageAttachedLinks = (page: number): Link[] => {
     return links.filter(link => {
-      return link.link_type == "CLIP" && link.source_id.toString() == highlightClip.id;
+      let sourceClip = link.source_link as Clip;
+      if (sourceClip) {
+        return sourceClip?.type == "PDF_PAGE" && sourceClip?.start_location == page;
+      }
     });
   }
 
-  const getLinksForPage = (highlightClip: Clip): Link[] => {
-    console.log("getLinksForPage", links, highlightClip);
+  const getLinksForHighlight = (id: string): Link[] => {
     return links.filter(link => {
-      return link.source_link?.type == "PDF_PAGE" && link.source_link?.start_location == highlightClip.start_location;
+      let sourceClip = link.source_link as Clip;
+      if (sourceClip) {
+        return sourceClip?.type == "PDF_CLIP" && !!highlight && sourceClip.id.toString() == id;
+      }
     });
   }
 
-  let pageLinks = getLinksForPage(pageClip);
+  let pageAttachedLinks = getPageAttachedLinks(pageClip.start_location);
 
   return (
     <SubtitlesStyles.PageContainer className={"item"}>
@@ -58,30 +64,31 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
       {highlight.content.text && <p>{highlight.content.text}</p>}
       {highlight.content.image && <img src={highlight.content.image} alt={highlight.content.text} />}
 
-      {clips.length > 0 &&
+      {highlights.length > 0 &&
         <VerticalStack gap={8} className={'links'}>
-          {clips.map((clip, index) => (
+          {highlights.map((clip, index) => (
             <HighlightRow
               key={index}
               highlight={clip.toLibraryModel()}
               isSelected={clip.highlight.id.toString() == currentHighlight}
-              links={getLinksForHighlight(clip)}
+              links={getLinksForHighlight(clip.id.toString())}
+              showAddConnection={showAddConnection}
             />
           ))}
         </VerticalStack>
       }
 
-      {pageLinks.length > 0 &&
+      {pageAttachedLinks.length > 0 &&
         <SubtitlesStyles.Inset>
           <VerticalStack gap={8} className={'links'}>
-            {pageLinks.map((link, index) => (
+            {pageAttachedLinks.map((link, index) => (
               <LinkPreview key={index} link={link} />
             ))}
           </VerticalStack>
         </SubtitlesStyles.Inset>
       }
 
-      <AddConnectionButton className={"add"} label={"Add Connection to page"} />
+      {showAddConnection && <AddConnectionButton className={'add'} label={'Add Connection to page'} />}
     </SubtitlesStyles.PageContainer>
   )
 }

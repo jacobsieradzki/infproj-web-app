@@ -26,7 +26,7 @@ const Alert: React.FC<AlertProps> = ({
   let [primaryColor, secondaryColor] = colorsForStyle(style);
 
   return (
-    <AlertStyle.Container {...{ primaryColor, secondaryColor }}>
+    <AlertStyle.Container className={`alert alert-${style}`} {...{ primaryColor, secondaryColor }}>
       {icon && <AlertStyle.Icon>
         <FontAwesomeIcon icon={icon} size={"lg"} />
       </AlertStyle.Icon>}

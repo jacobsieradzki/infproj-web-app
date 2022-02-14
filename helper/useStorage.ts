@@ -7,12 +7,11 @@ const rehydrate = (value: any, defaultValue?: any) => {
   if (!value) return defaultValue;
   try {
     if (typeof value === "string") {
-      return JSON.parse(value)
+      return JSON.parse(value);
     } else {
       return value;
     }
   } catch (err) {
-    console.log('!!! #0', err, value);
     return defaultValue;
   }
 };
@@ -27,14 +26,11 @@ const createMigration = async (opts, data) => {
   return new Promise((resolve, reject) => {
     const key = `${opts.key}-version`;
     localForage.getItem(key, (err, version) => {
-      console.log('!!! #1', err, version, opts.version);
       if (version !== opts.version) {
         data = opts.migrate(data);
         localForage.setItem(opts.key, rehydrate(data), (err) => {
-          console.log('!!! #2', err);
           if (err) return reject(err);
           localForage.setItem(key, opts.version, (err) => {
-            console.log('!!! #3', err);
             if (err) return reject(err);
             return resolve(data);
           });
@@ -61,7 +57,6 @@ export const useStorage = <T>(state: T, setState: (val: T) => void) => {
   useEffect(() => {
     async function init() {
       await localForage.getItem(config.key, (err, value) => {
-        console.log('!!! #4', err, value);
         if (err) {
           setRehydrated(err);
           return setError(err);
@@ -74,7 +69,6 @@ export const useStorage = <T>(state: T, setState: (val: T) => void) => {
             .then(() => setRehydrated(true))
             .catch(err => {
               setError(err);
-              console.log('!!! #5', err);
             })
         } else {
           setState(restoredValue);
@@ -87,15 +81,12 @@ export const useStorage = <T>(state: T, setState: (val: T) => void) => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('!!! #8', state);
       localForage.setItem(config.key, hydrate(state))
         .then(x => {
-          console.log('!!! #9', x);
           setError(null);
         })
         .catch(err => {
           setError(err);
-          console.log('!!! #7', err);
         });
     }, 50);
   }, [state]);

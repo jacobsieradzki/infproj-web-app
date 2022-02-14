@@ -1,5 +1,5 @@
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
-import { faFile, faFileAlt, faImage, faLink, faPlayCircle, faVideo } from '@fortawesome/free-solid-svg-icons'
+import { faCopy, faFile, faFileAlt, faImage, faLink, faPlayCircle, faVideo } from '@fortawesome/free-solid-svg-icons'
 import Course from 'models/Course'
 import Event from 'models/Event'
 
@@ -43,7 +43,7 @@ export class Resource {
     switch (this.type) {
       case "VID": return faVideo;
       case "YT": return faPlayCircle;
-      case "PDF": return faFileAlt;
+      case "PDF": return faCopy;
       case "URL": return faLink;
       case "IMG": return faImage;
       default: return faFile;

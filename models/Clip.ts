@@ -19,6 +19,7 @@ export class Clip {
   private readonly updated_at: string;
 
   public toLibraryModel(): IHighlight {
+    if (!this.highlight) return null;
     return {
       id: this.highlight.id.toString(),
       comment: {
@@ -60,30 +61,40 @@ export class Clip {
   static async forPagesOfPdf(pdfDocument: PDFDocumentProxy): Promise<Clip[]> {
     let clips = [];
     for (let i = 1; i <= pdfDocument.numPages; i++) {
-      let page = await pdfDocument.getPage(i);
-      let [x, y, w, h] = page._pageInfo.view;
-
-      let clip = new Clip({
-        course_id: 0,
-        description: "Page " + i.toString(),
-        type: "PDF_PAGE",
-        start_location: i,
-        end_location: 0,
-        highlight: {
-          id: i,
-          bounding_rect: {
-            x1: 0, x2: w, y1: 0, y2: 1,
-            width: w, height: 100,
-            page_number: i,
-          },
-          rects: []
-        }
-      });
-      clips.push(clip);
+      clips.push(this.forPageOfPdf(pdfDocument, i));
     }
-
     return new Promise<Clip[]>(function(resolve, reject) {
       resolve(clips);
+    })
+  }
+
+  static async forClipPageOfPdf(pdfDocument: PDFDocumentProxy, clip: Clip): Promise<Clip> {
+    return this.forPageOfPdf(pdfDocument, clip.start_location, clip.description);
+  }
+
+  static async forPageOfPdf(pdfDocument: PDFDocumentProxy, i: number, description: string = null): Promise<Clip> {
+    let page = await pdfDocument.getPage(i);
+    let [x, y, w, h] = page._pageInfo.view;
+
+    let clip =  new Clip({
+      course_id: 0,
+      description: `Page ${i.toString()}${description ? ": " + description : ""}`,
+      type: "PDF_PAGE",
+      start_location: i,
+      end_location: i,
+      highlight: {
+        id: i,
+        bounding_rect: {
+          x1: 0, x2: w, y1: 0, y2: 1,
+          width: w, height: 100,
+          page_number: i,
+        },
+        rects: []
+      }
+    });
+
+    return new Promise<Clip>(function(resolve, reject) {
+      resolve(clip);
     })
   }
 

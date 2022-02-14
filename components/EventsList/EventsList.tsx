@@ -1,5 +1,6 @@
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
+import { StaffCourseMembershipAlert, StudentCourseEnrollmentAlert } from 'components/Membership/MembershipAlerts'
 import React from 'react'
 import Alert from 'components/Alert/Alert'
 import useAuthContext from 'contexts/AuthContext'
@@ -62,20 +63,9 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
       ]} />
       <h2>{course.name}</h2>
       <CaptionUppercase>{course.id}</CaptionUppercase>
-
-      <pre>{JSON.stringify(authState, null, 2)}</pre>
-
-      {membership.hasStaffPermissionForCourse(course) && (
-        <Alert title={"You have staff permission to edit this course."} icon={faClipboard}>
-          <p>You have permission to add events, resources and links, and manage discussion within this course.</p>
-        </Alert>
-      )}
-
-      {membership.hasStudentMembershipToCourse(course) && (
-        <Alert title={"You are enrolled in this course."} icon={faGraduationCap}>
-          <p>You are enrolled in this course. You can comment in discussions and events will display in your feed.</p>
-        </Alert>
-      )}
+      
+      <StaffCourseMembershipAlert value={course} />
+      <StudentCourseEnrollmentAlert value={course} />
 
       <Spacer height={32} />
 

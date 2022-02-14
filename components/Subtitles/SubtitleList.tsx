@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useGetSubtitles from 'classroomapi/useGetSubtitles'
 import { Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
+import { StudentDiscussionMembershipAlert } from 'components/Membership/MembershipAlerts'
 import SubtitleRow from 'components/Subtitles/SubtitleRow'
+import useAuthContext from 'contexts/AuthContext'
 import useVideoContext from 'contexts/VideoContext'
+import useMembership from 'helper/useMembership'
 import Course from 'models/Course'
 import Link from 'models/Link'
 import Resource from 'models/Resource'
@@ -16,13 +19,19 @@ type SubtitleListProps = {
   course: Course;
   resource: Resource;
   links: Link[];
+  isDiscussion?: boolean;
 }
 
 export const SubtitleList: React.FC<SubtitleListProps> = ({
   course,
   resource,
   links,
+  isDiscussion = false,
 }) => {
+
+  const { authState } = useAuthContext();
+  const { memberships } = authState;
+  const membership = useMembership(memberships);
 
   const { videoState, seekPlayer } = useVideoContext();
   const { playerId, isPlaying, playerSeconds, startClip } = videoState;
@@ -82,8 +91,18 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
     )
   }
 
+  let showAddConnection = (isDiscussion && membership.hasStudentMembershipToCourse(course))
+    || (!isDiscussion && membership.hasStaffPermissionForCourse(course));
+
+  console.log(links);
+
   return (
     <SubtitlesStyles.Container ref={refList} id={"subtitles_list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
+
+      {isDiscussion && (
+        <StudentDiscussionMembershipAlert value={course} />
+      )}
+
       <div>
         {subtitles.map((subtitle, index) => (
           <SubtitleRow
@@ -91,17 +110,18 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
             subtitle={subtitle}
             isSelected={subtitle.start_seconds == selectedSecs}
             links={getLinksForSubtitle(subtitle)}
+            showAddConnection={showAddConnection}
           />
         ))}
       </div>
       <div id={"secs_end"} />
-      {isPlaying && subtitles.length > 0 &&
+      {isPlaying && subtitles.length > 0 && (
         <SubtitlesStyles.AutoPlay className={'bg-blur'} as={'button'} onClick={() => setAutoPlay(!autoPlay)}>
           <p>Auto play</p>
           <Spacer />
           <FontAwesomeIcon icon={autoPlay ? faCheckSquare : faSquare} size={'1x'} color={'white'} />
         </SubtitlesStyles.AutoPlay>
-      }
+      )}
     </SubtitlesStyles.Container>
   )
 }

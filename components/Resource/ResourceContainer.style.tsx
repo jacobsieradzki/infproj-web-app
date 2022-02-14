@@ -48,11 +48,6 @@ const ColumnContent = styled.div`
   min-height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space) + 2px);
   overflow: scroll;
   transition: opacity 0.2s;
-  
-  &.hidden {
-    opacity: 0;
-    height: 0;
-  }
 `;
 
 const ColumnTab = styled.button`

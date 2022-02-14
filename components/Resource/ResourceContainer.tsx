@@ -22,19 +22,13 @@ export type ResourceContainerProps = {
   resource?: Resource;
 }
 
-export type TabType = "RESOURCES" | "DISCUSSION";
+export type TabType = "RESOURCES" | "DISCUSSION" | "SUBTITLES";
 export const TabItem = ({ tabId, tab, setTab, children }) => (
   <ResourceStyles.ColumnTab
     id={tab.toLowerCase() + "_key"}
     className={tab == tabId ? "selected" : ""}
     onClick={() => setTab(tabId)}
   >{children}</ResourceStyles.ColumnTab>
-)
-
-export const TabContent = ({ tabId, tab, children }) => (
-  <ResourceStyles.ColumnContent
-    className={tab == tabId ? "" : "hidden"}
-  >{children}</ResourceStyles.ColumnContent>
 )
 
 const ResourceContainer: React.FC<ResourceContainerProps> = props => {
@@ -102,12 +96,13 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
             Discussion
           </TabItem>
         </HorizontalStack>
-        <TabContent tabId={"RESOURCES"} tab={tab}>
-          <p>Resources</p>
-        </TabContent>
-        {/*<TabContent tabId={"DISCUSSION"} tab={tab}>*/}
-          {/*<SubtitleList course={course} resource={resource} playerSeconds={currentTime} autoPlay={autoPlay} />*/}
-        {/*</TabContent>*/}
+        <ResourceStyles.ColumnContent>
+          {tab === "RESOURCES" ? (
+            <p>Resources!</p>
+          ) : (
+            <p>Discussion!</p>
+          )}
+        </ResourceStyles.ColumnContent>
       </ResourceStyles.Column>
     </ResourceStyles.Container>
   )

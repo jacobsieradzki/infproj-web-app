@@ -1,14 +1,11 @@
-import useGetClips from 'classroomapi/useGetClips'
 import { useGetLinksForResource } from 'classroomapi/useGetLinks'
 import ResourceHeader from 'components/Header/ResourceHeader'
 import EventPreview from 'components/Link/EventPreview'
 import LinkPreview from 'components/Link/LinkPreview'
-import { ResourceContainerProps, TabContent, TabItem, TabType } from 'components/Resource/ResourceContainer'
+import { StaffDiscussionMembershipAlert } from 'components/Membership/MembershipAlerts'
+import { ResourceContainerProps, TabItem, TabType } from 'components/Resource/ResourceContainer'
 import SubtitleList from 'components/Subtitles/SubtitleList'
-import useVideoContext from 'contexts/VideoContext'
 import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { HorizontalStack } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
 import VideoComponent from 'components/Video/VideoComponent'
@@ -43,6 +40,8 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
           </ResourceStyles.Links>
         }
 
+        <StaffDiscussionMembershipAlert value={course} />
+
         <VideoComponent resource={resource} />
 
         {nonSubtitleLinks.length > 0 &&
@@ -64,17 +63,37 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
           <TabItem tabId={"DISCUSSION"} {...{ tab, setTab }}>
             Discussion
           </TabItem>
+          <TabItem tabId={"SUBTITLES"} {...{ tab, setTab }}>
+            Subtitles
+          </TabItem>
         </HorizontalStack>
-        <TabContent tabId={"RESOURCES"} tab={tab}>
-          <SubtitleList
-            course={course}
-            resource={resource}
-            links={links}
-          />
-        </TabContent>
-        {/*<TabContent tabId={"DISCUSSION"} tab={tab}>*/}
-          {/*<SubtitleList course={course} resource={resource} playerSeconds={currentTime} autoPlay={autoPlay} />*/}
-        {/*</TabContent>*/}
+        <ResourceStyles.ColumnContent>
+          {tab === "RESOURCES" && (
+            <SubtitleList
+              course={course}
+              resource={resource}
+              links={links}
+              isDiscussion={false}
+            />
+          )}
+          {tab === "DISCUSSION" && (
+            <SubtitleList
+              course={course}
+              resource={resource}
+              links={links}
+              isDiscussion={true}
+            />
+          )}
+          {tab === "SUBTITLES" && (
+            <SubtitleList
+              course={course}
+              resource={resource}
+              links={[]}
+              isDiscussion={false}
+            />
+          )}
+        </ResourceStyles.ColumnContent>
+
       </ResourceStyles.Column>
     </ResourceStyles.Container>
   )

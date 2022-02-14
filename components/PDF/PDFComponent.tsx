@@ -22,12 +22,12 @@ const PDFComponent: React.FC<PDFComponentProps> = ({
   pdfDocument,
   clips,
   setClips,
-  highlights: _H,
+  highlights,
   setHighlights,
   currentHighlight,
 }) => {
 
-  let highlights = clips.filter(x => !!x.highlight).map(x => new Clip(x).toLibraryModel());
+  // let highlights = clips.filter(x => !!x.highlight).map(x => new Clip(x).toLibraryModel());
 
   const [scrollTo, setScrollTo] = useState(null);
 

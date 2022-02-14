@@ -6,6 +6,10 @@ const Container = styled.div`
   flex-flow: column nowrap;
   position: relative;
   
+  .alert {
+    margin: 20px;
+  }
+  
   &.autoplay {
     .item:not(.selected):not(:hover) {
       opacity: 0.5;

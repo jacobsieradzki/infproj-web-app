@@ -3,6 +3,7 @@ import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import CourseBox from 'components/CoursesList/CourseBox'
 import { CaptionUppercase, Grid } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
+import { StaffOrganisationMembershipAlert } from 'components/Membership/MembershipAlerts'
 import { generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
 import useAuthContext from 'contexts/AuthContext'
 import React from 'react'
@@ -46,9 +47,7 @@ const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
       ]} />
       <h2>{organisation.name}</h2>
 
-      {membership.hasStaffPermissionForOrganisation(organisation) && (
-        <p>You have staff permission to edit this organisation.</p>
-      )}
+      <StaffOrganisationMembershipAlert value={organisation} />
 
       <Grid.Container>
         {courses?.map(course =>

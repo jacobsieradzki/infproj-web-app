@@ -1,4 +1,4 @@
-import { faExclamationTriangle, faHighlighter } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle, faFile, faFileVideo, faHighlighter, faStickyNote } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { generateResourcePDFClipRoute, generateResourceVideoClipRoute } from 'constants/navigation'
 import Clip from 'models/Clip'
@@ -16,7 +16,7 @@ const ClipPreview: React.FC<LinkPreviewProps> = ({ link }) => {
   let clip = new Clip(link.link);
   let resource = new Resource(clip?.resource);
 
-  if (["PDF_CLIP", "PDF_PAGE"].includes(clip.type) && resource) {
+  if (clip.type == "PDF_CLIP" && resource) {
     return (
       <LinkView
         title={clip.description}
@@ -30,12 +30,30 @@ const ClipPreview: React.FC<LinkPreviewProps> = ({ link }) => {
     )
   }
 
+  if (clip.type == "PDF_PAGE" && resource) {
+    let title = "Page " + clip.start_location.toString();
+    if (clip.description)  title += ": " + clip.description;
+    return (
+      <LinkView
+        title={title}
+        subtitle={clip.isImage() ? null : clip.content}
+        image={clip.isImage() ? clip.content : null}
+        caption={<><FontAwesomeIcon icon={resource.getIcon()} />&nbsp;&nbsp;{resource.name}</>}
+        icon={faFile}
+        color={"white"}
+        href={generateResourcePDFClipRoute(clip, organisationId)}
+      />
+    )
+  }
+
   if (clip.type == "VIDEO_CLIP" && resource) {
+    let timeDifference = clip.end_location - clip.start_location;
     return (
       <LinkView
         title={resource.name}
         subtitle={resource.description}
-        icon={resource.getIcon()}
+        caption={`${timeDifference} second clip`}
+        icon={faFileVideo}
         color={"white"}
         href={generateResourceVideoClipRoute(clip, organisationId)}
       />

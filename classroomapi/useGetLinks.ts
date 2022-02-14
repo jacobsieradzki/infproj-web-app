@@ -7,6 +7,7 @@ import Link from 'models/Link'
 type GetLinkForProps = (props: {
   courseId: string;
   id: string;
+  onCompleted?: (links: Link[]) => void;
 }) => EndpointHook<Link[]>;
 
 type GetLinkProps = (props: {
@@ -25,6 +26,11 @@ const useGetLinks: GetLinkProps = ({ id, courseId, type }) => {
 
 export default useGetLinks;
 
-export const useGetLinksForResource: GetLinkForProps = ({ id, courseId }) => {
-  return useGetLinks({ id, courseId, type: "RESOURCE" });
+export const useGetLinksForResource: GetLinkForProps = ({ id, courseId, onCompleted }) => {
+  return useBaseRequest<Link[]>({
+    path: "link/" + courseId + "/?id=" + id + "&type=RESOURCE",
+    defaultValue: [],
+    skip: !id,
+    onCompleted,
+  });
 }

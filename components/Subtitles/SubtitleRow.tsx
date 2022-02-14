@@ -12,9 +12,15 @@ type SubtitleRowProps = {
   subtitle: Subtitle;
   isSelected: boolean;
   links: Link[];
+  showAddConnection?: boolean;
 }
 
-export const SubtitleRow: React.FC<SubtitleRowProps> = ({ subtitle, isSelected, links }) => {
+export const SubtitleRow: React.FC<SubtitleRowProps> = ({
+  subtitle,
+  isSelected,
+  links,
+  showAddConnection = false,
+}) => {
 
   const { seekPlayer } = useVideoContext();
 
@@ -36,7 +42,7 @@ export const SubtitleRow: React.FC<SubtitleRowProps> = ({ subtitle, isSelected, 
           ))}
         </VerticalStack>
       }
-      <AddConnectionButton className={"add"} />
+      {showAddConnection && <AddConnectionButton className={'add'} />}
     </SubtitlesStyles.Item>
   )
 }
