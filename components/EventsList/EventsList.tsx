@@ -1,6 +1,8 @@
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
+import NewEventBox from 'components/EventsList/NewEventBox'
 import { StaffCourseMembershipAlert, StudentCourseEnrollmentAlert } from 'components/Membership/MembershipAlerts'
+import useMembership from 'helper/useMembership'
 import React from 'react'
 import Alert from 'components/Alert/Alert'
 import useAuthContext from 'contexts/AuthContext'
@@ -72,6 +74,10 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
       <Grid.Container>
         {events?.map(event =>
           <EventBox key={event.id} organisation={organisation} event={new Event(event)} />
+        )}
+
+        {membership.hasStaffPermissionForCourse(course) && (
+          <NewEventBox />
         )}
       </Grid.Container>
     </CoursesListStyles.Container>

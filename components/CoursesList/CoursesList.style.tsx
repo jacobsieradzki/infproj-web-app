@@ -2,11 +2,25 @@ import styled from 'styled-components'
 import { Grid } from 'components/GlobalStyles'
 
 export const Container = styled.div`
-  
+  padding-bottom: 52px;
 `;
 
 export const Box = styled(Grid.Box)`
   padding: 0;
+  
+  &:hover {
+    box-shadow: var(--shadow);
+  }
+`;
+
+export const NewBox = styled(Grid.Box)`
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
   
   &:hover {
     box-shadow: var(--shadow);
@@ -51,6 +65,7 @@ export const BoxContent = styled.div`
 const CoursesListStyles = {
   Container,
   Box,
+  NewBox,
 }
 
 export default CoursesListStyles

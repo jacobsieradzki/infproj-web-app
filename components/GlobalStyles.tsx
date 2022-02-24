@@ -47,7 +47,7 @@ export const Grid = {
     display: flex;
     gap: 1rem;
     
-    & > a {
+    & > * {
       width: 25%;
     }
   `,
