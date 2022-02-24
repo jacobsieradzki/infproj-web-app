@@ -5,12 +5,16 @@ const ContainerCss = `
   flex-flow: row nowrap;
   align-items: flex-start;
   text-align: start;
-  // background-color: var(--primary-color);
   background-color: transparent;
   padding: 16px;
   border: 2px rgba(255, 255, 255, 0.5) solid;
   cursor: pointer;
   width: 100%;
+  
+  img.icon {
+    margin-right: 16px;
+    max-height: 100px;
+  }
   
   span.content {
     display: -webkit-box;

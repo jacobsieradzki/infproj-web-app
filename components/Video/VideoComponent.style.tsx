@@ -104,6 +104,7 @@ const Controls = styled.div`
   background-color: var(--secondary-color);
   display: flex;
   align-items: center;
+  margin-top: 4px;
   gap: 4px;
   padding: 8px;
   .loader { margin: 8px; }

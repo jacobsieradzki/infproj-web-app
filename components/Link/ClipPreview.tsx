@@ -39,7 +39,6 @@ const ClipPreview: React.FC<LinkPreviewProps> = ({ link }) => {
         subtitle={clip.isImage() ? null : clip.content}
         image={clip.isImage() ? clip.content : null}
         caption={<><FontAwesomeIcon icon={resource.getIcon()} />&nbsp;&nbsp;{resource.name}</>}
-        icon={faFile}
         color={"white"}
         href={generateResourcePDFClipRoute(clip, organisationId)}
       />

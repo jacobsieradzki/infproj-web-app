@@ -12,7 +12,6 @@ const parseIdFromHash = (router: NextRouter): string => {
   if (router) {
     let components = router.asPath.split('#');
     let fragment = components.pop() || "";
-    console.log(components, fragment);
     if (fragment.startsWith(PDF_DOCUMENT_HASH_ID_PREFIX)) {
       if (fragment.length > PDF_DOCUMENT_HASH_ID_PREFIX.length) {
         return fragment.slice(PDF_DOCUMENT_HASH_ID_PREFIX.length);

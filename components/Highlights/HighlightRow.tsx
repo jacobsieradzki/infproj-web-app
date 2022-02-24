@@ -27,6 +27,8 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
 
   const router = useRouter();
 
+  console.log('!!!', links);
+
   const onClick = e => {
     PdfDocumentHelper.updateHash(isSelected ? null : highlight, router);
   };
@@ -40,7 +42,7 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
         </span>
 
         {highlight.content.text && <p className={"content"}>{highlight.content.text}</p>}
-        {highlight.content.image && <img src={highlight.content.image} alt={highlight.content.text} />}
+        {highlight.content.image && <img className={"pdf-img-prev"} src={highlight.content.image} alt={highlight.content.text} />}
       </button>
 
       {links.length > 0 &&

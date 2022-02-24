@@ -70,7 +70,9 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   }, [playerSeconds]);
 
   useEffect(() => {
-    setTimeout(() => seekPlayer(getClosestSubtitleSeconds(startClip)), 50);
+    if (!isPlaying) {
+      setTimeout(() => seekPlayer(getClosestSubtitleSeconds(startClip)), 50);
+    }
   }, [startClip, subtitles]);
 
   const getLinksForSubtitle = (subtitle: Subtitle): Link[] => {
@@ -94,16 +96,14 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   let showAddConnection = (isDiscussion && membership.hasStudentMembershipToCourse(course))
     || (!isDiscussion && membership.hasStaffPermissionForCourse(course));
 
-  console.log(links);
-
   return (
-    <SubtitlesStyles.Container ref={refList} id={"subtitles_list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
+    <SubtitlesStyles.Container ref={refList} id={"subtitles-list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
 
       {isDiscussion && (
         <StudentDiscussionMembershipAlert value={course} />
       )}
 
-      <div>
+      <div className={"subtitle-rows"}>
         {subtitles.map((subtitle, index) => (
           <SubtitleRow
             key={index}

@@ -29,7 +29,7 @@ export const SubtitleRow: React.FC<SubtitleRowProps> = ({
   }
 
   return (
-    <SubtitlesStyles.Item className={"item time" + (isSelected ? " selected" : "")}>
+    <SubtitlesStyles.Item className={"subtitle-row item time" + (isSelected ? " selected" : "")}>
       <div id={"secs_" + subtitle.start_seconds} style={{ height: 24 }} />
       <button className={"nostyle"} onClick={onClick}>
         <span className={"subheader"}>{formatHHMMSS(subtitle.start_seconds)}</span>

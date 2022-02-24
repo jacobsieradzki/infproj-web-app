@@ -9,6 +9,30 @@ const Container = styled.div`
   .alert {
     margin: 20px;
   }
+
+  &.autoplay {
+    .item:not(.selected):not(:hover) {
+      opacity: 0.5;
+    }
+  }
+`;
+
+const AutoPlay = styled(HorizontalStack)`
+  padding: 16px;
+  justify-content: center;
+  position: sticky;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+  border: none;
+    
+  &.bg-blur { background-color: rgba(255, 255, 255, 0.20); }
+  & > * { margin: 0; }
+  p {
+    font-size: 16px; 
+    font-weight: 600; 
+  }
+  .svg-inline--fa { font-size: 1.2rem; }
 `;
 
 const PageContainer = styled.div`
@@ -25,10 +49,6 @@ const PageContainer = styled.div`
   }
   
   & > .add { margin: 16px 24px; }
-  
-  //.highlight-links {
-  //  margin-top: 20px;
-  //}
 `;
 
 const Item = styled.div`
@@ -36,6 +56,16 @@ const Item = styled.div`
   flex-flow: column nowrap;
   gap: 2px;
   padding: 24px;
+  
+  &.time { 
+    padding-top: 0;
+    &:not(:last-child):not(.selected) {
+      padding-bottom: 0;
+    }
+    .links {
+      margin-top: 16px;
+    }
+  }
   
   p { font-size: 1.2rem; }
   
@@ -60,6 +90,7 @@ const Item = styled.div`
   
   button.nostyle {
     border: 0;
+    padding: 0;
     background-color: transparent;
     text-align: left;
     cursor: pointer;
@@ -79,6 +110,11 @@ const Item = styled.div`
     overflow: hidden;
     cursor: default;
   }
+  
+  .pdf-img-prev {
+    width: 100%;
+    margin: 8px 0;
+  }
 `;
 
 const Inset = styled.div`
@@ -87,6 +123,7 @@ const Inset = styled.div`
 
 const SubtitlesStyles = {
   Container,
+  AutoPlay,
   PageContainer,
   Item,
   Inset,

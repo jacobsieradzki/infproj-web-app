@@ -63,7 +63,9 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
       let results = res.map(x => new Clip(x));
       let clipHighlights = results.filter(x => !!x.highlight && x.type == "PDF_CLIP");
       setApiPages(results.filter(x => x.type == "PDF_PAGE"));
-      setHighlights(clipHighlights);
+      setHighlights(clipHighlights.sort((a, b) => {
+        return a.highlight?.bounding_rect.y1 - b.highlight?.bounding_rect.y2;
+      }));
       setLibraryHighlights(clipHighlights.map(x => new Clip(x).toLibraryModel()));
     }
   });

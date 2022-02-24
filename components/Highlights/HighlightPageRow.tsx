@@ -43,9 +43,11 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
   const getLinksForHighlight = (id: string): Link[] => {
     return links.filter(link => {
       let sourceClip = link.source_link as Clip;
-      if (sourceClip) {
-        return sourceClip?.type == "PDF_CLIP" && !!highlight && sourceClip.id.toString() == id;
-      }
+      return sourceClip?.type === "PDF_CLIP" && !!highlight && sourceClip.id?.toString() == id;
+    }).sort((a, b) => {
+      let aClip = a.source_link as Clip;
+      let bClip = b.source_link as Clip;
+      return bClip.highlight.bounding_rect.y1 - aClip.highlight.bounding_rect.y2;
     });
   }
 
@@ -63,7 +65,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
       {highlight.content.text && <p>{highlight.content.text}</p>}
       {highlight.content.image && <img src={highlight.content.image} alt={highlight.content.text} />}
 
-      {pageAttachedLinks.length > 0 &&
+      {pageAttachedLinks.length > 0 && (
         <SubtitlesStyles.Inset>
           <VerticalStack gap={8} className={'links page-links'}>
             {pageAttachedLinks.map((link, index) => (
@@ -71,9 +73,9 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
             ))}
           </VerticalStack>
         </SubtitlesStyles.Inset>
-      }
+      )}
 
-      {highlights.length > 0 &&
+      {highlights.length > 0 && (
         <VerticalStack gap={8} className={'links highlight-links'}>
           {highlights.map((clip, index) => (
             <HighlightRow
@@ -85,9 +87,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
             />
           ))}
         </VerticalStack>
-      }
-
-
+      )}
 
       {showAddConnection && <AddConnectionButton className={'add'} label={'Add Connection to page'} />}
     </SubtitlesStyles.PageContainer>

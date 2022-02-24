@@ -8,8 +8,9 @@ type LinkViewProps = {
   title: string;
   subtitle?: string | React.ReactElement;
   image?: any;
+  contentImage?: any;
   caption?: string | React.ReactElement;
-  icon: IconDefinition;
+  icon?: IconDefinition;
   color: string;
   href?: string;
   openInNewTab?: boolean;
@@ -20,8 +21,9 @@ const LinkView: React.FC<LinkViewProps> = ({
   title,
   subtitle,
   image,
+  contentImage,
   caption,
-  icon,
+  icon = null,
   color,
   href,
   openInNewTab = true,
@@ -33,12 +35,13 @@ const LinkView: React.FC<LinkViewProps> = ({
   if (href) {
     return (
       <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={className}>
-        <FontAwesomeIcon icon={icon} color={color} size={"lg"} className={"icon"} />
+        {icon && <FontAwesomeIcon icon={icon} color={color} size={'lg'} className={'icon'} />}
+        {image && <img className={"icon"} src={image} alt={title} />}
         <LinkStyles.Content>
           <p>{title}</p>
           {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
           {subtitle && <span className={"content"}>{subtitle}</span>}
-          {image && <img src={image} alt={title} />}
+          {contentImage && <img className={'content'} src={contentImage} alt={title} />}
         </LinkStyles.Content>
       </LinkStyles.Link>
     )
@@ -46,12 +49,13 @@ const LinkView: React.FC<LinkViewProps> = ({
 
   return (
     <LinkStyles.Container onClick={onClick} className={className}>
-      <FontAwesomeIcon icon={icon} color={color} size={"lg"} className={"icon"}  />
+      {icon && <FontAwesomeIcon icon={icon} color={color} size={'lg'} className={'icon'} />}
+      {image && <img className={"image"} src={image} alt={title} />}
       <LinkStyles.Content>
         <p>{title}</p>
         {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
         {subtitle && <span>{subtitle}</span>}
-        {image && <img src={image} alt={title} />}
+        {contentImage && <img className={'content'} src={contentImage} alt={title} />}
       </LinkStyles.Content>
     </LinkStyles.Container>
   )
