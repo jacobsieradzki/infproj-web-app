@@ -29,7 +29,6 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
   showAddConnection = false,
 }) => {
 
-  console.log(">>> PAGE", pageClip);
   let highlight = pageClip.toLibraryModel();
 
   const getPageAttachedLinks = (page: number): Link[] => {
@@ -64,8 +63,18 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
       {highlight.content.text && <p>{highlight.content.text}</p>}
       {highlight.content.image && <img src={highlight.content.image} alt={highlight.content.text} />}
 
+      {pageAttachedLinks.length > 0 &&
+        <SubtitlesStyles.Inset>
+          <VerticalStack gap={8} className={'links page-links'}>
+            {pageAttachedLinks.map((link, index) => (
+              <LinkPreview key={index} link={link} />
+            ))}
+          </VerticalStack>
+        </SubtitlesStyles.Inset>
+      }
+
       {highlights.length > 0 &&
-        <VerticalStack gap={8} className={'links'}>
+        <VerticalStack gap={8} className={'links highlight-links'}>
           {highlights.map((clip, index) => (
             <HighlightRow
               key={index}
@@ -78,15 +87,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
         </VerticalStack>
       }
 
-      {pageAttachedLinks.length > 0 &&
-        <SubtitlesStyles.Inset>
-          <VerticalStack gap={8} className={'links'}>
-            {pageAttachedLinks.map((link, index) => (
-              <LinkPreview key={index} link={link} />
-            ))}
-          </VerticalStack>
-        </SubtitlesStyles.Inset>
-      }
+
 
       {showAddConnection && <AddConnectionButton className={'add'} label={'Add Connection to page'} />}
     </SubtitlesStyles.PageContainer>

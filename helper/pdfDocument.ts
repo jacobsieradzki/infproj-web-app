@@ -11,10 +11,17 @@ export const PDF_DOCUMENT_HASH_PAGE_ID_PREFIX = "page-";
 const parseIdFromHash = (router: NextRouter): string => {
   if (router) {
     let components = router.asPath.split('#');
-    if (components.length > 1) {
-      let fragment = components.pop();
-      if (fragment.length > PDF_DOCUMENT_HASH_ID_PREFIX.length)
-      return fragment.slice(PDF_DOCUMENT_HASH_ID_PREFIX.length);
+    let fragment = components.pop() || "";
+    console.log(components, fragment);
+    if (fragment.startsWith(PDF_DOCUMENT_HASH_ID_PREFIX)) {
+      if (fragment.length > PDF_DOCUMENT_HASH_ID_PREFIX.length) {
+        return fragment.slice(PDF_DOCUMENT_HASH_ID_PREFIX.length);
+      }
+    }
+    if (fragment.startsWith(PDF_DOCUMENT_HASH_PAGE_ID_PREFIX)) {
+      if (fragment.length > PDF_DOCUMENT_HASH_PAGE_ID_PREFIX.length) {
+        return fragment.slice(PDF_DOCUMENT_HASH_PAGE_ID_PREFIX.length);
+      }
     }
   }
   return null;

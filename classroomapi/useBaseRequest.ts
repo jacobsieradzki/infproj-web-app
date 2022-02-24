@@ -14,12 +14,14 @@ export const BASE_URL = "http://localhost:8888/";
 // export const BASE_URL = "https://jake-inf-project.herokuapp.com/";
 
 type BaseRequestProps<T> = {
+  skip?: boolean;
   path: string;
+  method?: string;
   username?: string;
   password?: string;
   credentials?: string;
   defaultValue?: T;
-  skip?: boolean;
+  body?: any;
   onCompleted?: (res: T) => void;
 }
 
@@ -48,38 +50,36 @@ const useBaseRequest = <T>({
   let loading = !response && !error;
 
   if (response?.status == "success") {
-    let data = response.data as T;
-    Log.debug('API', "useBaseRequest", { data, loading, error });
-    return {
-      data: response.data as T,
-      loading: false,
-      error: null,
-    }
+    return { data: response.data as T, loading: false, error: null }
   } else {
-    Log.debug('API', "useBaseRequest", { response, loading, error });
-    return {
-      data: defaultValue,
-      loading,
-      error
-    };
+    return { data: defaultValue, loading, error };
   }
 }
 
-export const fetchBaseRequest = <T>({ path, credentials, username, password }: BaseRequestProps<T>): Promise<T> => {
-  let headers = {};
+export const fetchBaseRequest = <T>({ path, method = "GET", credentials, username, password, body = {} }: BaseRequestProps<T>): Promise<T> => {
+  let headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+
   if (credentials) headers["Authorization"] = "Basic " + credentials;
   if (username && password) headers["Authorization"] = "Basic " + toBase64(username + ":" + password)
 
-  return fetch(BASE_URL + path, { headers })
-    .then(res => res.json())
+  let url = BASE_URL + path;
+  let options: RequestInit = { method, headers };
+
+  if (!!body && ["POST", "PUT"].includes(method)) {
+    options.body = JSON.stringify(body);
+  }
+
+  return fetch(url, options).then(res => res.json())
     .then(res => {
       if (res?.status == "success") {
         return res?.data as T;
       } else {
         return null;
       }
-    }
-  )
+    }).catch(res => {
+      console.log("!ERROR", res);
+      return null;
+    });
 }
 
 export default useBaseRequest

@@ -13,7 +13,7 @@ const Box = styled.div`
   display: flex;
   flex-flow: column;
   width: min(90%, 700px);
-  height: min(90%, 500px);
+  max-height: min(90%, 500px);
   background-color: white;
   box-shadow: var(--shadow);
   overflow: scroll;
@@ -32,12 +32,12 @@ const Header = styled.div`
   position: sticky;
   top: 0;
   z-index: 10;
+  max-height: 61px;
   
   .close {
     position: absolute;
     width: 61px;
     height: 61px;
-    top: 0;
     right: 0;
     font-size: 20px;
     background-color: transparent;
@@ -50,12 +50,14 @@ const Header = styled.div`
   }
 `;
 
-const Content = styled.div`
+interface ContentProps { minHeight: number };
+const Content = styled.div<ContentProps>`
   flex-grow: 2; 
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: column nowrap;
+  min-height: ${props => props.minHeight}px;
   h1, h2, h3, p, span { color: var(--black); }
 
   .buttons {

@@ -1,6 +1,8 @@
 import useGetClips from 'classroomapi/useGetClips'
 import useGetHighlights from 'classroomapi/useGetHighlights'
 import ResourceHeader from 'components/Header/ResourceHeader'
+import useAuthContext from 'contexts/AuthContext'
+import useMembership from 'helper/useMembership'
 import Clip from 'models/Clip'
 import Highlight from 'models/Highlight'
 import Link from 'models/Link'
@@ -24,8 +26,9 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   event,
   resource
 }) => {
-
   const router = useRouter();
+  const { authState } = useAuthContext();
+  const { hasStudentMembershipToCourse, hasStaffPermissionForCourse } = useMembership(authState.memberships);
 
   const [tab, setTab] = useState<TabType>("RESOURCES");
 
@@ -37,6 +40,7 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   const [pages, setPages] = useState<Clip[]>([]);
   const [apiPages, setApiPages] = useState<Clip[]>([]);
   const [highlights, setHighlights] = useState<Clip[]>([]);
+  const [allHighlights, setAllHighlights] = useState<IHighlight[]>([]);
   const [libraryHighlights, setLibraryHighlights] = useState<IHighlight[]>([]);
   const [_links, setLinks] = useState<Link[]>([]);
 
@@ -79,8 +83,13 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     if (pdfDocument) perform();
   }, [pdfDocument, apiPages]);
 
+  useEffect(() => {
+    setAllHighlights([...pages, ...highlights].map(x => x.toLibraryModel()));
+  }, [pages, highlights]);
+
 
   let loading = clipsLoading || linksLoading;
+  let hasPermissionToCreateHighlight = hasStaffPermissionForCourse(course) || hasStudentMembershipToCourse(course);
 
   // let pages = pages that contain highlights and links
   // let apiPages = pages created from the API, null coalesced with a created one
@@ -95,11 +104,10 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
 
         <ResourceStyles.PDFWrapper>
           {pdfDocument && <PDFComponent {...{
+            canCreateHighlights: hasPermissionToCreateHighlight,
             resource,
             pdfDocument,
-            clips: [],
-            setClips: c => console.log(c),
-            highlights: highlights.map(x => x.toLibraryModel()),
+            highlights: allHighlights,
             setHighlights: h => console.log(h),
             currentHighlight
           }} />}

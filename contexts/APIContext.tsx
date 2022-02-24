@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import { createContext, useContext } from 'react';
 
 const BASE_URL = "https://jake-inf-project.herokuapp.com/";
-const LOCAL_BASE_URL = "http://localhost:8888/";
 
 type APIContextProps = {
   test: string;

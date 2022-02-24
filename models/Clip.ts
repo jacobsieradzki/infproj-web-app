@@ -1,4 +1,5 @@
 import { IHighlight, NewHighlight } from 'lib/react-pdf-highlighter'
+import Course from 'models/Course'
 import Highlight from 'models/Highlight'
 import Resource from 'models/Resource'
 import { PDFDocumentProxy } from 'pdfjs-dist/types/display/api'
@@ -19,7 +20,7 @@ export class Clip {
   private readonly updated_at: string;
 
   public toLibraryModel(): IHighlight {
-    if (!this.highlight) return null;
+    if (!this.highlight?.id) return null;
     return {
       id: this.highlight.id.toString(),
       comment: {
@@ -49,7 +50,7 @@ export class Clip {
     this.type = json.type;
     this.start_location = json.start_location;
     this.end_location = json.end_location;
-    this.highlight = new Highlight(json.highlight);
+    if (json.highlight) this.highlight = new Highlight(json.highlight);
     this.created_at = json.created_at;
     this.updated_at = json.updated_at;
   }
@@ -98,8 +99,12 @@ export class Clip {
     })
   }
 
-  static fromHighlight(highlight: NewHighlight): Clip {
+  static fromHighlight(highlight: NewHighlight, resource: Resource): Clip {
     return new Clip({
+      course_id: resource.course_id || resource.course?.id,
+      resource,
+      start_location: highlight.position.pageNumber,
+      end_location: highlight.position.pageNumber,
       content: highlight.content.image || highlight.content.text,
       description: highlight.comment.text,
       emoji: highlight.comment.emoji,

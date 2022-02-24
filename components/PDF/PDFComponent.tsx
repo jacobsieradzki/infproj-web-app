@@ -1,3 +1,6 @@
+import postNewHighlight from 'classroomapi/postNewHighlight'
+import useAuthContext from 'contexts/AuthContext'
+import usePopupContext from 'contexts/PopupContext'
 import Clip from 'models/Clip'
 import React, { useEffect, useState } from 'react'
 import { HighlightPopup } from 'components/PDF/PDFHighlight'
@@ -8,26 +11,24 @@ import { PDFDocumentProxy } from 'pdfjs-dist/types/display/api'
 import Resource from 'models/Resource'
 
 type PDFComponentProps = {
+  canCreateHighlights: boolean;
   resource: Resource;
   pdfDocument: PDFDocumentProxy;
-  clips: Clip[];
-  setClips: React.Dispatch<React.SetStateAction<Clip[]>>;
   highlights: IHighlight[];
   setHighlights: React.Dispatch<React.SetStateAction<IHighlight[]>>;
   currentHighlight: string;
 }
 
 const PDFComponent: React.FC<PDFComponentProps> = ({
+  canCreateHighlights,
   resource,
   pdfDocument,
-  clips,
-  setClips,
   highlights,
   setHighlights,
   currentHighlight,
 }) => {
-
-  // let highlights = clips.filter(x => !!x.highlight).map(x => new Clip(x).toLibraryModel());
+  const { authState } = useAuthContext();
+  const { showStandardError, showError } = usePopupContext();
 
   const [scrollTo, setScrollTo] = useState(null);
 
@@ -59,19 +60,24 @@ const PDFComponent: React.FC<PDFComponentProps> = ({
     }
   };
 
-  const addHighlight = (highlight: NewHighlight) => {
-    Log.debug("PDF", "Adding highlight...", { highlight });
-    setClips([Clip.fromHighlight(highlight), ...clips]);
+  const showPermissionPopup = () => {
+    showError("You do not have permission to create a highlight here. You can enroll to the course or contact a course administrator.");
   }
 
-  const updateHighlight = (highlightId: string, position: Object, content: Object) => {
-    // Log.debug("PDF", "Updating highlight...", { highlightId, position, content });
-    // setHighlights(highlights.map((h) => {
-    //   const { id, position: originalPosition, content: originalContent, ...rest } = h;
-    //   return id === highlightId
-    //     ? { id, position: { ...originalPosition, ...position }, content: { ...originalContent, ...content }, ...rest, }
-    //     : h;
-    // }));
+  const addHighlight = async (highlight: NewHighlight) => {
+    if (!canCreateHighlights) {
+      return showPermissionPopup();
+    }
+
+    let newClip = Clip.fromHighlight(highlight, resource);
+    Log.debug("PDF", "Adding highlight...", { newClip, highlight });
+
+    let response = await postNewHighlight(authState, newClip);
+    if (!!response) {
+      Log.debug("PDF", "Added highlight.", { response });
+    } else {
+      showStandardError();
+    }
   }
 
   // --------------------------------------------------
@@ -93,15 +99,22 @@ const PDFComponent: React.FC<PDFComponentProps> = ({
         content,
         hideTipAndSelection,
         transformSelection
-      ) => (
-        <Tip
-          onOpen={transformSelection}
-          onConfirm={(comment) => {
-            addHighlight({ content, position, comment });
-            hideTipAndSelection();
-          }}
-        />
-      )}
+      ) => {
+        if (!canCreateHighlights) {
+          showPermissionPopup();
+          return <></>;
+        } else {
+          return (
+            <Tip
+              onOpen={transformSelection}
+              onConfirm={(comment) => {
+                addHighlight({ content, position, comment });
+                hideTipAndSelection();
+              }}
+            />
+          )
+        }
+      }}
       highlightTransform={(
         highlight,
         index,
@@ -125,13 +138,6 @@ const PDFComponent: React.FC<PDFComponentProps> = ({
           <AreaHighlight
             isScrolledTo={isSelected}
             highlight={highlight}
-            onChange={(boundingRect) => {
-              if (!isTextHighlight) updateHighlight(
-                highlight.id,
-                { boundingRect: viewportToScaled(boundingRect) },
-                { image: screenshot(boundingRect) }
-              );
-            }}
           />
         );
 

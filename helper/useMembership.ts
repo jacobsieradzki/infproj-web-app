@@ -1,6 +1,7 @@
 import Course from 'models/Course'
 import Membership from 'models/Membership'
 import Organisation from 'models/Organisation'
+import Resource from 'models/Resource'
 
 export type UseMembershipCallbackProps = {
   memberships: Membership[];

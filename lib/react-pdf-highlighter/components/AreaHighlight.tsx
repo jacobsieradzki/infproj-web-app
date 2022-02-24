@@ -11,13 +11,13 @@ import type { LTWHP, ViewportHighlight } from "../types";
 
 interface Props {
   highlight: ViewportHighlight;
-  onChange: (rect: LTWHP) => void;
+  onChange?: (rect: LTWHP) => void;
   isScrolledTo: boolean;
 }
 
 export class AreaHighlight extends Component<Props> {
   render() {
-    const { highlight, onChange, isScrolledTo, ...otherProps } = this.props;
+    const { highlight, onChange = null, isScrolledTo, ...otherProps } = this.props;
 
     return (
       <div
@@ -27,6 +27,8 @@ export class AreaHighlight extends Component<Props> {
       >
         <Rnd
           className="AreaHighlight__part"
+          enableResizing={false}
+          disableDragging={true}
           onDragStop={(_, data) => {
             const boundingRect: LTWHP = {
               ...highlight.position.boundingRect,
@@ -34,7 +36,7 @@ export class AreaHighlight extends Component<Props> {
               left: data.x,
             };
 
-            onChange(boundingRect);
+            if (!!onChange) onChange(boundingRect);
           }}
           onResizeStop={(_mouseEvent, _direction, ref, _delta, position) => {
             const boundingRect: LTWHP = {
@@ -45,7 +47,7 @@ export class AreaHighlight extends Component<Props> {
               pageNumber: getPageFromElement(ref)?.number || -1,
             };
 
-            onChange(boundingRect);
+            if (!!onChange) onChange(boundingRect);
           }}
           position={{
             x: highlight.position.boundingRect.left,

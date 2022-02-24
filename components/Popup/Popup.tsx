@@ -8,9 +8,16 @@ export type PopupProps = {
   isOpen: boolean;
   closeModal: () => void;
   title?: string;
+  minHeight?: number;
 }
 
-export const Popup: React.FC<PopupProps> = ({ isOpen, closeModal, title, children }) => {
+export const Popup: React.FC<PopupProps> = ({
+  isOpen,
+  closeModal,
+  title,
+  minHeight = 400,
+  children,
+}) => {
   return (
     <Modal open={isOpen} onClose={closeModal}>
       <PopupStyles.Container>
@@ -21,7 +28,7 @@ export const Popup: React.FC<PopupProps> = ({ isOpen, closeModal, title, childre
               <FontAwesomeIcon icon={faTimes} />
             </button>
           </PopupStyles.Header>}
-          <PopupStyles.Content>
+          <PopupStyles.Content minHeight={minHeight}>
             {children}
           </PopupStyles.Content>
         </PopupStyles.Box>

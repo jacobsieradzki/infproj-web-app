@@ -6,7 +6,7 @@ const Layout = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  flex-grow: 2;
   
   .text-field {
     width: min(500px, 90%);
