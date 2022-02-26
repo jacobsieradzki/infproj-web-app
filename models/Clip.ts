@@ -73,13 +73,14 @@ export class Clip {
     return this.forPageOfPdf(pdfDocument, clip.start_location, clip.description);
   }
 
-  static async forPageOfPdf(pdfDocument: PDFDocumentProxy, i: number, description: string = null): Promise<Clip> {
+  static async forPageOfPdf(pdfDocument: PDFDocumentProxy, i: number, description: string = null, image: string = null): Promise<Clip> {
     let page = await pdfDocument.getPage(i);
     let [x, y, w, h] = page._pageInfo.view;
 
     let clip =  new Clip({
       course_id: 0,
       description: `Page ${i.toString()}${description ? ": " + description : ""}`,
+      content: image,
       type: "PDF_PAGE",
       start_location: i,
       end_location: i,

@@ -1,4 +1,5 @@
 import Button from 'components/Button/Button'
+import { HOME_ROUTE } from 'constants/navigation'
 import React, { useEffect, useState } from 'react'
 import fetchMemberships from 'classroomapi/fetchMemberships'
 import AppLayoutStyle from 'components/AppLayout/AppLayout.style'
@@ -35,15 +36,15 @@ const AppLayout: React.FC = ({ children }) => {
       <LoginPopup isOpen={loginPopup} closeModal={() => setLoginPopup(false)} />
 
       <AppLayoutStyle.Header>
-        <h1>Classroom</h1>
+        <a id={"logo"} href={HOME_ROUTE}>Classroom</a>
         <Spacer />
 
         <HorizontalStack gap={20} align={"center"}>
           {isLoggedIn && <CaptionUppercase>{user?.first_name} {user?.last_name}</CaptionUppercase>}
           {isLoggedIn ? (
-            <Button onClick={() => logOut()} style={"secondary"}>Log Out</Button>
+            <Button onClick={() => logOut()} style={"secondary"} size={"sm"}>Log Out</Button>
           ) : (
-            <Button onClick={() => setLoginPopup(true)} style={"secondary"}>Login</Button>
+            <Button onClick={() => setLoginPopup(true)} style={"secondary"} size={"sm"}>Login</Button>
           )}
         </HorizontalStack>
       </AppLayoutStyle.Header>

@@ -49,6 +49,13 @@ const PageContainer = styled.div`
   }
   
   & > .add { margin: 16px 24px; }
+  
+  .pdf-page-prev {
+    max-height: 100px;
+    object-fit: contain;
+    object-position: left;
+    margin: 8px 24px;
+  }
 `;
 
 const Item = styled.div`

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components';
 
-export const HEADER_HEIGHT = 75;
+export const HEADER_HEIGHT = 64;
 
 export const AppTheme = createGlobalStyle``;
 

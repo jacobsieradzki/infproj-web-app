@@ -14,7 +14,12 @@ const Container = styled.div<ContainerProps>`
   background-color: ${props => props.secondaryColor};
   color: ${props => props.primaryColor};
   border: solid ${props => props.primaryColor} 2px;
-  
+
+  &.permissions {
+    .subtitle {
+      font-size: 14px;
+    }
+  }
 `;
 
 const Icon = styled.div`
@@ -23,6 +28,7 @@ const Icon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 `;
 
 const Content = styled.div`

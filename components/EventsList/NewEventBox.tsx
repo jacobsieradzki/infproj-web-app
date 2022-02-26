@@ -3,8 +3,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ListItemIcon, Menu, MenuItem } from '@mui/material'
 import CoursesListStyles from 'components/CoursesList/CoursesList.style'
-import TodayIcon from '@mui/icons-material/Today';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import SchoolIcon from '@mui/icons-material/School';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 type NewEventBoxProps = {
 
@@ -37,15 +38,21 @@ const NewEventBox: React.FC<NewEventBoxProps> = ({  }) => {
       >
         <MenuItem>
           <ListItemIcon>
-            <TodayIcon />
+            <VideocamIcon />
           </ListItemIcon>
-          Create event
+          Lecture
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <UploadFileIcon />
+            <SchoolIcon />
           </ListItemIcon>
-          Create resource
+          Workshop
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <InsertDriveFileIcon />
+          </ListItemIcon>
+          Assignment
         </MenuItem>
       </Menu>
 

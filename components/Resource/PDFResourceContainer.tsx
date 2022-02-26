@@ -20,6 +20,8 @@ import { HorizontalStack } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
 const PDFComponent = dynamic(import('components/PDF/PDFComponent'), { ssr: false });
 
+const SHOULD_SHOW_PAGE_PREVIEW = false;
+
 const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   organisation,
   course,
@@ -42,8 +44,6 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   const [highlights, setHighlights] = useState<Clip[]>([]);
   const [allHighlights, setAllHighlights] = useState<IHighlight[]>([]);
   const [libraryHighlights, setLibraryHighlights] = useState<IHighlight[]>([]);
-  const [_links, setLinks] = useState<Link[]>([]);
-
 
   let _currentHighlight = PdfDocumentHelper.parseIdFromHash(router);
   const [currentHighlight, setCurrentHighlight] = useState(_currentHighlight);
@@ -70,19 +70,18 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     }
   });
 
-  // Fill API pages with pre made pages
+  // Fill API pages with pre-made pages
   useEffect(() => {
-    const perform = async () => {
+    const perform = async (_apiPages) => {
       let _clips: Clip[] = [];
-      console.log("API PAGES", apiPages);
       for (let i = 1; i <= pdfDocument.numPages; i++) {
-        let existingClip = apiPages.find(x => x.type == "PDF_PAGE" && x.start_location == i);
-        let pageClip = await Clip.forPageOfPdf(pdfDocument, i, existingClip?.description);
+        let existingClip = _apiPages.find(x => x.type == "PDF_PAGE" && x.start_location == i);
+        let pageClip = await Clip.forPageOfPdf(pdfDocument, i, existingClip?.description, SHOULD_SHOW_PAGE_PREVIEW ? existingClip?.content : null);
         _clips.push(pageClip);
       }
       setPages(_clips);
     }
-    if (pdfDocument) perform();
+    if (pdfDocument) perform(apiPages);
   }, [pdfDocument, apiPages]);
 
   useEffect(() => {
@@ -97,6 +96,9 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   // let apiPages = pages created from the API, null coalesced with a created one
   // let highlights = highlights that are specific to a page number and contain links
   // let links = links that are attributed to either a page or a link
+
+
+  console.log('???', apiPages);
 
 
   return (
@@ -127,7 +129,7 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
             Discussion
           </TabItem>
         </HorizontalStack>
-        <ResourceStyles.ColumnContent>
+        <ResourceStyles.ColumnContent className={"with-tabs border"}>
           {tab === "RESOURCES" ? (
             <HighlightList
               loading={loading}

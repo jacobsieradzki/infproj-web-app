@@ -37,8 +37,8 @@ export const VerticalStack = styled.div<StackProps>`
 export const HorizontalStack = styled.div<StackProps>`
   display: flex;
   flex-flow: row nowrap;
-  align-items: ${props => props.align || 'flex-start'};
-  justify-content: center;
+  justify-content: ${props => props.align || 'flex-start'};
+  align-items: center;
   gap: ${props => props.gap || 0}px;
 `;
 

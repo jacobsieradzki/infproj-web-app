@@ -20,7 +20,7 @@ const Header = styled.div`
 const CONTENT_TAB_HEIGHT = 80;
 
 const Content = styled.div`
-  width: 70%;
+  flex-grow: 2;
   padding-right: 44px;
 `;
 
@@ -42,24 +42,45 @@ const Column = styled.div`
 `;
 
 const ColumnContent = styled.div`
-  border: 1px white solid;
   border-bottom: none;
-  height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space) + 2px);
-  min-height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space) + 2px);
   overflow: scroll;
   transition: opacity 0.2s;
+  
+  &.with-tabs {
+    height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space) + 2px);
+    min-height: calc(100vh - ${HEADER_HEIGHT}px - ${CONTENT_TAB_HEIGHT}px - var(--page-space) + 2px);
+  }
+  &:not(.with-tabs) {
+    height: calc(100vh - ${HEADER_HEIGHT}px - var(--page-space) + 2px);
+    min-height: calc(100vh - ${HEADER_HEIGHT}px - var(--page-space) + 2px);
+  }
+  &.border {
+    border: 1px white solid;
+  }
+  
+  .alert:first-child {
+    margin-top: 0;
+  }
 `;
 
 const ColumnTab = styled.button`
-  width: 100%;
-  height: ${CONTENT_TAB_HEIGHT-20}px;
-  margin-bottom: 16px;
   background-color: transparent;
   border: 1px white solid;
   font-size: 1rem;
   color: white;
   cursor: pointer;
   font-weight: 600;
+  
+  &:not(.compact) {
+    width: 100%;
+    height: ${CONTENT_TAB_HEIGHT-20}px;
+    margin-bottom: 16px;
+  }
+  
+  &.compact {
+    margin: 16px 0;
+    padding: 20px;
+  }
   
   &.selected {
     background-color: white;

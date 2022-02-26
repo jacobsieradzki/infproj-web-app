@@ -1,7 +1,6 @@
+import React from 'react'
 import useAuthContext from 'contexts/AuthContext'
 import useMembership from 'helper/useMembership'
-import Highlight from 'models/Highlight'
-import React, { useRef } from 'react'
 import HighlightPageRow from 'components/Highlights/HighlightPageRow'
 import Loader from 'components/Loader/Loader'
 import Clip from 'models/Clip'

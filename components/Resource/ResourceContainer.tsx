@@ -1,15 +1,13 @@
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from 'react'
 import { useGetLinksForResource } from 'classroomapi/useGetLinks'
-import PDFComponent from 'components/PDF/PDFComponent'
 import PDFResourceContainer from 'components/Resource/PDFResourceContainer'
 import VideoResourceContainer from 'components/Resource/VideoResourceContainer'
-import SubtitleList from 'components/Subtitles/SubtitleList'
-import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
-import { HorizontalStack, Spacer } from 'components/GlobalStyles'
+import { HorizontalStack } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
-import VideoComponent from 'components/Video/VideoComponent'
-import { COURSE_ROUTE, generateCourseRoute, generateOrganisationRoute, HOME_ROUTE, ORGANISATION_COURSES_ROUTE } from 'constants/navigation'
+import { HOME_ROUTE, generateCourseRoute, generateOrganisationRoute } from 'constants/navigation'
 import Course from 'models/Course'
 import Event from 'models/Event'
 import Organisation from 'models/Organisation'
@@ -23,11 +21,11 @@ export type ResourceContainerProps = {
 }
 
 export type TabType = "RESOURCES" | "DISCUSSION" | "SUBTITLES";
-export const TabItem = ({ tabId, tab, setTab, children }) => (
+export const TabItem = ({ tabId = "", tab = "", setTab = null, children, compact = false, onClick = null }) => (
   <ResourceStyles.ColumnTab
     id={tab.toLowerCase() + "_key"}
-    className={tab == tabId ? "selected" : ""}
-    onClick={() => setTab(tabId)}
+    className={`${tabId.length > 0 && tab == tabId ? "selected" : ""} ${compact ? "compact" : ""}`}
+    onClick={onClick || (() => setTab(tabId))}
   >{children}</ResourceStyles.ColumnTab>
 )
 
@@ -36,13 +34,9 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
   const { organisation = null, course = null, event = null, resource = null } = props;
 
   const [tab, setTab] = useState<TabType>("RESOURCES");
-  const [currentTime, setCurrentTime] = useState(0);
-  const [pdfProps, setPdfProps] = useState(null);
 
-  const { data: links, loading, error } = useGetLinksForResource({ id: resource.id , courseId: course.id });
-
-  let isLectureVideo = resource.url && resource.type == "VID";
-  let isPDF = resource.url && resource.type == "PDF";
+  let isLectureVideo = !!resource?.url && resource?.type == "VID";
+  let isPDF = !!resource?.url && resource?.type == "PDF";
 
   if (isLectureVideo) {
     return <VideoResourceContainer {...props} />
@@ -59,51 +53,49 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
           <Breadcrumbs items={[
             { label: "Home", url: HOME_ROUTE },
             { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
-            { label: course.name, url: generateCourseRoute(organisation.id, course.id) },
+            { label: course?.name, url: generateCourseRoute(organisation.id, course?.id) },
             { label: "Resource" },
-            { label: resource.getTypeLabel() },
+            { label: resource?.getTypeLabel() },
           ]} />
 
-          {event ? (
+          {event && (
             <h1>
               <FontAwesomeIcon icon={event.getIcon()} />&nbsp;&nbsp;
               {event.getTypeLabel()}: {event.name}
             </h1>
-          ) : (
+          )}
+          {!!resource && !event && (
             <h1>
               <FontAwesomeIcon icon={resource.getIcon()} />&nbsp;&nbsp;
               {resource.name}
             </h1>
           )}
+          {!resource && !event && (
+            <h1>
+              <FontAwesomeIcon icon={faExclamationTriangle} color={"var(--accent-color)"} />&nbsp;
+              Resource not found
+            </h1>
+          )}
         </ResourceStyles.Header>
-
-        <p>Content!!</p>
-
-        <div style={{ backgroundColor: "white" }}>
-          <pre>{JSON.stringify(organisation, null, 2)}</pre>
-          <pre>{JSON.stringify(course, null, 2)}</pre>
-          <pre>{JSON.stringify(event, null, 2)}</pre>
-          <pre>{JSON.stringify(resource, null, 2)}</pre>
-        </div>
       </ResourceStyles.Content>
 
-      <ResourceStyles.Column>
+      {!!resource && <ResourceStyles.Column>
         <HorizontalStack gap={16}>
-          <TabItem tabId={"RESOURCES"} {...{ tab, setTab }}>
+          <TabItem tabId={'RESOURCES'} {...{ tab, setTab }}>
             Resources
           </TabItem>
-          <TabItem tabId={"DISCUSSION"} {...{ tab, setTab }}>
+          <TabItem tabId={'DISCUSSION'} {...{ tab, setTab }}>
             Discussion
           </TabItem>
         </HorizontalStack>
-        <ResourceStyles.ColumnContent>
-          {tab === "RESOURCES" ? (
+        <ResourceStyles.ColumnContent className={"with-tabs border"}>
+          {tab === 'RESOURCES' ? (
             <p>Resources!</p>
           ) : (
             <p>Discussion!</p>
           )}
         </ResourceStyles.ColumnContent>
-      </ResourceStyles.Column>
+      </ResourceStyles.Column>}
     </ResourceStyles.Container>
   )
 }

@@ -1,11 +1,20 @@
 import styled from 'styled-components'
-import { Grid } from 'components/GlobalStyles'
+import { Grid as GlobalGrid } from 'components/GlobalStyles'
 
 export const Container = styled.div`
   padding-bottom: 52px;
 `;
 
-export const Box = styled(Grid.Box)`
+export const Grid = styled(GlobalGrid.Container)`
+  &:not(.wide) > * {
+    width: calc(100% / 3);
+  }
+  &.wide > * {
+    width: calc(100% / 4);
+  }
+`;
+
+export const Box = styled(GlobalGrid.Box)`
   padding: 0;
   
   &:hover {
@@ -13,7 +22,7 @@ export const Box = styled(Grid.Box)`
   }
 `;
 
-export const NewBox = styled(Grid.Box)`
+export const NewBox = styled(GlobalGrid.Box)`
   padding: 0;
   border: none;
   cursor: pointer;
@@ -21,6 +30,8 @@ export const NewBox = styled(Grid.Box)`
   align-items: center;
   justify-content: center;
   color: var(--text-color);
+  width: 33%;
+  min-height: 200px;
   
   &:hover {
     box-shadow: var(--shadow);
@@ -37,15 +48,14 @@ export const LecturePreview = styled.div`
   
   span {
     margin: 0;
-    color: black;
+    color: rgba(0, 0, 0, 0.5);
     font-size: 16px;
     font-weight: 600;
   }
   
   p {
-    margin: 8px 0;
     color: blue;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
   }
 `;
@@ -54,8 +64,8 @@ export const BoxContent = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  padding: var(--grid-item-space);
-  gap: var(--item-line-space);
+  padding: 16px 20px;
+  gap: 8px;
   
   p {
     margin: 0;
@@ -64,6 +74,7 @@ export const BoxContent = styled.div`
 
 const CoursesListStyles = {
   Container,
+  Grid,
   Box,
   NewBox,
 }

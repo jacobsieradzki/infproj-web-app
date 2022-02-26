@@ -1,11 +1,9 @@
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import CourseBox from 'components/CoursesList/CourseBox'
-import { CaptionUppercase, Grid } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import { StaffOrganisationMembershipAlert } from 'components/Membership/MembershipAlerts'
 import { generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
-import useAuthContext from 'contexts/AuthContext'
 import React from 'react'
 import CoursesListStyles from './CoursesList.style'
 import useGetCoursesForOrganisation from 'classroomapi/useGetCoursesForOrganisation'
@@ -16,8 +14,6 @@ type CoursesListProps = {
 }
 
 const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
-
-  const { membership } = useAuthContext();
 
   const {
     data: organisation,
@@ -39,7 +35,7 @@ const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
   }
 
   return (
-    <CoursesListStyles.Container>
+    <CoursesListStyles.Container className={"courses-list"}>
       <Breadcrumbs items={[
         { label: "Home", url: HOME_ROUTE },
         { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
@@ -49,11 +45,11 @@ const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
 
       <StaffOrganisationMembershipAlert value={organisation} />
 
-      <Grid.Container>
+      <CoursesListStyles.Grid className={"wide"}>
         {courses?.map(course =>
           <CourseBox key={course.id} course={course} />
         )}
-      </Grid.Container>
+      </CoursesListStyles.Grid>
     </CoursesListStyles.Container>
   )
 }

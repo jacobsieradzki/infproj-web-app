@@ -32,9 +32,9 @@ const PageResourceContainer: React.FC<PageResourceContainerProps> = ({ organisat
   }
 
   return <ResourceContainer
-    organisation={new Organisation(organisation)}
-    course={new Course(course)}
-    resource={new Resource(resource)}
+    organisation={organisation ? new Organisation(organisation) : null}
+    course={course ? new Course(course) : null}
+    resource={resource ? new Resource(resource) : null}
   />;
 }
 

@@ -6,6 +6,7 @@ import React from 'react'
 type AlertProps = {
   title?: string;
   icon?: IconDefinition;
+  className?: string;
   style?: "red" | "yellow" | "default";
 }
 
@@ -19,14 +20,15 @@ const colorsForStyle = (style: string): string[] => {
 const Alert: React.FC<AlertProps> = ({
   title,
   icon,
+  className = "",
+  style = "default",
   children,
-  style,
 }) => {
 
   let [primaryColor, secondaryColor] = colorsForStyle(style);
 
   return (
-    <AlertStyle.Container className={`alert alert-${style}`} {...{ primaryColor, secondaryColor }}>
+    <AlertStyle.Container className={`alert alert-${style} ${className}`} {...{ primaryColor, secondaryColor }}>
       {icon && <AlertStyle.Icon>
         <FontAwesomeIcon icon={icon} size={"lg"} />
       </AlertStyle.Icon>}

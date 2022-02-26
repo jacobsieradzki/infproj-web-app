@@ -44,6 +44,13 @@ h1, h2, h3, h4, h5, p, a {
   color: var(--text-color);
 }
 
+#logo {
+  font-size: 28px;
+  font-family: Playfair Display, serif;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 h1 { margin: 0.8rem 0; }
 p { margin: 0.2rem 0; }
 

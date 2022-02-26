@@ -16,7 +16,7 @@ export class Resource {
   public parent_events: Event[];
 
   constructor(json: any) {
-    if (!json) return;
+    if (!json) return null;
     this.id = json.id;
     this.course_id = json.course_id;
     this.course = json.course;

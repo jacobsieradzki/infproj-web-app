@@ -1,46 +1,27 @@
-import { faClipboard } from '@fortawesome/free-solid-svg-icons'
-import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
-import NewEventBox from 'components/EventsList/NewEventBox'
-import { StaffCourseMembershipAlert, StudentCourseEnrollmentAlert } from 'components/Membership/MembershipAlerts'
-import useMembership from 'helper/useMembership'
 import React from 'react'
-import Alert from 'components/Alert/Alert'
 import useAuthContext from 'contexts/AuthContext'
-import useGetCourse from 'classroomapi/useGetCourse'
-import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
-import { generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
 import useGetEvents from 'classroomapi/useGetEvents'
+import NewEventBox from 'components/EventsList/NewEventBox'
 import EventBox from 'components/EventsList/EventBox'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
-import { CaptionUppercase, Grid, Spacer } from 'components/GlobalStyles'
-import Loader from 'components/Loader/Loader'
 import CoursesListStyles from 'components/CoursesList/CoursesList.style'
-import useGetOrganisation from 'classroomapi/useGetOrganisation'
+import Organisation from 'models/Organisation'
+import Course from 'models/Course'
 import Event from 'models/Event'
+import Loader from 'components/Loader/Loader'
 
 type EventsListProps = {
-  organisationId: string;
-  courseId: string;
+  organisation: Organisation;
+  course: Course;
 }
 
-const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => {
+const EventsList: React.FC<EventsListProps> = ({ organisation, course }) => {
 
-  const { authState, membership } = useAuthContext();
+  const { isLoggedIn, membership } = useAuthContext();
 
-  const {
-    data: organisation,
-    loading: organisationLoading
-  } = useGetOrganisation({ organisationId });
-  const {
-    data: course,
-    loading: courseLoading
-  } = useGetCourse({ courseId });
-  const {
-    data: events,
-    loading: eventsLoading
-  } = useGetEvents({ courseId });
+  const { data: events, loading: eventsLoading } = useGetEvents({ courseId: course.id });
 
-  if (organisationLoading || courseLoading || eventsLoading) {
+  if (eventsLoading) {
     return (
       <ContentCenterInPage>
         <Loader />
@@ -48,7 +29,7 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
     )
   }
 
-  if (!organisation || !course || !events) {
+  if (!events) {
     return (
       <ContentCenterInPage>
         <p>Error</p>
@@ -58,20 +39,7 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
 
   return (
     <CoursesListStyles.Container>
-      <Breadcrumbs items={[
-        { label: "Home", url: HOME_ROUTE },
-        { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
-        { label: "Courses" },
-      ]} />
-      <h2>{course.name}</h2>
-      <CaptionUppercase>{course.id}</CaptionUppercase>
-      
-      <StaffCourseMembershipAlert value={course} />
-      <StudentCourseEnrollmentAlert value={course} />
-
-      <Spacer height={32} />
-
-      <Grid.Container>
+      <CoursesListStyles.Grid className={isLoggedIn ? "" : "wide"}>
         {events?.map(event =>
           <EventBox key={event.id} organisation={organisation} event={new Event(event)} />
         )}
@@ -79,7 +47,7 @@ const EventsList: React.FC<EventsListProps> = ({ organisationId, courseId }) => 
         {membership.hasStaffPermissionForCourse(course) && (
           <NewEventBox />
         )}
-      </Grid.Container>
+      </CoursesListStyles.Grid>
     </CoursesListStyles.Container>
   )
 }

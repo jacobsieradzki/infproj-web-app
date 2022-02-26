@@ -67,7 +67,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
             Subtitles
           </TabItem>
         </HorizontalStack>
-        <ResourceStyles.ColumnContent>
+        <ResourceStyles.ColumnContent className={"with-tabs border"}>
           {tab === "RESOURCES" && (
             <SubtitleList
               course={course}

@@ -63,7 +63,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
       </SubtitlesStyles.Inset>
 
       {highlight.content.text && <p>{highlight.content.text}</p>}
-      {highlight.content.image && <img src={highlight.content.image} alt={highlight.content.text} />}
+      {highlight.content.image && <img className={"pdf-page-prev"} src={highlight.content.image} alt={highlight.content.text} />}
 
       {pageAttachedLinks.length > 0 && (
         <SubtitlesStyles.Inset>

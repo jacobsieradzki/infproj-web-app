@@ -16,8 +16,8 @@ export const StaffOrganisationMembershipAlert: MembershipAlertProps<Organisation
   const { memberships } = authState;
   const membership = useMembership(memberships);
   return membership.hasStaffPermissionForOrganisation(value) ? (
-    <Alert title={"You have staff permission."} icon={faClipboard}>
-      <p>You have permission to add and edit courses in this organisation.</p>
+    <Alert title={"You have staff permission."} icon={faClipboard} className={"permissions"}>
+      <p className={"subtitle"}>You have permission to add and edit courses in this organisation.</p>
     </Alert>
   ) : <></>;
 }
@@ -27,8 +27,8 @@ export const StaffCourseMembershipAlert: MembershipAlertProps<Course> = ({ value
   const { memberships } = authState;
   const membership = useMembership(memberships);
   return membership.hasStaffPermissionForCourse(value) ? (
-    <Alert title={"You have staff permission to edit this course."} icon={faClipboard}>
-      <p>You have permission to add events, resources and links, and manage discussion within this course.</p>
+    <Alert title={"You have staff permission to edit this course."} icon={faClipboard} className={"permissions"}>
+      <p className={"subtitle"}>You have permission to add events, resources and links, and manage discussion within this course.</p>
     </Alert>
   ) : <></>;
 }
@@ -38,8 +38,8 @@ export const StaffDiscussionMembershipAlert: MembershipAlertProps<Course> = ({ v
   const { memberships } = authState;
   const membership = useMembership(memberships);
   return membership.hasStaffPermissionForCourse(value) ? (
-    <Alert title={"You have staff permission to edit this course."} icon={faGraduationCap}>
-      <p>You have permission to promote student’s links and comments, so that they appear with your links in the “Resources” tab.</p>
+    <Alert title={"You have staff permission to edit this course."} icon={faGraduationCap} className={"permissions"}>
+      <p className={"subtitle"}>You have permission to promote student’s links and comments, so that they appear with your links in the “Resources” tab.</p>
     </Alert>
   ) : <></>;
 }
@@ -49,8 +49,8 @@ export const StudentCourseEnrollmentAlert: MembershipAlertProps<Course> = ({ val
   const { memberships } = authState;
   const membership = useMembership(memberships);
   return membership.hasStudentMembershipToCourse(value) ? (
-    <Alert title={"You are enrolled in this course."} icon={faGraduationCap}>
-      <p>You can comment in discussions and events will display in your feed.</p>
+    <Alert title={"You are enrolled in this course."} icon={faGraduationCap} className={"permissions"}>
+      <p className={"subtitle"}>You can comment in discussions and events will display in your feed.</p>
     </Alert>
   ) : <></>;
 }
@@ -60,8 +60,8 @@ export const StudentDiscussionMembershipAlert: MembershipAlertProps<Course> = ({
   const { memberships } = authState;
   const membership = useMembership(memberships);
   return membership.hasStudentMembershipToCourse(value) ? (
-    <Alert title={"You are enrolled in this course."} icon={faGraduationCap}>
-      <p>You can add comments and links to other resources. If a staff members promotes your contribution, it will appear in the "Resources" tab.</p>
+    <Alert title={"You are enrolled in this course."} icon={faGraduationCap} className={"permissions"}>
+      <p className={"subtitle"}>You can add comments and links to other resources. If a staff members promotes your contribution, it will appear in the "Resources" tab.</p>
     </Alert>
   ) : <></>;
 }

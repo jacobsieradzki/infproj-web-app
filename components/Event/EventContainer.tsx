@@ -34,10 +34,10 @@ const EventContainer: React.FC<EventContainerProps> = ({ organisationId, courseI
   }
 
   return <ResourceContainer
-    organisation={new Organisation(organisation)}
-    course={new Course(course)}
-    event={new Event(event)}
-    resource={new Resource(resource)}
+    organisation={organisation ? new Organisation(organisation) : null}
+    course={course ? new Course(course) : null}
+    event={event ? new Event(event) : null}
+    resource={resource ? new Resource(resource) : null}
   />;
 }
 

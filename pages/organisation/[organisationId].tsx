@@ -1,3 +1,4 @@
+import CourseScreen from 'components/CourseScreen/CourseScreen'
 import React from 'react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
