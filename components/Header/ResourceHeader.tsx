@@ -6,7 +6,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
-import { generateCourseRoute, generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
+import { generateCourseRoute, generateCourseRouteMenu, generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
 
 type ResourceHeaderProps = {
   organisation: Organisation;
@@ -18,8 +18,8 @@ type ResourceHeaderProps = {
 const ResourceHeader: React.FC<ResourceHeaderProps> = ({ organisation, course, event, resource }) => {
 
   let resourcesOrEventsBreadcrumb = event
-    ? { label: "Events", url: generateCourseRoute(organisation.id, course.id) }
-    : { label: "Resources" };
+    ? { label: "Events", url: generateCourseRouteMenu(organisation.id, course.id, "events") }
+    : { label: "Resources", url: generateCourseRouteMenu(organisation.id, course.id, "resources") };
   let label = { label: event?.getTypeLabel() || resource.getTypeLabel() };
 
   return (

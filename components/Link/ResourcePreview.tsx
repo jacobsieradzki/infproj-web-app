@@ -15,11 +15,14 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
   const router = useRouter();
   const organisationId = router?.query?.organisationId?.toString() || "";
 
+  let title = resource.name;
+  let subtitle = <><b>{resource.getTypeLabel()}</b> • {resource.description}</>;
+
   if (resource.type == "VID") {
     return (
       <LinkView
-        title={resource.name}
-        subtitle={resource.description}
+        title={title}
+        subtitle={subtitle}
         icon={resource.getIcon()}
         color={"white"}
         href={generateEventRoute(organisationId, resource.course_id, resource.id)}
@@ -30,8 +33,8 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
   if (resource.type == "PDF") {
     return (
       <LinkView
-        title={resource.name}
-        subtitle={resource.description}
+        title={title}
+        subtitle={subtitle}
         icon={resource.getIcon()}
         color={"white"}
         href={generateResourceRoute(organisationId, resource.course_id, resource.id)}
@@ -42,8 +45,8 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
   if (resource.type == "IMG") {
     return (
       <LinkView
-        title={resource.name}
-        subtitle={resource.description}
+        title={title}
+        subtitle={subtitle}
         icon={resource.getIcon()}
         color={"white"}
       />
@@ -53,8 +56,8 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
   if (resource.type == "YT") {
     return (
       <LinkView
-        title={resource.name}
-        subtitle={resource.description}
+        title={title}
+        subtitle={subtitle}
         icon={resource.getIcon()}
         color={"white"}
       />
@@ -64,8 +67,8 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
   if (resource.type == "URL") {
     return (
       <LinkView
-        title={resource.name}
-        subtitle={resource.description}
+        title={title}
+        subtitle={subtitle}
         icon={resource.getIcon()}
         href={resource.url}
         openInNewTab={true}
@@ -76,8 +79,8 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
 
   return (
     <LinkView
-      title={resource.name}
-      subtitle={resource.description}
+      title={title}
+      subtitle={subtitle}
       icon={resource.getIcon()}
       color={"white"}
     />

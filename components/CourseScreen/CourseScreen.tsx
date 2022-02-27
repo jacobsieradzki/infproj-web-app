@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 import ResourceList from './ResourceList'
 import ClipsList from './ClipsList'
 import CourseAddButton from 'components/CoursesList/CourseAddButton'
@@ -18,7 +19,7 @@ import { HorizontalStack, Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import { TabItem } from 'components/Resource/ResourceContainer'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
-import { generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
+import { COURSE_ROUTE, generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
 
 interface CourseScreen {
   organisationId: string;
@@ -26,10 +27,15 @@ interface CourseScreen {
 }
 
 const CourseScreen: React.FC<CourseScreen> = ({ organisationId, courseId }) => {
-
   const { isLoggedIn, membership } = useAuthContext();
+  const router = useRouter();
+  const [tab, setTab] = useState(router.query.tab?.toString() || "events");
 
-  const [tab, setTab] = useState("events");
+  useEffect(() => {
+    let query = "?tab=" + tab;
+    let path = router.asPath.split("?")[0] + query;
+    router.replace(COURSE_ROUTE + query, path, { shallow: true });
+  }, [tab]);
 
   const {
     data: organisation,

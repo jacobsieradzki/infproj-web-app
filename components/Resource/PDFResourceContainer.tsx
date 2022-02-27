@@ -97,10 +97,6 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   // let highlights = highlights that are specific to a page number and contain links
   // let links = links that are attributed to either a page or a link
 
-
-  console.log('???', apiPages);
-
-
   return (
     <ResourceStyles.Container>
       <ResourceStyles.Content>

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
 import { HorizontalStack } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
-import { HOME_ROUTE, generateCourseRoute, generateOrganisationRoute } from 'constants/navigation'
+import { HOME_ROUTE, generateCourseRoute, generateOrganisationRoute, generateCourseRouteMenu } from 'constants/navigation'
 import Course from 'models/Course'
 import Event from 'models/Event'
 import Organisation from 'models/Organisation'
@@ -49,7 +49,7 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
             { label: "Home", url: HOME_ROUTE },
             { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
             { label: course?.name, url: generateCourseRoute(organisation.id, course?.id) },
-            { label: "Resource" },
+            { label: "Resources", url: generateCourseRouteMenu(organisation.id, course?.id, "resources") },
             { label: resource?.getTypeLabel() },
           ]} />
 

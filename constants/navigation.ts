@@ -36,6 +36,12 @@ export const generateCourseRoute = (organisationId: string, courseId: string): s
     .replace("[courseId]", courseId);;
 }
 
+export const generateCourseRouteMenu = (organisationId: string, courseId: string, tab: string): string => {
+  return COURSE_ROUTE
+    .replace("[organisationId]", organisationId)
+    .replace("[courseId]", courseId) + '?tab=' + tab;
+}
+
 export const generateEventRoute = (organisationId: string, courseId: string, eventId: string) => {
   return EVENT_ROUTE
     .replace('[organisationId]', organisationId)
