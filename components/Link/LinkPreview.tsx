@@ -4,7 +4,9 @@ import {
 import ClipPreview from 'components/Link/ClipPreview'
 import LinkView from 'components/Link/LinkView'
 import ResourcePreview from 'components/Link/ResourcePreview'
+import Clip from 'models/Clip'
 import Organisation from 'models/Organisation'
+import Resource from 'models/Resource'
 import React from 'react'
 import Link from 'models/Link'
 
@@ -15,10 +17,10 @@ export type LinkPreviewProps = {
 const LinkPreview: React.FC<LinkPreviewProps> = ({ link}) => {
 
   if (link.link_type == "RESOURCE")
-    return <ResourcePreview link={link} />
+    return <ResourcePreview resource={new Resource(link.link)} />
 
   if (link.link_type == "CLIP")
-    return <ClipPreview link={link} />
+    return <ClipPreview clip={new Clip(link.link)} />
 
   return (
     <LinkView

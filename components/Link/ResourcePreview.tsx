@@ -5,12 +5,15 @@ import LinkView from 'components/Link/LinkView'
 import { generateEventRoute, generateResourceRoute, RESOURCE_ROUTE } from 'constants/navigation'
 import Resource from 'models/Resource'
 
-const ResourcePreview: React.FC<LinkPreviewProps> = ({ link }) => {
+interface ResourcePreviewProps {
+  resource?: Resource;
+
+}
+
+const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
 
   const router = useRouter();
   const organisationId = router?.query?.organisationId?.toString() || "";
-
-  let resource = new Resource(link.link);
 
   if (resource.type == "VID") {
     return (
@@ -31,7 +34,7 @@ const ResourcePreview: React.FC<LinkPreviewProps> = ({ link }) => {
         subtitle={resource.description}
         icon={resource.getIcon()}
         color={"white"}
-        href={generateResourceRoute(organisationId, link.course_id, resource.id)}
+        href={generateResourceRoute(organisationId, resource.course_id, resource.id)}
       />
     )
   }

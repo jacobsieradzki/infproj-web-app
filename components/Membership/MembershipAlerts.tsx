@@ -1,6 +1,7 @@
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 import { faGraduationCap } from '@fortawesome/free-solid-svg-icons/faGraduationCap'
 import Alert from 'components/Alert/Alert'
+import Button from 'components/Button/Button'
 import useAuthContext from 'contexts/AuthContext'
 import useMembership from 'helper/useMembership'
 import Course from 'models/Course'
@@ -50,6 +51,32 @@ export const StudentCourseEnrollmentAlert: MembershipAlertProps<Course> = ({ val
   const membership = useMembership(memberships);
   return membership.hasStudentMembershipToCourse(value) ? (
     <Alert title={"You are enrolled in this course."} icon={faGraduationCap} className={"permissions"}>
+      <p className={"subtitle"}>You can comment in discussions and events will display in your feed.</p>
+    </Alert>
+  ) : <></>;
+}
+
+export const StudentCourseNewEnrollmentAlert: MembershipAlertProps<Course> = ({ value }) => {
+  const { authState } = useAuthContext();
+  const { memberships } = authState;
+  const membership = useMembership(memberships);
+  let student = membership.hasStudentMembershipToCourse(value);
+  let staff = membership.hasStaffPermissionForCourse(value);
+  console.log('student', student, 'staff', staff);
+  return (!student && !staff) ? (
+    <Alert title={"You are enrolled in this course."} icon={faGraduationCap} className={"permissions"}>
+      <p className={"subtitle"}>You can comment in discussions and events will display in your feed.</p>
+      <Button>
+        Enroll in this course
+      </Button>
+    </Alert>
+  ) : <></>;
+}
+
+export const StudentCourseNewEnrollmentLoginAlert = () => {
+  const { isLoggedIn } = useAuthContext();
+  return (!isLoggedIn) ? (
+    <Alert title={"Login to enroll in this class."} icon={faGraduationCap} className={"permissions"}>
       <p className={"subtitle"}>You can comment in discussions and events will display in your feed.</p>
     </Alert>
   ) : <></>;

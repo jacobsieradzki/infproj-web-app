@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
+import ResourceList from './ResourceList'
+import ClipsList from './ClipsList'
 import CourseAddButton from 'components/CoursesList/CourseAddButton'
 import useAuthContext from 'contexts/AuthContext'
 import useGetCourse from 'classroomapi/useGetCourse'
 import EventsList from 'components/EventsList/EventsList'
-import { StaffCourseMembershipAlert, StudentCourseEnrollmentAlert } from 'components/Membership/MembershipAlerts'
+import {
+  StaffCourseMembershipAlert,
+  StudentCourseEnrollmentAlert,
+  StudentCourseNewEnrollmentAlert,
+  StudentCourseNewEnrollmentLoginAlert
+} from 'components/Membership/MembershipAlerts'
 import useGetOrganisation from 'classroomapi/useGetOrganisation'
 import { ContentCenterInPage } from 'components/AppLayout/AppLayout.style'
 import Breadcrumbs from 'components/Breadcrumbs/Breadcrumbs'
@@ -22,7 +29,7 @@ const CourseScreen: React.FC<CourseScreen> = ({ organisationId, courseId }) => {
 
   const { isLoggedIn, membership } = useAuthContext();
 
-  const [tab, setTab] = useState("EVENTS");
+  const [tab, setTab] = useState("events");
 
   const {
     data: organisation,
@@ -61,31 +68,43 @@ const CourseScreen: React.FC<CourseScreen> = ({ organisationId, courseId }) => {
             { label: "Courses", url: generateOrganisationRoute(organisation.id) },
             { label: course?.id },
           ]} />
-
           <h1>{course.name}</h1>
 
           <HorizontalStack gap={16}>
-            <TabItem compact tabId={"EVENTS"} {...{ tab, setTab }}>
-              Events
-            </TabItem>
-            <TabItem compact tabId={"RESOURCES"} {...{ tab, setTab }}>
-              Resources
-            </TabItem>
+            <TabItem compact tabId={"events"} {...{ tab, setTab }}>Events</TabItem>
+            <TabItem compact tabId={"resources"} {...{ tab, setTab }}>Resources</TabItem>
+            <TabItem compact tabId={"clips"} {...{ tab, setTab }}>Clips</TabItem>
+            <TabItem compact tabId={"links"} {...{ tab, setTab }}>Links</TabItem>
             <Spacer />
             {showAdd && <CourseAddButton {...{ organisationId, courseId }} />}
           </HorizontalStack>
 
-          {tab === "EVENTS" && <EventsList organisation={organisation} course={course} />}
+          <ResourceStyles.TabWrapper tab={tab}>
+            <div className={"events"}>
+              <EventsList organisation={organisation} course={course} />
+            </div>
+            <div className={"resources"}>
+              <ResourceList organisation={organisation} course={course} />
+            </div>
+            <div className={"clips"}>
+              <ClipsList organisation={organisation} course={course} />
+            </div>
+            <div className={"links"}>
+              <ResourceList organisation={organisation} course={course} />
+            </div>
+          </ResourceStyles.TabWrapper>
 
         </ResourceStyles.Header>
       </ResourceStyles.Content>
 
-      {isLoggedIn && <ResourceStyles.Column>
+      <ResourceStyles.Column>
         <ResourceStyles.ColumnContent>
-          <StudentCourseEnrollmentAlert value={course} />
-          <StaffCourseMembershipAlert value={course} />
+          {!isLoggedIn && <StudentCourseNewEnrollmentLoginAlert />}
+          {isLoggedIn && <StudentCourseNewEnrollmentAlert value={course} />}
+          {isLoggedIn && <StudentCourseEnrollmentAlert value={course} />}
+          {isLoggedIn && <StaffCourseMembershipAlert value={course} />}
         </ResourceStyles.ColumnContent>
-      </ResourceStyles.Column>}
+      </ResourceStyles.Column>
     </ResourceStyles.Container>
   )
 }

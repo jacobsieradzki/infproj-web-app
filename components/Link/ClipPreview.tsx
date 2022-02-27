@@ -8,12 +8,15 @@ import { useRouter } from 'next/router';
 import { LinkPreviewProps } from 'components/Link/LinkPreview'
 import LinkView from 'components/Link/LinkView'
 
-const ClipPreview: React.FC<LinkPreviewProps> = ({ link }) => {
+interface ClipPreviewProps {
+  clip: Clip;
+}
+
+const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
 
   const router = useRouter();
   const organisationId = router?.query?.organisationId?.toString() || "";
 
-  let clip = new Clip(link.link);
   let resource = new Resource(clip?.resource);
 
   if (clip.type == "PDF_CLIP" && resource) {

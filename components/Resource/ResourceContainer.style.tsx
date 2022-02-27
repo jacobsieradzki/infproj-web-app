@@ -35,6 +35,7 @@ const Links = styled.div`
 
 const Column = styled.div`
   width: 30%;
+  flex-shrink: 0;
   position: sticky;
   top: calc(${HEADER_HEIGHT}px + var(--page-space) );
   height: calc(100vh - ${HEADER_HEIGHT}px - var(--page-space));
@@ -42,6 +43,7 @@ const Column = styled.div`
 `;
 
 const ColumnContent = styled.div`
+  flex-shrink: 0;
   border-bottom: none;
   overflow: scroll;
   transition: opacity 0.2s;
@@ -56,10 +58,6 @@ const ColumnContent = styled.div`
   }
   &.border {
     border: 1px white solid;
-  }
-  
-  .alert:first-child {
-    margin-top: 0;
   }
 `;
 
@@ -99,6 +97,14 @@ const PDFWrapper = styled.div`
   }
 `;
 
+interface TabWrapperProps { tab: string; }
+const TabWrapper = styled.div<TabWrapperProps>`
+  & > *:not(.${props => props.tab}) {
+    display: none;
+    opacity: 0;
+  }
+`;
+
 const ResourceStyles = {
   Container,
   Header,
@@ -108,6 +114,7 @@ const ResourceStyles = {
   Column,
   ColumnTab,
   ColumnContent,
+  TabWrapper,
 }
 
 export default ResourceStyles;

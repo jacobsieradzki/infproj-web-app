@@ -36,15 +36,10 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
   const [tab, setTab] = useState<TabType>("RESOURCES");
 
   let isLectureVideo = !!resource?.url && resource?.type == "VID";
+  if (isLectureVideo) return <VideoResourceContainer {...props} />
+
   let isPDF = !!resource?.url && resource?.type == "PDF";
-
-  if (isLectureVideo) {
-    return <VideoResourceContainer {...props} />
-  }
-
-  if (isPDF) {
-    return <PDFResourceContainer {...props} />
-  }
+  if (isPDF) return <PDFResourceContainer {...props} />
 
   return (
     <ResourceStyles.Container>

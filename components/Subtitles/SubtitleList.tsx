@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useGetSubtitles from 'classroomapi/useGetSubtitles'
 import { Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
-import { StudentDiscussionMembershipAlert } from 'components/Membership/MembershipAlerts'
+import { StaffDiscussionMembershipAlert, StudentDiscussionMembershipAlert } from 'components/Membership/MembershipAlerts'
 import SubtitleRow from 'components/Subtitles/SubtitleRow'
 import useAuthContext from 'contexts/AuthContext'
 import useVideoContext from 'contexts/VideoContext'
@@ -99,9 +99,8 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   return (
     <SubtitlesStyles.Container ref={refList} id={"subtitles-list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
 
-      {isDiscussion && (
-        <StudentDiscussionMembershipAlert value={course} />
-      )}
+      {!isDiscussion && <StaffDiscussionMembershipAlert value={course} />}
+      {isDiscussion && <StudentDiscussionMembershipAlert value={course} />}
 
       <div className={"subtitle-rows"}>
         {subtitles.map((subtitle, index) => (

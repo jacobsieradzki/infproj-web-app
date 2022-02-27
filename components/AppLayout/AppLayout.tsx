@@ -17,13 +17,9 @@ const AppLayout: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetchMemberships(authState).then(x => {
-        setMemberships(x);
-        console.log(x);
-      }).catch(e => {
-        setMemberships([]);
-        console.log(e);
-      });
+      fetchMemberships(authState)
+        .then(x => setMemberships(x))
+        .catch(e => setMemberships([]));
     } else {
       setMemberships([]);
     }

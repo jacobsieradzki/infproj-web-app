@@ -17,11 +17,11 @@ type EventsListProps = {
 
 const EventsList: React.FC<EventsListProps> = ({ organisation, course }) => {
 
-  const { isLoggedIn, membership } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
 
-  const { data: events, loading: eventsLoading } = useGetEvents({ courseId: course.id });
+  const { data: events, loading } = useGetEvents({ courseId: course.id });
 
-  if (eventsLoading) {
+  if (loading) {
     return (
       <ContentCenterInPage>
         <Loader />
@@ -39,14 +39,14 @@ const EventsList: React.FC<EventsListProps> = ({ organisation, course }) => {
 
   return (
     <CoursesListStyles.Container>
-      <CoursesListStyles.Grid className={isLoggedIn ? "" : "wide"}>
+      <CoursesListStyles.Grid>
         {events?.map(event =>
           <EventBox key={event.id} organisation={organisation} event={new Event(event)} />
         )}
 
-        {membership.hasStaffPermissionForCourse(course) && (
-          <NewEventBox />
-        )}
+        {/*{membership.hasStaffPermissionForCourse(course) && (*/}
+        {/*  <NewEventBox />*/}
+        {/*)}*/}
       </CoursesListStyles.Grid>
     </CoursesListStyles.Container>
   )

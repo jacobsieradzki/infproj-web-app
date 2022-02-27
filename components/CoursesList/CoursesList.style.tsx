@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import { Grid as GlobalGrid } from 'components/GlobalStyles'
 
-export const Container = styled.div`
+const Container = styled.div`
   padding-bottom: 52px;
 `;
 
-export const Grid = styled(GlobalGrid.Container)`
+const Grid = styled(GlobalGrid.Container)`
   &:not(.wide) > * {
     width: calc(100% / 3);
   }
@@ -14,7 +14,7 @@ export const Grid = styled(GlobalGrid.Container)`
   }
 `;
 
-export const Box = styled(GlobalGrid.Box)`
+const Box = styled(GlobalGrid.Box)`
   padding: 0;
   
   &:hover {
@@ -22,7 +22,7 @@ export const Box = styled(GlobalGrid.Box)`
   }
 `;
 
-export const NewBox = styled(GlobalGrid.Box)`
+const NewBox = styled(GlobalGrid.Box)`
   padding: 0;
   border: none;
   cursor: pointer;
@@ -72,11 +72,38 @@ export const BoxContent = styled.div`
   }
 `;
 
+const List = styled.div`
+  border: 1px #fff solid;
+`;
+
+const Row = styled.a`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--primary-color);
+  padding: 16px;
+  
+  .svg-inline--fa {
+    margin: 8px;
+  }
+
+  &:hover {
+    background-color: var(--secondary-color);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px #fff solid;
+  }
+`;
+
 const CoursesListStyles = {
   Container,
   Grid,
   Box,
   NewBox,
+  List,
+  Row,
 }
 
 export default CoursesListStyles

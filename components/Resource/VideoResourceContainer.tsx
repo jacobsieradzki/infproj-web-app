@@ -40,8 +40,6 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
           </ResourceStyles.Links>
         }
 
-        <StaffDiscussionMembershipAlert value={course} />
-
         <VideoComponent resource={resource} />
 
         {nonSubtitleLinks.length > 0 &&
