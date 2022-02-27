@@ -21,7 +21,7 @@ export const Popup: React.FC<PopupProps> = ({
   return (
     <Modal open={isOpen} onClose={closeModal}>
       <PopupStyles.Container>
-        <PopupStyles.Box>
+        <PopupStyles.Box minHeight={minHeight}>
           {title?.length > 0 && <PopupStyles.Header>
             <p>{title}</p>
             <button className={"close"} onClick={closeModal}>

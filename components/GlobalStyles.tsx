@@ -48,13 +48,24 @@ export const Grid = {
     gap: 1rem;
     
     & > * {
-      width: 25%;
+      width: calc((100% - 3rem) / 4);
     }
   `,
   Box: styled.a`
     display: flex;
     flex-flow: column nowrap;
     background-color: var(--primary-color);
+    padding: var(--grid-item-space);
+    
+    &:hover {
+      background-color: var(--secondary-color);
+    }
+  `,
+  BoxButton: styled.button`
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: var(--primary-color);
+    border: none;
     padding: var(--grid-item-space);
     
     &:hover {

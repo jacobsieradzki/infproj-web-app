@@ -78,7 +78,10 @@ const Item = styled.div`
   
   &.selected {
     background-color: var(--secondary-color);
-    margin-top: 16px;
+    
+    &:not(:first-child) {
+      margin-top: 16px;
+    }
     
     .add { 
       margin-top: 16px;

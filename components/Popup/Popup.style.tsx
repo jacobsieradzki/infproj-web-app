@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+interface ContentProps {
+  minHeight: number
+};
+
 const Container = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -9,11 +13,11 @@ const Container = styled.div`
   width: 100vw;
 `;
 
-const Box = styled.div`
+const Box = styled.div<ContentProps>`
   display: flex;
   flex-flow: column;
   width: min(90%, 700px);
-  max-height: min(90%, 500px);
+  max-height: 90%;
   background-color: white;
   box-shadow: var(--shadow);
   overflow: scroll;
@@ -50,7 +54,6 @@ const Header = styled.div`
   }
 `;
 
-interface ContentProps { minHeight: number };
 const Content = styled.div<ContentProps>`
   flex-grow: 2; 
   display: flex;
@@ -69,6 +72,10 @@ const Content = styled.div<ContentProps>`
     gap: 8px;
     padding: 16px;
     border-top: 1px rgba(0,0,0,10%) solid;
+
+    .loader {
+      margin: 20px 0;
+    }
   }
 `;
 

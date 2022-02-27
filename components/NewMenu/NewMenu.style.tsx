@@ -17,8 +17,12 @@ const Grid = styled(GlobalGrid.Container)`
   }
 `;
 
-const Box = styled(GlobalGrid.Box)`
+const BoxStyle = `
+  display: flex;
   padding: 0;
+  border: none;
+  background-color: var(--primary-color);
+  cursor: pointer;
   
   & > * {
     display: flex;
@@ -31,6 +35,9 @@ const Box = styled(GlobalGrid.Box)`
     box-shadow: var(--shadow);
   }
 `;
+
+const Box = styled(GlobalGrid.Box)`${BoxStyle}`;
+const BoxButton = styled(GlobalGrid.Box)`${BoxStyle}`;
 
 const IconContent = styled.div`
   padding: 40px 0 20px;
@@ -50,12 +57,18 @@ const BoxContent = styled.div`
   }
 `;
 
+const Error = styled.div`
+    
+`;
+
 const NewMenuStyles = {
   Container,
   Grid,
   Box,
+  BoxButton,
   IconContent,
   BoxContent,
+  Error,
 }
 
 export default NewMenuStyles

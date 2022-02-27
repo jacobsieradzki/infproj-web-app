@@ -22,6 +22,7 @@ type BaseRequestProps<T> = {
   credentials?: string;
   defaultValue?: T;
   body?: any;
+  bodyType?: "json" | "formdata";
   onCompleted?: (res: T) => void;
 }
 
@@ -56,7 +57,15 @@ const useBaseRequest = <T>({
   }
 }
 
-export const fetchBaseRequest = <T>({ path, method = "GET", credentials, username, password, body = {} }: BaseRequestProps<T>): Promise<T> => {
+export const fetchBaseRequest = <T>({
+  path,
+  method = "GET",
+  credentials,
+  username,
+  password,
+  body = {},
+  bodyType = "json",
+}: BaseRequestProps<T>): Promise<T> => {
   let headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
 
   if (credentials) headers["Authorization"] = "Basic " + credentials;
@@ -66,7 +75,13 @@ export const fetchBaseRequest = <T>({ path, method = "GET", credentials, usernam
   let options: RequestInit = { method, headers };
 
   if (!!body && ["POST", "PUT"].includes(method)) {
-    options.body = JSON.stringify(body);
+    if (bodyType === "json") {
+      options.body = JSON.stringify(body);
+    }
+    if (bodyType === "formdata") {
+      options.body = body;
+      delete headers['Content-Type'];
+    }
   }
 
   return fetch(url, options).then(res => res.json())
@@ -77,7 +92,6 @@ export const fetchBaseRequest = <T>({ path, method = "GET", credentials, usernam
         return null;
       }
     }).catch(res => {
-      console.log("!ERROR", res);
       return null;
     });
 }

@@ -5,7 +5,8 @@ type ButtonProps = {
   variant?: "simple" | "outlined" | "filled";
   size?: "sm" | "md" | "lg";
   style?: "primary" | "secondary" | "neutral" | "inverse" | "inverse-neutral";
-  onClick: (e: any) => void;
+  onClick?: (e: any) => void;
+  as?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -14,6 +15,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   style = "primary",
   onClick,
+  as,
 }) => {
 
   let className = `${variant} ${size}`;
@@ -32,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
   let [primaryColor, secondaryColor] = getColorsForStyle(style);
 
   return (
-    <ButtonStyle {...{ className, onClick, primaryColor, secondaryColor }}>
+    <ButtonStyle {...{ className, onClick, primaryColor, secondaryColor, as }}>
       {children}
     </ButtonStyle>
   )
