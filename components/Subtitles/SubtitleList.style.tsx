@@ -63,6 +63,7 @@ const Item = styled.div`
   flex-flow: column nowrap;
   gap: 2px;
   padding: 24px;
+  width: 100%;
   
   &.time { 
     padding-top: 0;

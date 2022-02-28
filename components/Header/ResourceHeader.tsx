@@ -43,6 +43,7 @@ const ResourceHeader: React.FC<ResourceHeaderProps> = ({ organisation, course, e
           {resource.name}
         </h1>
       )}
+      <span>{resource.description}</span>
     </ResourceStyles.Header>
   )
 }

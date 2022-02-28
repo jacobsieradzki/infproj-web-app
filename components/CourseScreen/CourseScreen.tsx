@@ -19,7 +19,7 @@ import { HorizontalStack, Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import { TabItem } from 'components/Resource/ResourceContainer'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
-import { COURSE_ROUTE, generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
+import { COURSE_ROUTE, generateCourseRoute, generateCourseRouteMenu, generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
 
 interface CourseScreen {
   organisationId: string;
@@ -32,9 +32,11 @@ const CourseScreen: React.FC<CourseScreen> = ({ organisationId, courseId }) => {
   const [tab, setTab] = useState(router.query.tab?.toString() || "events");
 
   useEffect(() => {
-    let query = "?tab=" + tab;
-    let path = router.asPath.split("?")[0] + query;
-    router.replace(COURSE_ROUTE + query, path, { shallow: true });
+    if (!organisationId || !courseId) return;
+    let route = COURSE_ROUTE + "?tab=" + tab;
+    let path = generateCourseRouteMenu(organisationId, courseId, tab);
+    console.log(COURSE_ROUTE + route, path);
+    router.replace(route, path, { shallow: true });
   }, [tab]);
 
   const {

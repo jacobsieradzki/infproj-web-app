@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react'
 import postNewHighlight from 'classroomapi/postNewHighlight'
+import { refreshUseGetClips } from 'classroomapi/useGetClips'
 import useAuthContext from 'contexts/AuthContext'
 import usePopupContext from 'contexts/PopupContext'
 import Clip from 'models/Clip'
-import React, { useEffect, useState } from 'react'
 import { HighlightPopup } from 'components/PDF/PDFHighlight'
 import Log from 'helper/Logging'
 import PdfDocumentHelper from 'helper/pdfDocument'
@@ -15,8 +16,8 @@ type PDFComponentProps = {
   resource: Resource;
   pdfDocument: PDFDocumentProxy;
   highlights: IHighlight[];
-  setHighlights: React.Dispatch<React.SetStateAction<IHighlight[]>>;
   currentHighlight: string;
+  triggerRefresh: () => void;
 }
 
 const PDFComponent: React.FC<PDFComponentProps> = ({
@@ -24,8 +25,8 @@ const PDFComponent: React.FC<PDFComponentProps> = ({
   resource,
   pdfDocument,
   highlights,
-  setHighlights,
   currentHighlight,
+  triggerRefresh,
 }) => {
   const { authState } = useAuthContext();
   const { showStandardError, showError } = usePopupContext();
@@ -75,6 +76,7 @@ const PDFComponent: React.FC<PDFComponentProps> = ({
     let response = await postNewHighlight(authState, newClip);
     if (!!response) {
       Log.debug("PDF", "Added highlight.", { response });
+      triggerRefresh();
     } else {
       showStandardError();
     }

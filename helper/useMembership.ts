@@ -22,7 +22,7 @@ const useMembership = (memberships: Membership[]): UseMembershipCallbackProps =>
   }
 
   const hasStaffPermissionForOrganisationId = (organisationId: string): boolean => {
-    return memberships.some(x => {
+    return memberships?.some(x => {
       return x.organisation_id == organisationId
         && x.course_id == null
         && x.role === "STAFF";
@@ -30,7 +30,7 @@ const useMembership = (memberships: Membership[]): UseMembershipCallbackProps =>
   }
 
   const hasStaffPermissionForCourse = (course: Course): boolean => {
-    return memberships.some(x => {
+    return memberships?.some(x => {
       return _isSameOrganisationAsCourse(course, x)
         && x.course_id == course.id
         && x.role === "STAFF";
@@ -38,7 +38,7 @@ const useMembership = (memberships: Membership[]): UseMembershipCallbackProps =>
   }
 
   const hasStudentMembershipToCourse = (course: Course): boolean => {
-    return memberships.some(x => {
+    return memberships?.some(x => {
       return _isSameOrganisationAsCourse(course, x)
         && x.course_id == course.id
         && x.role === "STUDENT";

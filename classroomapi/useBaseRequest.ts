@@ -1,4 +1,3 @@
-import Log from 'helper/Logging'
 import useSWR from 'swr'
 import { EndpointHook } from 'models/API'
 import useAPIContext from 'contexts/APIContext'
@@ -34,26 +33,25 @@ const useBaseRequest = <T>({
   onCompleted = null,
 }: BaseRequestProps<T>): EndpointHook<T> => {
 
-  const api = useAPIContext();
-
   let willAuthenticate = !!credentials;
   let url = BASE_URL + path;
   let paths = willAuthenticate ? [url, credentials] : url;
   if (skip) paths = null;
   let fetcher = willAuthenticate ? authFetcher : noAuthFetcher;
 
-  const { data: response, error } = useSWR(paths, fetcher, {
+  const { data: response, error, mutate, isValidating } = useSWR(paths, fetcher, {
     fallbackData: defaultValue,
     onSuccess: props => {
       if (!!onCompleted) onCompleted(props.data);
     }
   });
-  let loading = !response && !error;
+  const refresh = async () => mutate();
+  let loading = isValidating || (!response && !error);
 
   if (response?.status == "success") {
-    return { data: response.data as T, loading: false, error: null }
+    return { data: response.data as T, loading: false, error: null, refresh }
   } else {
-    return { data: defaultValue, loading, error };
+    return { data: defaultValue, loading, error, refresh };
   }
 }
 

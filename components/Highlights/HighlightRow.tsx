@@ -27,8 +27,6 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
 
   const router = useRouter();
 
-  console.log('!!!', links);
-
   const onClick = e => {
     PdfDocumentHelper.updateHash(isSelected ? null : highlight, router);
   };

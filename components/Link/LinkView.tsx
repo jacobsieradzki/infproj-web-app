@@ -35,7 +35,7 @@ const LinkView: React.FC<LinkViewProps> = ({
   if (href) {
     return (
       <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={className}>
-        {icon && <FontAwesomeIcon icon={icon} color={color} size={'lg'} className={'icon'} />}
+        {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
         {image && <img className={"icon"} src={image} alt={title} />}
         <LinkStyles.Content>
           <p>{title}</p>
@@ -49,7 +49,7 @@ const LinkView: React.FC<LinkViewProps> = ({
 
   return (
     <LinkStyles.Container onClick={onClick} className={className}>
-      {icon && <FontAwesomeIcon icon={icon} color={color} size={'lg'} className={'icon'} />}
+      {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
       {image && <img className={"image"} src={image} alt={title} />}
       <LinkStyles.Content>
         <p>{title}</p>

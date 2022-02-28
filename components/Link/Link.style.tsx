@@ -48,12 +48,12 @@ const Content = styled.div`
   width: calc(100% - 1.0625em - 36px);
   
   p {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   
   & > span {
     display: block;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   
   span.caption {

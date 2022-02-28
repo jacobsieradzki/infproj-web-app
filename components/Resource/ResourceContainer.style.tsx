@@ -88,7 +88,7 @@ const ColumnTab = styled.button`
 
 const PDFWrapper = styled.div`
   width: 100%;
-  height: 85%;
+  height: 75%;
   
   & > div {
     position: relative;

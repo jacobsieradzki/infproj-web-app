@@ -1,12 +1,9 @@
-import useGetClips from 'classroomapi/useGetClips'
-import useGetHighlights from 'classroomapi/useGetHighlights'
+import React, { useEffect, useState } from 'react'
+import useGetClips, { refreshUseGetClips } from 'classroomapi/useGetClips'
 import ResourceHeader from 'components/Header/ResourceHeader'
 import useAuthContext from 'contexts/AuthContext'
 import useMembership from 'helper/useMembership'
 import Clip from 'models/Clip'
-import Highlight from 'models/Highlight'
-import Link from 'models/Link'
-import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import HighlightList from 'components/Highlights/HighlightList'
@@ -43,7 +40,6 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   const [apiPages, setApiPages] = useState<Clip[]>([]);
   const [highlights, setHighlights] = useState<Clip[]>([]);
   const [allHighlights, setAllHighlights] = useState<IHighlight[]>([]);
-  const [libraryHighlights, setLibraryHighlights] = useState<IHighlight[]>([]);
 
   let _currentHighlight = PdfDocumentHelper.parseIdFromHash(router);
   const [currentHighlight, setCurrentHighlight] = useState(_currentHighlight);
@@ -51,22 +47,16 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     setCurrentHighlight(PdfDocumentHelper.parseIdFromHash(router));
   }, [_currentHighlight]);
 
-  const { data: links, loading: linksLoading } = useGetLinksForResource({ id: resource.id, courseId: course.id,
-    onCompleted: res => {
+  const { data: links, loading: linksLoading } = useGetLinksForResource({ id: resource.id, courseId: course.id });
 
-    }
-  });
-
-  const { loading: clipsLoading } = useGetClips({ resourceId: resource.id, courseId: course.id,
+  const { loading: clipsLoading, refresh } = useGetClips({ resourceId: resource.id, courseId: course.id,
     onCompleted: res => {
-      console.log('AAAAALL CLIPS', res);
       let results = res.map(x => new Clip(x));
       let clipHighlights = results.filter(x => !!x.highlight && x.type == "PDF_CLIP");
       setApiPages(results.filter(x => x.type == "PDF_PAGE"));
       setHighlights(clipHighlights.sort((a, b) => {
         return a.highlight?.bounding_rect.y1 - b.highlight?.bounding_rect.y2;
       }));
-      setLibraryHighlights(clipHighlights.map(x => new Clip(x).toLibraryModel()));
     }
   });
 
@@ -88,14 +78,18 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     setAllHighlights([...pages, ...highlights].map(x => x.toLibraryModel()));
   }, [pages, highlights]);
 
-
-  let loading = clipsLoading || linksLoading;
-  let hasPermissionToCreateHighlight = hasStaffPermissionForCourse(course) || hasStudentMembershipToCourse(course);
+  const refreshClips = async () => {
+    await refresh();
+    // await refreshUseGetClips({ courseId: course.id, resourceId: resource.id });
+  }
 
   // let pages = pages that contain highlights and links
   // let apiPages = pages created from the API, null coalesced with a created one
   // let highlights = highlights that are specific to a page number and contain links
   // let links = links that are attributed to either a page or a link
+
+  let loading = clipsLoading || linksLoading;
+  let hasPermissionToCreateHighlight = hasStaffPermissionForCourse(course) || hasStudentMembershipToCourse(course);
 
   return (
     <ResourceStyles.Container>
@@ -108,8 +102,8 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
             resource,
             pdfDocument,
             highlights: allHighlights,
-            setHighlights: h => console.log(h),
-            currentHighlight
+            currentHighlight,
+            triggerRefresh: refreshClips
           }} />}
           {pdfError && <p>Something went wrong loading this PDF:<br/>{JSON.stringify(pdfError)}</p>}
         </ResourceStyles.PDFWrapper>
