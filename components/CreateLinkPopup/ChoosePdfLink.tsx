@@ -46,7 +46,7 @@ const ChoosePdfLink: React.FC<CreateLinkPopupProps & ChoosePdfLinkProps> = ({
         <h2>Pages</h2>
         <CreateLinkStyle.ChoosePdf.PageGrid>
           {pages.map(res => (
-            <CreateLinkStyle.ChoosePdf.Page onClick={() => handleSelectedClip(res)}>
+            <CreateLinkStyle.ChoosePdf.Page key={res.id} onClick={() => handleSelectedClip(res)}>
               <p>Page {res.start_location}</p>
               <p>{res.description}</p>
               <img src={res.content} alt={res.description} />
