@@ -58,7 +58,10 @@ const ChoosePdfLink: React.FC<CreateLinkPopupProps & ChoosePdfLinkProps> = ({
       {clips.length > 0 && <CreateLinkStyle.ChoosePdf.Pages>
         <h2>Clips</h2>
         {clips.map(res => (
-          <ChoosePdfClipPreview clip={new Clip(res)} resource={pdf} onClick={() => handleSelectedClip(res)} />
+          <ChoosePdfClipPreview key={res.id}
+            clip={new Clip(res)}
+            resource={pdf}
+            onClick={() => handleSelectedClip(res)} />
         ))}
       </CreateLinkStyle.ChoosePdf.Pages>}
 
