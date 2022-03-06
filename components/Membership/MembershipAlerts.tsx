@@ -88,7 +88,7 @@ export const StudentDiscussionMembershipAlert: MembershipAlertProps<Course> = ({
   const membership = useMembership(memberships);
   return membership.hasStudentMembershipToCourse(value) ? (
     <Alert title={"You are enrolled in this course."} icon={faGraduationCap} className={"permissions"}>
-      <p className={"subtitle"}>You can add comments and links to other resources. If a staff members promotes your contribution, it will appear in the "Resources" tab.</p>
+      <p className={"subtitle"}>You can add comments and links to other resources. If a staff members promotes your contribution, it will appear in the &quot;Resources&quot; tab.</p>
     </Alert>
   ) : <></>;
 }

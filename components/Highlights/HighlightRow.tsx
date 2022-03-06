@@ -1,15 +1,13 @@
+import React from 'react'
 import AddConnectionButton from 'components/AddConnectionButton'
 import { VerticalStack } from 'components/GlobalStyles'
 import LinkPreview from 'components/Link/LinkPreview'
 import PdfDocumentHelper from 'helper/pdfDocument'
-import { formatHHMMSS } from 'helper/time'
 import { IHighlight } from 'lib/react-pdf-highlighter'
-import Clip from 'models/Clip'
 import Link from 'models/Link'
-import Subtitle from 'models/Subtitle'
 import { useRouter } from 'next/router'
-import React from 'react'
 import SubtitlesStyles from 'components/Subtitles/SubtitleList.style'
+import Image from 'next/image'
 
 type HighlightRowProps = {
   highlight: IHighlight;
@@ -40,7 +38,7 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
         </span>
 
         {highlight.content.text && <p className={"content"}>{highlight.content.text}</p>}
-        {highlight.content.image && <img className={"pdf-img-prev"} src={highlight.content.image} alt={highlight.content.text} />}
+        {highlight.content.image && <Image className={"pdf-img-prev"} src={highlight.content.image} alt={highlight.content.text} />}
       </button>
 
       {links.length > 0 &&

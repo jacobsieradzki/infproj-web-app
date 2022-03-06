@@ -22,10 +22,10 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
   if (clip.type == "PDF_CLIP" && resource) {
     return (
       <LinkView
-        title={clip.description}
+        title={resource.name}
         subtitle={clip.isImage() ? null : clip.content}
         image={clip.isImage() ? clip.content : null}
-        caption={<><FontAwesomeIcon icon={resource.getIcon()} />&nbsp;&nbsp;{resource.name}</>}
+        caption={clip.description}
         icon={faHighlighter}
         color={"white"}
         href={generateResourcePDFClipRoute(clip, organisationId)}
@@ -38,10 +38,11 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
     if (clip.description)  title += ": " + clip.description;
     return (
       <LinkView
-        title={title}
+        title={resource.name}
         subtitle={clip.isImage() ? null : clip.content}
         image={clip.isImage() ? clip.content : null}
-        caption={<><FontAwesomeIcon icon={resource.getIcon()} />&nbsp;&nbsp;{resource.name}</>}
+        caption={title}
+        icon={resource.getIcon()}
         color={"white"}
         href={generateResourcePDFClipRoute(clip, organisationId)}
       />

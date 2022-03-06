@@ -1,8 +1,9 @@
+import React from 'react'
+import Image from 'next/image'
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CaptionUppercase } from 'components/GlobalStyles'
 import LinkStyles from 'components/Link/Link.style'
-import React from 'react'
 
 type LinkViewProps = {
   title: string;
@@ -34,28 +35,28 @@ const LinkView: React.FC<LinkViewProps> = ({
 
   if (href) {
     return (
-      <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={className}>
+      <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={"link-prev " + className}>
         {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
-        {image && <img className={"icon"} src={image} alt={title} />}
+        {image && <Image className={"icon"} src={image} alt={title} />}
         <LinkStyles.Content>
           <p>{title}</p>
           {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
           {subtitle && <span className={"content"}>{subtitle}</span>}
-          {contentImage && <img className={'content'} src={contentImage} alt={title} />}
+          {contentImage && <Image className={'content'} src={contentImage} alt={title} />}
         </LinkStyles.Content>
       </LinkStyles.Link>
     )
   }
 
   return (
-    <LinkStyles.Container onClick={onClick} className={className}>
+    <LinkStyles.Container onClick={onClick} className={"link-prev " + className}>
       {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
-      {image && <img className={"image"} src={image} alt={title} />}
+      {image && <Image className={"icon"} src={image} alt={title} />}
       <LinkStyles.Content>
         <p>{title}</p>
         {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
         {subtitle && <span>{subtitle}</span>}
-        {contentImage && <img className={'content'} src={contentImage} alt={title} />}
+        {contentImage && <Image className={'content'} src={contentImage} alt={title} />}
       </LinkStyles.Content>
     </LinkStyles.Container>
   )

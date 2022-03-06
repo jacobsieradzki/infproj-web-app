@@ -16,14 +16,14 @@ const AppLayout: React.FC = ({ children }) => {
   const [loginPopup, setLoginPopup] = useState(false);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && setMemberships) {
       fetchMemberships(authState)
         .then(x => setMemberships(x))
         .catch(e => setMemberships([]));
     } else {
       setMemberships([]);
     }
-  }, [isLoggedIn]);
+  }, [authState, setMemberships]);
 
   return (
     <AppLayoutStyle.Page id={"page"}>

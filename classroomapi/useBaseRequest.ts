@@ -9,8 +9,7 @@ const noAuthFetcher = (url) => fetch(url).then(res => res.json());
 const authFetcher = (url, username, password) => fetch({ headers: { 'Authorization': 'Basic ' + toBase64(username + ":" + password) } })
   .then(res => res.json())
 
-export const BASE_URL = "http://localhost:8888/";
-// export const BASE_URL = "https://jake-inf-project.herokuapp.com/";
+export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8888/";
 
 type BaseRequestProps<T> = {
   skip?: boolean;

@@ -52,8 +52,8 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   const { loading: clipsLoading, refresh } = useGetClips({ resourceId: resource.id, courseId: course.id,
     onCompleted: res => {
       let results = res.map(x => new Clip(x));
-      let clipHighlights = results.filter(x => !!x.highlight && x.type == "PDF_CLIP");
       setApiPages(results.filter(x => x.type == "PDF_PAGE"));
+      let clipHighlights = results.filter(x => !!x.highlight && x.type == "PDF_CLIP");
       setHighlights(clipHighlights.sort((a, b) => {
         return a.highlight?.bounding_rect.y1 - b.highlight?.bounding_rect.y2;
       }));

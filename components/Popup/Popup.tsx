@@ -28,7 +28,7 @@ export const Popup: React.FC<PopupProps> = ({
               <FontAwesomeIcon icon={faTimes} />
             </button>
           </PopupStyles.Header>}
-          <PopupStyles.Content minHeight={minHeight}>
+          <PopupStyles.Content>
             {children}
           </PopupStyles.Content>
         </PopupStyles.Box>

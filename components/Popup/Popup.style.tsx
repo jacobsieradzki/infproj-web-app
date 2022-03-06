@@ -61,6 +61,7 @@ const Content = styled.div<ContentProps>`
   justify-content: center;
   flex-flow: column nowrap;
   min-height: ${props => props.minHeight}px;
+  
   h1, h2, h3, p, span { color: var(--black); }
 
   .buttons {

@@ -7,7 +7,6 @@ import Resource from 'models/Resource'
 
 interface ResourcePreviewProps {
   resource?: Resource;
-
 }
 
 const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
