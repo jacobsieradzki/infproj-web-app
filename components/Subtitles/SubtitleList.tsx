@@ -100,7 +100,7 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   if (loading) {
     return (
       <SubtitlesStyles.Container>
-        <Loader />
+        <Loader style={{ margin: "calc(50% + 32px) auto" }} />
       </SubtitlesStyles.Container>
     )
   }

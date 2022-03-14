@@ -13,6 +13,7 @@ type HighlightPageRowProps = {
   highlights: Clip[];
   links?: Link[];
   showAddConnection: boolean;
+  handleAddConnection: (clip: Clip) => void;
 }
 
 export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
@@ -21,6 +22,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
   highlights,
   links = [],
   showAddConnection = false,
+  handleAddConnection,
 }) => {
 
   let highlight = pageClip.toLibraryModel();
@@ -44,6 +46,8 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
       return bClip.highlight.bounding_rect.y1 - aClip.highlight.bounding_rect.y2;
     });
   }
+
+  const handleAddPage = e => handleAddConnection(pageClip);
 
   let pageAttachedLinks = getPageAttachedLinks(pageClip.start_location);
 
@@ -74,16 +78,17 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
           {highlights.map((clip, index) => (
             <HighlightRow
               key={index}
-              highlight={clip.toLibraryModel()}
+              highlight={clip}
               isSelected={clip.highlight.id.toString() == currentHighlight}
               links={getLinksForHighlight(clip.id.toString())}
               showAddConnection={showAddConnection}
+              handleAddConnection={handleAddConnection}
             />
           ))}
         </VerticalStack>
       )}
 
-      {showAddConnection && <AddConnectionButton className={'add'} label={'Add Connection to page'} />}
+      {showAddConnection && <AddConnectionButton className={'add'} label={'Add Connection to page'} onClick={handleAddPage} />}
     </SubtitlesStyles.PageContainer>
   )
 }

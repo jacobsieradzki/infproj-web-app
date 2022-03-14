@@ -1,32 +1,37 @@
+import Clip from 'models/Clip'
 import React from 'react'
 import AddConnectionButton from 'components/AddConnectionButton'
 import { VerticalStack } from 'components/GlobalStyles'
 import LinkPreview from 'components/Link/LinkPreview'
 import PdfDocumentHelper from 'helper/pdfDocument'
-import { IHighlight } from 'lib/react-pdf-highlighter'
 import Link from 'models/Link'
 import { useRouter } from 'next/router'
 import SubtitlesStyles from 'components/Subtitles/SubtitleList.style'
 
 type HighlightRowProps = {
-  highlight: IHighlight;
+  highlight: Clip;
   isSelected: boolean;
   links?: Link[];
   showAddConnection?: boolean;
+  handleAddConnection: (clip: Clip) => void;
 }
 
 export const HighlightRow: React.FC<HighlightRowProps> = ({
-  highlight,
+  highlight: clip,
   isSelected,
   links = [],
   showAddConnection = false,
+  handleAddConnection,
 }) => {
 
   const router = useRouter();
+  let highlight = clip.toLibraryModel();
 
   const onClick = e => {
     PdfDocumentHelper.updateHash(isSelected ? null : highlight, router);
   };
+
+  const handleAdd = e => handleAddConnection(clip)
 
   return (
     <SubtitlesStyles.Item className={"item" + (isSelected ? " selected" : "")}>
@@ -48,7 +53,7 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
         </VerticalStack>
       }
 
-      {showAddConnection && <AddConnectionButton className={'add'} label={'Add connection to highlight'} />}
+      {showAddConnection && <AddConnectionButton className={'add'} label={'Add connection to highlight'} onClick={handleAdd} />}
     </SubtitlesStyles.Item>
   )
 }

@@ -1,4 +1,6 @@
-import React from 'react'
+import CreateLinkPopup from 'components/CreateLinkPopup/CreateLinkPopup'
+import Subtitle from 'models/Subtitle'
+import React, { useState } from 'react'
 import useAuthContext from 'contexts/AuthContext'
 import useMembership from 'helper/useMembership'
 import HighlightPageRow from 'components/Highlights/HighlightPageRow'
@@ -35,6 +37,8 @@ export const HighlightList: React.FC<HighlightListProps> = ({
   const { memberships } = authState;
   const membership = useMembership(memberships);
 
+  const [linkProps, setLinksProps] = useState(null);
+
   const getHighlightsForPage = (pageClip: Clip): Clip[] => {
     return (highlights?.filter(clip => {
       return !!clip.highlight && clip.start_location == pageClip.start_location;
@@ -51,7 +55,7 @@ export const HighlightList: React.FC<HighlightListProps> = ({
   if (loading) {
     return (
       <SubtitlesStyles.Container>
-        <Loader />
+        <Loader style={{ margin: "calc(50% + 32px) auto" }} />
       </SubtitlesStyles.Container>
     )
   }
@@ -63,21 +67,30 @@ export const HighlightList: React.FC<HighlightListProps> = ({
   console.log("ALL LINKS", links);
   console.log("PAGE CLIPS", pageClips);
 
+  const showConnectionForHighlight = (clip: Clip) => setLinksProps(clip.id);
+
   return (
-    <SubtitlesStyles.Container id={"highlights-list"}>
-      <div>
-        {pageClips.map((pageClip, index) => (
-          <HighlightPageRow
-            key={index}
-            pageClip={pageClip}
-            currentHighlight={currentHighlight}
-            highlights={getHighlightsForPage(pageClip)}
-            links={getLinksForPage(pageClip)}
-            showAddConnection={showAddConnection}
-          />
-        ))}
-      </div>
-    </SubtitlesStyles.Container>
+    <>
+      <CreateLinkPopup isOpen={!!linkProps} closeModal={() => setLinksProps(null)} course={course}
+        selectedId={resource.id} selectedType={"RESOURCE"} anchorSubtitleId={linkProps}
+        handleCreatedLink={() => {}} />
+
+      <SubtitlesStyles.Container id={"highlights-list"}>
+        <div>
+          {pageClips.map((pageClip, index) => (
+            <HighlightPageRow
+              key={index}
+              pageClip={pageClip}
+              currentHighlight={currentHighlight}
+              highlights={getHighlightsForPage(pageClip)}
+              links={getLinksForPage(pageClip)}
+              showAddConnection={showAddConnection}
+              handleAddConnection={showConnectionForHighlight}
+            />
+          ))}
+        </div>
+      </SubtitlesStyles.Container>
+    </>
   )
 }
 
