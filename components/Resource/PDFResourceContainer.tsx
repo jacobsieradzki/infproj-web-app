@@ -65,8 +65,8 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     const perform = async (_apiPages) => {
       let _clips: Clip[] = [];
       for (let i = 1; i <= pdfDocument.numPages; i++) {
-        let existingClip = _apiPages.find(x => x.type == "PDF_PAGE" && x.start_location == i);
-        let pageClip = await Clip.forPageOfPdf(pdfDocument, i, existingClip?.description, SHOULD_SHOW_PAGE_PREVIEW ? existingClip?.content : null);
+        let existingClip: Clip = _apiPages.find(x => x.type == "PDF_PAGE" && x.start_location == i);
+        let pageClip = await Clip.forPageOfPdf(pdfDocument, i, SHOULD_SHOW_PAGE_PREVIEW, existingClip);
         _clips.push(pageClip);
       }
       setPages(_clips);

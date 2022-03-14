@@ -10,6 +10,8 @@ import CreateLinkStyle from './CreateLink.style'
 import useGetClips from 'classroomapi/useGetClips'
 
 interface ChoosePdfLinkProps {
+  loading: boolean;
+  error: any;
   pdf: Resource;
   deselectPdf: () => void;
   handleSelectedResource: (res: Resource) => void;
@@ -17,6 +19,8 @@ interface ChoosePdfLinkProps {
 };
 
 const ChoosePdfLink: React.FC<CreateLinkPopupProps & ChoosePdfLinkProps> = ({
+  loading,
+  error,
   pdf,
   deselectPdf,
   course,
@@ -37,36 +41,34 @@ const ChoosePdfLink: React.FC<CreateLinkPopupProps & ChoosePdfLinkProps> = ({
 
   return (
     <CreateLinkStyle.Container>
+      <div className={"scrollable"}>
+        <ChooseResourceLinkPreview resource={new Resource(pdf)} />
 
-      <ChooseResourceLinkPreview resource={new Resource(pdf)} />
+        {pages.length > 0 && <CreateLinkStyle.ChoosePdf.Pages>
+          <h2>Pages</h2>
+          <CreateLinkStyle.ChoosePdf.PageGrid>
+            {pages.map(res => (
+              <CreateLinkStyle.ChoosePdf.Page key={res.id} onClick={() => handleSelectedClip(res)}>
+                <p>Page {res.start_location}</p>
+                <p>{res.description}</p>
+                <img src={res.content} alt={res.description} />
+              </CreateLinkStyle.ChoosePdf.Page>
+            ))}
+          </CreateLinkStyle.ChoosePdf.PageGrid>
+        </CreateLinkStyle.ChoosePdf.Pages>}
 
-      {pages.length > 0 && <CreateLinkStyle.ChoosePdf.Pages>
-        <h2>Pages</h2>
-        <CreateLinkStyle.ChoosePdf.PageGrid>
-          {pages.map(res => (
-            <CreateLinkStyle.ChoosePdf.Page key={res.id} onClick={() => handleSelectedClip(res)}>
-              <p>Page {res.start_location}</p>
-              <p>{res.description}</p>
-              <img src={res.content} alt={res.description} />
-            </CreateLinkStyle.ChoosePdf.Page>
+        {clips.length > 0 && <>
+          <CreateLinkStyle.Header>
+            <h2>Clips</h2>
+          </CreateLinkStyle.Header>
+          {clips.map(res => (
+            <ChooseClipPreview key={res.id}
+              clip={new Clip(res)}
+              resource={pdf}
+              onClick={() => handleSelectedClip(res)} />
           ))}
-        </CreateLinkStyle.ChoosePdf.PageGrid>
-      </CreateLinkStyle.ChoosePdf.Pages>}
-
-      {clips.length > 0 && <>
-        <CreateLinkStyle.Header>
-          <h2>Clips</h2>
-        </CreateLinkStyle.Header>
-        {clips.map(res => (
-          <ChooseClipPreview key={res.id}
-            clip={new Clip(res)}
-            resource={pdf}
-            onClick={() => handleSelectedClip(res)} />
-        ))}
-      </>}
-
-      <Spacer />
-
+        </>}
+      </div>
       <div className={"buttons"}>
         <Button onClick={deselectPdf}>
           Cancel

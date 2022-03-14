@@ -56,7 +56,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
     return (
       <LinkView
         title={title}
-        subtitle={subtitle}
+        subtitle={resource.description}
         icon={resource.getIcon()}
         color={"white"}
       />

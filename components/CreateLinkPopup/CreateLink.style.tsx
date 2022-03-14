@@ -8,10 +8,14 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   flex-grow: 2;
-  gap: 16px;
   width: 100%;
   margin: 16px 0 0;
-  min-height: 70vh;
+  height: 75vh;
+  
+  .scrollable {
+    flex-grow: 2;
+    overflow: scroll;
+  }
   
   & > * {
     width: 100%;
@@ -37,7 +41,6 @@ const Container = styled.div`
     padding: 32px 0;
     .form-space { height: 32px; }
   }
-
   
   .error {
     text-align: center;

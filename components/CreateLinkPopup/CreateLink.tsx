@@ -22,16 +22,17 @@ const TABS = [
 ]
 
 export type HandleCreateVideoClipLinkProps = (
-  content_param: string,
-  description_param: string,
+  content: string,
+  description: string,
   start_location: number,
   end_location: number
 ) => void;
 
 export type HandleCreateUrlLinkProps = (
-  url_param: string,
-  name_param: string,
-  description_param: string,
+  type: string,
+  url: string,
+  name: string,
+  description: string,
 ) => void;
 
 const CreateLink: React.FC<CreateLinkPopupProps> = props => {
@@ -96,10 +97,10 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
       respond(await postNewVideoClipLink(authState, props));
     } catch (e) { fail(e) }
   }
-  const handleCreateUrlLink: HandleCreateUrlLinkProps = async (url, name, description) => {
+  const handleCreateUrlLink: HandleCreateUrlLinkProps = async (type, url, name, description) => {
     try {
       begin()
-      let props = { ...createLinkProps, course_id: course.id, url, name, description };
+      let props = { ...createLinkProps, course_id: course.id, type, url, name, description };
       respond(await postNewUrlLink(authState, props));
     } catch (e) { fail(e) }
   }
@@ -131,8 +132,8 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
 
   if (selectedPdf || selectedVid || showWebLinkType) {
     return (
-      <CreateLinkStyle.Container>
-        {selectedPdf && <ChoosePdfLink {...props}
+      <>
+        {selectedPdf && <ChoosePdfLink {...props} {...{ loading, error }}
           pdf={selectedPdf}
           deselectPdf={() => setSelectedPdf(null)}
           handleSelectedClip={handleSelectedClip}
@@ -147,13 +148,13 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
           type={showWebLinkType}
           deselect={() => setShowWebLinkType(null)}
           handleCreateUrlLink={handleCreateUrlLink} />}
-      </CreateLinkStyle.Container>
+      </>
     )
   }
 
   return (
     <CreateLinkStyle.Container>
-      <HorizontalStack gap={16} paddingV={0} paddingH={16}>
+      <HorizontalStack gap={16} style={{ padding: "0 20px 16px" }}>
         {TABS.map(item =>
           <Button key={item.id} onClick={e => handleFilter(item.id)} style={tabStyle(item.id)}>
             {item.label}
@@ -161,7 +162,7 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
         )}
       </HorizontalStack>
 
-      <div className={"resources"}>
+      <div className={"scrollable"}>
         <ChooseResourceLink {...props}
           filter={filter}
           handleSelectedResource={r => handleSelectedResource(r, true)}
@@ -169,8 +170,6 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
       </div>
 
       {error && <span className={'error'}>{error}</span>}
-
-      <Spacer />
 
       {!loading ? (
         <div className={'buttons'}>

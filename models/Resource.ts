@@ -1,5 +1,7 @@
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
-import { faCopy, faFile, faFileAlt, faImage, faLink, faPlayCircle, faVideo } from '@fortawesome/free-solid-svg-icons'
+import { faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { faCopy, faFile, faImage, faLink, faPlayCircle, faVideo } from '@fortawesome/free-solid-svg-icons'
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import Course from 'models/Course'
 import Event from 'models/Event'
 
@@ -42,7 +44,8 @@ export class Resource {
   public getIcon(): IconDefinition {
     switch (this.type) {
       case "VID": return faVideo;
-      case "YT": return faPlayCircle;
+      case "YT": // @ts-ignore
+        return faYoutube;
       case "PDF": return faCopy;
       case "URL": return faLink;
       case "IMG": return faImage;

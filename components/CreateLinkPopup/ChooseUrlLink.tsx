@@ -1,3 +1,5 @@
+import { faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
 import Loader from 'components/Loader/Loader'
 import React, { useState } from 'react'
 import TextField from '@mui/material/TextField'
@@ -6,12 +8,14 @@ import Button from 'components/Button/Button'
 import { Spacer } from 'components/GlobalStyles'
 import { CreateLinkPopupProps } from 'components/CreateLinkPopup/CreateLinkPopup'
 import CreateLinkStyle from './CreateLink.style'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function validateUrl(value) {
   return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
 }
 
 const URL_LABELS = { 'URL': "web link", "YT": "YouTube video" }
+const URL_ICONS = { 'URL': faLink, "YT": faYoutube }
 const URL_PLACEHOLDERS = { 'URL': "https://example.com...", "YT": "https://www.youtube.com/watch..." }
 
 interface ChooseUrlLinkProps {
@@ -35,7 +39,7 @@ const ChooseUrlLink: React.FC<CreateLinkPopupProps & ChooseUrlLinkProps> = ({
     if (!loading) _setUrlText(text);
   }
 
-  const addUrl = (url: string) => handleCreateUrlLink(url, undefined, undefined);
+  const addUrl = (url: string) => handleCreateUrlLink(type, url, undefined, undefined);
 
   let urlEmpty = urlText.length < 5;
   let validUrl = validateUrl(urlText);
@@ -44,7 +48,10 @@ const ChooseUrlLink: React.FC<CreateLinkPopupProps & ChooseUrlLinkProps> = ({
     <CreateLinkStyle.Container>
 
       <div className={"form"}>
-        <h2>Add new {URL_LABELS[type]}</h2>
+        <h2>
+          <FontAwesomeIcon icon={URL_ICONS[type]} color={"var(--accent-color)"} />&nbsp;
+          Add new {URL_LABELS[type]}
+        </h2>
         <TextField fullWidth
           variant={"outlined"}
           margin={"dense"}

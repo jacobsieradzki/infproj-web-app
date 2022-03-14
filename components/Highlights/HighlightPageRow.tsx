@@ -47,7 +47,11 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
     });
   }
 
-  const handleAddPage = e => handleAddConnection(pageClip);
+  console.log('aaaa', pageClip);
+  const handleAddPage = e => {
+    console.log('handle add page', pageClip);
+    handleAddConnection(pageClip);
+  }
 
   let pageAttachedLinks = getPageAttachedLinks(pageClip.start_location);
 
@@ -88,7 +92,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
         </VerticalStack>
       )}
 
-      {showAddConnection && <AddConnectionButton className={'add'} label={'Add Connection to page'} onClick={handleAddPage} />}
+      {showAddConnection && <AddConnectionButton className={'add'} label={'Add connection to page'} onClick={handleAddPage} />}
     </SubtitlesStyles.PageContainer>
   )
 }

@@ -38,7 +38,7 @@ const AutoPlay = styled(HorizontalStack)`
 const PageContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  gap: 2px;
+  gap: 16px;
   margin: 16px 0;
   
   span.header {

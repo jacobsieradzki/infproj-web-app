@@ -69,18 +69,21 @@ export class Clip {
     })
   }
 
-  static async forClipPageOfPdf(pdfDocument: PDFDocumentProxy, clip: Clip): Promise<Clip> {
-    return this.forPageOfPdf(pdfDocument, clip.start_location, clip.description);
+  static async forClipPageOfPdf(pdfDocument: PDFDocumentProxy, clip: Clip, showImage: boolean = true): Promise<Clip> {
+    return this.forPageOfPdf(pdfDocument, clip.start_location, showImage, clip);
   }
 
-  static async forPageOfPdf(pdfDocument: PDFDocumentProxy, i: number, description: string = null, image: string = null): Promise<Clip> {
+  static async forPageOfPdf(pdfDocument: PDFDocumentProxy, i: number, showImage: boolean = true, _clip: Clip = null): Promise<Clip> {
     let page = await pdfDocument.getPage(i);
     let [x, y, w, h] = page._pageInfo.view;
 
+    let description = _clip?.description;
+
     let clip =  new Clip({
-      course_id: 0,
+      id: _clip.id || 0,
+      course_id: _clip?.course_id || 0,
       description: `Page ${i.toString()}${description ? ": " + description : ""}`,
-      content: image,
+      content: showImage ? _clip?.content : null,
       type: "PDF_PAGE",
       start_location: i,
       end_location: i,

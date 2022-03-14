@@ -48,6 +48,7 @@ export interface PostNewUrlLinkProps {
   subtitle_id: string;
   from_id: string;
   from_type: string;
+  type?: string;
   url: string;
   name?: string;
   description?: string;
