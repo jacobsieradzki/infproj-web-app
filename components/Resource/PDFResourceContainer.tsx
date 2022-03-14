@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import useGetClips, { refreshUseGetClips } from 'classroomapi/useGetClips'
+import useGetClips  from 'classroomapi/useGetClips'
 import ResourceHeader from 'components/Header/ResourceHeader'
 import useAuthContext from 'contexts/AuthContext'
 import useMembership from 'helper/useMembership'

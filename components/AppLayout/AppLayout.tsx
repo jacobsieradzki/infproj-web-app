@@ -14,8 +14,10 @@ const AppLayout: React.FC = ({ children }) => {
   const { user = null } = authState;
 
   const [loginPopup, setLoginPopup] = useState(false);
+  const closeLoginPopup = () => setLoginPopup(false);
 
   useEffect(() => {
+    console.log('!!! -- 3')
     if (isLoggedIn && setMemberships) {
       fetchMemberships(authState)
         .then(x => setMemberships(x))
@@ -23,13 +25,13 @@ const AppLayout: React.FC = ({ children }) => {
     } else {
       setMemberships([]);
     }
-  }, [authState, setMemberships]);
+  }, [isLoggedIn]);
 
   return (
     <AppLayoutStyle.Page id={"page"}>
       <CssBaseline />
 
-      <LoginPopup isOpen={loginPopup} closeModal={() => setLoginPopup(false)} />
+      <LoginPopup isOpen={loginPopup} closeModal={closeLoginPopup} />
 
       <AppLayoutStyle.Header>
         <a id={"logo"} href={HOME_ROUTE}>Classroom</a>

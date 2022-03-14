@@ -18,6 +18,11 @@ export const LoginPopup: React.FC<PopupProps & LoginPopupProps> = ({ isOpen, clo
   const { setUser, setCredentials } = useAuthContext();
 
   useEffect(() => {
+    console.log('!!!');
+  }, [isOpen]);
+
+  useEffect(() => {
+    console.log('hey')
     if (!isOpen) {
       setLoading(false);
       setError(false);
@@ -33,6 +38,7 @@ export const LoginPopup: React.FC<PopupProps & LoginPopupProps> = ({ isOpen, clo
   const [password, _setPassword] = useState("");
 
   const setUsername = (str: string) => {
+    console.log('!!! --- 1')
     if (!loading) _setUsername(str);
   }
 
@@ -63,6 +69,8 @@ export const LoginPopup: React.FC<PopupProps & LoginPopupProps> = ({ isOpen, clo
     console.log(error);
     setError("Something went wrong - please try again later. (" + error + ")");
   }
+
+  console.log(isOpen, closeModal, username, setUsername);
 
   return (
     <Popup isOpen={isOpen} closeModal={closeModal} title={"Login"}>

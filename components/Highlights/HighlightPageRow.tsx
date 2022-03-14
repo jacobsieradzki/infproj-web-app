@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import AddConnectionButton from 'components/AddConnectionButton'
 import { VerticalStack } from 'components/GlobalStyles'
 import HighlightRow from 'components/Highlights/HighlightRow'
@@ -58,7 +57,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
       </SubtitlesStyles.Inset>
 
       {highlight.content.text && <p>{highlight.content.text}</p>}
-      {highlight.content.image && <Image className={"pdf-page-prev"} src={highlight.content.image} alt={highlight.content.text} />}
+      {highlight.content.image && <img className={"pdf-page-prev"} src={highlight.content.image} alt={highlight.content.text} />}
 
       {pageAttachedLinks.length > 0 && (
         <SubtitlesStyles.Inset>

@@ -122,7 +122,7 @@ const Item = styled.div`
     cursor: default;
   }
   
-  .pdf-img-prev {
+  img.pdf-img-prev {
     width: 100%;
     margin: 8px 0;
   }

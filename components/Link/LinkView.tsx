@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CaptionUppercase } from 'components/GlobalStyles'
@@ -37,12 +36,12 @@ const LinkView: React.FC<LinkViewProps> = ({
     return (
       <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={"link-prev " + className}>
         {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
-        {image && <Image className={"icon"} src={image} alt={title} />}
+        {image && <img className={"icon"} src={image} alt={title} />}
         <LinkStyles.Content>
           <p>{title}</p>
           {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
           {subtitle && <span className={"content"}>{subtitle}</span>}
-          {contentImage && <Image className={'content'} src={contentImage} alt={title} />}
+          {contentImage && <img className={'content'} src={contentImage} alt={title} />}
         </LinkStyles.Content>
       </LinkStyles.Link>
     )
@@ -51,12 +50,12 @@ const LinkView: React.FC<LinkViewProps> = ({
   return (
     <LinkStyles.Container onClick={onClick} className={"link-prev " + className}>
       {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
-      {image && <Image className={"icon"} src={image} alt={title} />}
+      {image && <img className={"icon"} src={image} alt={title} />}
       <LinkStyles.Content>
         <p>{title}</p>
         {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
         {subtitle && <span>{subtitle}</span>}
-        {contentImage && <Image className={'content'} src={contentImage} alt={title} />}
+        {contentImage && <img className={'content'} src={contentImage} alt={title} />}
       </LinkStyles.Content>
     </LinkStyles.Container>
   )

@@ -22,6 +22,8 @@ const CONTENT_TAB_HEIGHT = 80;
 const Content = styled.div`
   flex-grow: 2;
   padding-right: 44px;
+  display: flex;
+  flex-flow: column nowrap;
 `;
 
 const Links = styled.div`
@@ -88,7 +90,7 @@ const ColumnTab = styled.button`
 
 const PDFWrapper = styled.div`
   width: 100%;
-  height: 75%;
+  height: calc(100% - 20px);
   
   & > div {
     position: relative;

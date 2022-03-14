@@ -1,5 +1,4 @@
 import React from "react";
-import Image from 'next/image'
 import type { IHighlight } from "lib/react-pdf-highlighter";
 
 interface Props {
@@ -58,7 +57,7 @@ export function Sidebar({
                   className="highlight__image"
                   style={{ marginTop: "0.5rem" }}
                 >
-                  <Image src={highlight.content.image} alt={"Screenshot"} />
+                  <img src={highlight.content.image} alt={"Screenshot"} />
                 </div>
               )}
             </div>

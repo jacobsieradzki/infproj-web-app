@@ -7,7 +7,6 @@ import { IHighlight } from 'lib/react-pdf-highlighter'
 import Link from 'models/Link'
 import { useRouter } from 'next/router'
 import SubtitlesStyles from 'components/Subtitles/SubtitleList.style'
-import Image from 'next/image'
 
 type HighlightRowProps = {
   highlight: IHighlight;
@@ -38,7 +37,7 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
         </span>
 
         {highlight.content.text && <p className={"content"}>{highlight.content.text}</p>}
-        {highlight.content.image && <Image className={"pdf-img-prev"} src={highlight.content.image} alt={highlight.content.text} />}
+        {highlight.content.image && <img className={"pdf-img-prev"} src={highlight.content.image} alt={highlight.content.text} />}
       </button>
 
       {links.length > 0 &&
