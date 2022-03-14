@@ -15,6 +15,7 @@ type LinkViewProps = {
   href?: string;
   openInNewTab?: boolean;
   onClick?: () => void;
+  light?: boolean;
 }
 
 const LinkView: React.FC<LinkViewProps> = ({
@@ -27,14 +28,20 @@ const LinkView: React.FC<LinkViewProps> = ({
   color,
   href,
   openInNewTab = true,
-  onClick = () => {}
+  onClick = () => {},
+  light = false,
 }) => {
 
-  let className = !subtitle ? "center" : ""
+  let className = [
+    "link-prev",
+    !subtitle ? "center" : "",
+    light ? "light" : "",
+    (!onClick && !href) ? "noclick" : ""
+  ].filter(x => x.length > 0).join(" ")
 
   if (href) {
     return (
-      <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={"link-prev " + className}>
+      <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={className}>
         {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
         {image && <img className={"icon"} src={image} alt={title} />}
         <LinkStyles.Content>
@@ -48,7 +55,7 @@ const LinkView: React.FC<LinkViewProps> = ({
   }
 
   return (
-    <LinkStyles.Container onClick={onClick} className={"link-prev " + className}>
+    <LinkStyles.Container onClick={onClick} className={className}>
       {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
       {image && <img className={"icon"} src={image} alt={title} />}
       <LinkStyles.Content>

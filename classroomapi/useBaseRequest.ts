@@ -50,7 +50,8 @@ const useBaseRequest = <T>({
   if (response?.status == "success") {
     return { data: response.data as T, loading: false, error: null, refresh }
   } else {
-    return { data: defaultValue, loading, error, refresh };
+    let _error = response?.data?.debug_message?.toString() || response?.data?.message?.toString();
+    return { data: defaultValue, loading, error: _error || error, refresh };
   }
 }
 

@@ -62,7 +62,6 @@ export const StudentCourseNewEnrollmentAlert: MembershipAlertProps<Course> = ({ 
   const membership = useMembership(memberships);
   let student = membership.hasStudentMembershipToCourse(value);
   let staff = membership.hasStaffPermissionForCourse(value);
-  console.log('student', student, 'staff', staff);
   return (!student && !staff) ? (
     <Alert title={"You are enrolled in this course."} icon={faGraduationCap} className={"permissions"}>
       <p className={"subtitle"}>You can comment in discussions and events will display in your feed.</p>

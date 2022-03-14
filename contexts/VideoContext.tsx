@@ -48,27 +48,32 @@ function getPlayer(state): HTMLVideoElement {
 
 function reducer(state: VideoContextProps, action: ActionType): VideoContextProps {
   let player = getPlayer(state);
-  switch (action.type) {
-    case "SET_PLAYER_ID":
-      return { ...state, playerId: action.payload };
-    case "SET_PLAYER_PLAYING":
-      return { ...state, isPlaying: action.payload };
-    case "SET_PLAYER_SECONDS":
-      return { ...state, playerSeconds: action.payload };
-    case "SET_CLIP_START":
-      return { ...state, startClip: action.payload };
-    case "SET_CLIP_END":
-      return { ...state, endClip: action.payload };
-    case "SET_PLAYER_DURATION":
-      return { ...state, playerDuration: action.payload };
-    case "SET_PLAYER_VOLUME":
-      if (player) player.volume = action.payload;
-      return { ...state, playerVolume: action.payload };
-    case "SEEK_PLAYER":
-      if (player) player.currentTime = action.payload;
-      return { ...state, playerSeconds: action.payload };
-    default:
-      return state;
+  try {
+    switch (action.type) {
+      case "SET_PLAYER_ID":
+        return { ...state, playerId: action.payload };
+      case "SET_PLAYER_PLAYING":
+        return { ...state, isPlaying: action.payload };
+      case "SET_PLAYER_SECONDS":
+        return { ...state, playerSeconds: action.payload };
+      case "SET_CLIP_START":
+        return { ...state, startClip: action.payload };
+      case "SET_CLIP_END":
+        return { ...state, endClip: action.payload };
+      case "SET_PLAYER_DURATION":
+        return { ...state, playerDuration: action.payload };
+      case "SET_PLAYER_VOLUME":
+        if (player) player.volume = action.payload;
+        return { ...state, playerVolume: action.payload };
+      case "SEEK_PLAYER":
+        if (player) player.currentTime = action.payload;
+        return { ...state, playerSeconds: action.payload };
+      default:
+        return state;
+    }
+  } catch (e) {
+    console.log("FAILED TO REDUCE VIDEO CONTEXT", e);
+    return { ...state };
   }
 };
 

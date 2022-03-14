@@ -24,7 +24,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
         subtitle={subtitle}
         icon={resource.getIcon()}
         color={"white"}
-        href={generateEventRoute(organisationId, resource.course_id, resource.id)}
+        href={generateResourceRoute(organisationId, resource.course_id, resource.id)}
       />
     )
   }

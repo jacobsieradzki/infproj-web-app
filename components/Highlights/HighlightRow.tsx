@@ -46,7 +46,7 @@ export const HighlightRow: React.FC<HighlightRowProps> = ({
       </button>
 
       {links.length > 0 &&
-        <VerticalStack gap={8} className={'links'}>
+        <VerticalStack gap={8} className={'links'} style={{ marginTop: 16 }}>
           {links.map((link, index) => (
             <LinkPreview key={index} link={link} />
           ))}

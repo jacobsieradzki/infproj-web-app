@@ -43,10 +43,6 @@ const EventsList: React.FC<EventsListProps> = ({ organisation, course }) => {
         {events?.map(event =>
           <EventBox key={event.id} organisation={organisation} event={new Event(event)} />
         )}
-
-        {/*{membership.hasStaffPermissionForCourse(course) && (*/}
-        {/*  <NewEventBox />*/}
-        {/*)}*/}
       </CoursesListStyles.Grid>
     </CoursesListStyles.Container>
   )

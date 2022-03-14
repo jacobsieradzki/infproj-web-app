@@ -1,4 +1,5 @@
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import ResourceHeader from 'components/Header/ResourceHeader'
 import React, { useState } from 'react'
 import { useGetLinksForResource } from 'classroomapi/useGetLinks'
 import PDFResourceContainer from 'components/Resource/PDFResourceContainer'
@@ -44,34 +45,7 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
   return (
     <ResourceStyles.Container>
       <ResourceStyles.Content>
-        <ResourceStyles.Header>
-          <Breadcrumbs items={[
-            { label: "Home", url: HOME_ROUTE },
-            { label: organisation.name, url: generateOrganisationRoute(organisation.id) },
-            { label: course?.name, url: generateCourseRoute(organisation.id, course?.id) },
-            { label: "Resources", url: generateCourseRouteMenu(organisation.id, course?.id, "resources") },
-            { label: resource?.getTypeLabel() },
-          ]} />
-
-          {event && (
-            <h1>
-              <FontAwesomeIcon icon={event.getIcon()} />&nbsp;&nbsp;
-              {event.getTypeLabel()}: {event.name}
-            </h1>
-          )}
-          {!!resource && !event && (
-            <h1>
-              <FontAwesomeIcon icon={resource.getIcon()} />&nbsp;&nbsp;
-              {resource.name}
-            </h1>
-          )}
-          {!resource && !event && (
-            <h1>
-              <FontAwesomeIcon icon={faExclamationTriangle} color={"var(--accent-color)"} />&nbsp;
-              Resource not found
-            </h1>
-          )}
-        </ResourceStyles.Header>
+        <ResourceHeader organisation={organisation} course={course} resource={resource} />
       </ResourceStyles.Content>
 
       {!!resource && <ResourceStyles.Column>

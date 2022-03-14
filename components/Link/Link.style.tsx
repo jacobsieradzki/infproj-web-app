@@ -23,7 +23,11 @@ const ContainerCss = `
     overflow: hidden;
   }
   
-  &:hover {
+  &.noclick {
+    cursor: default;
+  }
+  
+  &:hover:not(.noclick) {
     border-color: white;
     background-color: var(--primary-color);
   }
@@ -33,6 +37,15 @@ const ContainerCss = `
   &.center {
     align-items: center;
     .icon.svg-inline--fa { margin: 0 16px 0 4px; }    
+  }
+  
+  &.light {
+    &:hover:not(.noclick) {
+      color: white;
+      svg {
+        color: white;
+      }
+    }
   }
 `;
 

@@ -70,7 +70,9 @@ const SliderOverlay = styled.div`
   width: 100%;
   padding: 32px 16px 16px;
   background: #000;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  background: line  ar-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  
+  p { color: white; }
   
   .time {
     margin: 8px 0;

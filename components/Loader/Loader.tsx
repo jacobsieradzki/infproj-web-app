@@ -27,7 +27,7 @@ const LoaderStyle = styled.div<LoaderProps>`
 `;
 
 const Loader: React.FC<LoaderProps> = ({
-  size = 32,
+  size = 24,
   color = DEFAULT_PRIMARY_LOADER_COLOR,
   bgColor = DEFAULT_SECONDARY_LOADER_COLOR,
   style

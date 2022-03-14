@@ -1,6 +1,7 @@
 import { faExclamationTriangle, faFile, faFileVideo, faHighlighter, faStickyNote } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { generateResourcePDFClipRoute, generateResourceVideoClipRoute } from 'constants/navigation'
+import { captionForVideoClipPreview, formatHHMMSS } from 'helper/time'
 import Clip from 'models/Clip'
 import Resource from 'models/Resource'
 import React from 'react'
@@ -42,7 +43,7 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
         subtitle={clip.isImage() ? null : clip.content}
         image={clip.isImage() ? clip.content : null}
         caption={title}
-        icon={resource.getIcon()}
+        icon={clip.isImage() ? null : resource.getIcon()}
         color={"white"}
         href={generateResourcePDFClipRoute(clip, organisationId)}
       />
@@ -50,12 +51,11 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
   }
 
   if (clip.type == "VIDEO_CLIP" && resource) {
-    let timeDifference = clip.end_location - clip.start_location;
     return (
       <LinkView
         title={resource.name}
         subtitle={resource.description}
-        caption={`${timeDifference} second clip`}
+        caption={captionForVideoClipPreview(clip)}
         icon={faFileVideo}
         color={"white"}
         href={generateResourceVideoClipRoute(clip, organisationId)}

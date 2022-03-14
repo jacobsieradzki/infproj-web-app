@@ -1,16 +1,38 @@
+import { faFilter, faPlus } from '@fortawesome/free-solid-svg-icons'
+import ChooseUrlLink from 'components/CreateLinkPopup/ChooseUrlLink'
+import ChooseVideoLink from 'components/CreateLinkPopup/ChooseVideoLink'
 import React, { useState } from 'react'
-import { postNewLink, PostNewLinkProps } from 'classroomapi/postNewLink'
+import { postNewVideoClipLink, postNewLink, postNewUrlLink } from 'classroomapi/postNewLink'
 import ChoosePdfLink from 'components/CreateLinkPopup/ChoosePdfLink'
 import ChooseResourceLink from 'components/CreateLinkPopup/ChooseResourceLink'
 import useAuthContext from 'contexts/AuthContext'
 import Clip from 'models/Clip'
 import Resource from 'models/Resource'
-import ResourceStyles from 'components/Resource/ResourceContainer.style'
 import { CreateLinkPopupProps } from 'components/CreateLinkPopup/CreateLinkPopup'
 import Button from 'components/Button/Button'
-import { Spacer } from 'components/GlobalStyles'
+import { HorizontalStack, Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
 import CreateLinkStyle from 'components/CreateLinkPopup/CreateLink.style'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+const TABS = [
+  { id: "VIDEO", label: "Videos" },
+  { id: "DOCS", label: "Documents" },
+  { id: "WEB", label: "Web links" },
+]
+
+export type HandleCreateVideoClipLinkProps = (
+  content_param: string,
+  description_param: string,
+  start_location: number,
+  end_location: number
+) => void;
+
+export type HandleCreateUrlLinkProps = (
+  url_param: string,
+  name_param: string,
+  description_param: string,
+) => void;
 
 const CreateLink: React.FC<CreateLinkPopupProps> = props => {
   const { authState } = useAuthContext();
@@ -23,81 +45,128 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
     handleCreatedLink
   } = props;
 
-  const [tab, setTab] = useState("resources");
+  const [filter, setFilter] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [selectedVid, setSelectedVid] = useState(null);
+  const [showWebLinkType, setShowWebLinkType] = useState(null);
 
-  const handleCreate = async (to_id: string, to_type: string) => {
+  // --------------------------------------------------
+  // API helpers
+  // --------------------------------------------------
+
+  const begin = () => {
     setLoading(true);
     setError(null);
-    try {
-      let props = { subtitle_id: anchorSubtitleId, from_id: selectedId, from_type: selectedType, to_id, to_type };
-      let response = await postNewLink(authState, course, props);
-      if (response) {
-        handleCreatedLink(response);
-        console.log('NEW LINK!', response);
-        closeModal();
-      } else {
-        setLoading(false);
-        setError("Something went wrong creating this connection - please try again later.");
-      }
-    } catch (e) {
-      setError(e.toString());
-      setLoading(false);
+  }
+
+  const fail = (err = "Something went wrong creating this connection - please try again later.") => {
+    setLoading(false);
+    setError(err);
+  }
+
+  const respond = res => {
+    if (res) {
+      handleCreatedLink(res);
+      closeModal();
+    } else {
+      fail();
     }
   }
+
+  const createLinkProps = { subtitle_id: anchorSubtitleId, from_id: selectedId, from_type: selectedType };
+
+  // --------------------------------------------------
+  // POST requests
+  // --------------------------------------------------
+
+  const handleCreateLink = async (to_id: string, to_type: string) => {
+    try {
+      begin();
+      let props = { ...createLinkProps, to_id, to_type };
+      respond(await postNewLink(authState, course, props));
+    } catch (e) { fail(e) }
+  }
+  const handleCreateVideoClipLink: HandleCreateVideoClipLinkProps = async (content, description, start_location, end_location) => {
+    try {
+      begin()
+      let props = { ...createLinkProps, course_id: course.id, video_id: selectedVid.id.toString(), content, description, start_location, end_location, };
+      respond(await postNewVideoClipLink(authState, props));
+    } catch (e) { fail(e) }
+  }
+  const handleCreateUrlLink: HandleCreateUrlLinkProps = async (url, name, description) => {
+    try {
+      begin()
+      let props = { ...createLinkProps, course_id: course.id, url, name, description };
+      respond(await postNewUrlLink(authState, props));
+    } catch (e) { fail(e) }
+  }
+
+  // --------------------------------------------------
+  // Actions
+  // --------------------------------------------------
 
   const handleSelectedResource = async (res: Resource, shouldExpand: boolean) => {
     if (shouldExpand && res.type === "PDF") {
       setSelectedPdf(new Resource(res));
     } else if (shouldExpand && res.type === "VID") {
-      // setSelectedVid(new Resource(res));
-      await handleCreate(res.id, "RESOURCE");
+      setSelectedVid(new Resource(res));
     } else {
-      await handleCreate(res.id, "RESOURCE");
+      await handleCreateLink(res.id, "RESOURCE");
     }
   }
 
   const handleSelectedClip = async (clip: Clip) => {
-    await handleCreate(clip.id, "CLIP");
+    await handleCreateLink(clip.id, "CLIP");
   }
 
-  if (selectedPdf) return <ChoosePdfLink {...props}
-    pdf={selectedPdf}
-    deselectPdf={() => setSelectedPdf(null)}
-    handleSelectedClip={handleSelectedClip}
-    handleSelectedResource={r => handleSelectedResource(r, false)} />
+  // --------------------------------------------------
+  // Render
+  // --------------------------------------------------
 
-  console.log();
+  const tabStyle = (tab: string) => filter == tab ? "inverse" : "primary";
+  const handleFilter = (tab: string) => setFilter(filter == tab ? null : tab);
+
+  if (selectedPdf || selectedVid || showWebLinkType) {
+    return (
+      <CreateLinkStyle.Container>
+        {selectedPdf && <ChoosePdfLink {...props}
+          pdf={selectedPdf}
+          deselectPdf={() => setSelectedPdf(null)}
+          handleSelectedClip={handleSelectedClip}
+          handleSelectedResource={r => handleSelectedResource(r, false)} />}
+        {selectedVid && <ChooseVideoLink {...props}
+          vid={selectedVid}
+          deselectVid={() => setSelectedVid(null)}
+          handleSelectedClip={handleSelectedClip}
+          handleSelectedResource={r => handleSelectedResource(r, false)}
+          handleCreateVideoClip={handleCreateVideoClipLink} />}
+        {showWebLinkType && <ChooseUrlLink {...props} loading={loading} error={error}
+          type={showWebLinkType}
+          deselect={() => setShowWebLinkType(null)}
+          handleCreateUrlLink={handleCreateUrlLink} />}
+      </CreateLinkStyle.Container>
+    )
+  }
 
   return (
     <CreateLinkStyle.Container>
-      {/*<HorizontalStack gap={16}>*/}
-      {/*  <Button style={tab === "resources" ? "primary" : "primary"} onClick={() => setTab("resources")}>*/}
-      {/*    Resources*/}
-      {/*  </Button>*/}
-      {/*  <Button style={"primary"} onClick={() => setTab("clips")}>*/}
-      {/*    Clips*/}
-      {/*  </Button>*/}
-      {/*  <Button style={"primary"} onClick={() => setTab("events")}>*/}
-      {/*    Events*/}
-      {/*  </Button>*/}
-      {/*</HorizontalStack>*/}
+      <HorizontalStack gap={16} paddingV={0} paddingH={16}>
+        {TABS.map(item =>
+          <Button key={item.id} onClick={e => handleFilter(item.id)} style={tabStyle(item.id)}>
+            {item.label}
+          </Button>
+        )}
+      </HorizontalStack>
 
-      <ResourceStyles.TabWrapper tab={tab}>
-        <div className={"resources"}>
-          <ChooseResourceLink handleSelectedResource={r => handleSelectedResource(r, true)} {...props} />
-        </div>
-        {/*<div className={"clips"}>*/}
-        {/*  <ClipsList organisation={organisation} course={course} />*/}
-        {/*</div>*/}
-        {/*<div className={"links"}>*/}
-        {/*  <ResourceList organisation={organisation} course={course} />*/}
-        {/*</div>*/}
-      </ResourceStyles.TabWrapper>
+      <div className={"resources"}>
+        <ChooseResourceLink {...props}
+          filter={filter}
+          handleSelectedResource={r => handleSelectedResource(r, true)}
+        />
+      </div>
 
       {error && <span className={'error'}>{error}</span>}
 
@@ -105,6 +174,22 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
 
       {!loading ? (
         <div className={'buttons'}>
+          {filter ? (<>
+            <Button onClick={e => setFilter(null)}>
+              <FontAwesomeIcon icon={faFilter} />&nbsp;
+              Clear
+            </Button>
+          </>) : (<>
+            <Button onClick={e => setShowWebLinkType("URL")}>
+              <FontAwesomeIcon icon={faPlus} />&nbsp;
+              Web link
+            </Button>
+            <Button onClick={e => setShowWebLinkType("YT")}>
+              <FontAwesomeIcon icon={faPlus} />&nbsp;
+              YouTube
+            </Button>
+          </>)}
+          <Spacer />
           <Button onClick={closeModal} style={"inverse-neutral"}>
             Close
           </Button>

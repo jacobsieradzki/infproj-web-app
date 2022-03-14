@@ -47,7 +47,7 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
     setCurrentHighlight(PdfDocumentHelper.parseIdFromHash(router));
   }, [_currentHighlight]);
 
-  const { data: links, loading: linksLoading } = useGetLinksForResource({ id: resource.id, courseId: course.id });
+  const { data: links, loading: linksLoading, refresh: refreshLinks } = useGetLinksForResource({ id: resource.id, courseId: course.id });
 
   const { loading: clipsLoading, refresh } = useGetClips({ resourceId: resource.id, courseId: course.id,
     onCompleted: res => {
@@ -130,6 +130,7 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
               pageClips={pages}
               currentHighlight={currentHighlight}
               isDiscussion={false}
+              refreshLinks={refreshLinks}
             />
           ) : (
             <HighlightList
@@ -141,6 +142,7 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
               pageClips={[]}
               currentHighlight={null}
               isDiscussion={true}
+              refreshLinks={refreshLinks}
             />
           )}
         </ResourceStyles.ColumnContent>

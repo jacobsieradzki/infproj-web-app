@@ -24,6 +24,9 @@ export const CenterDiv = styled.div`
 type StackProps = {
   align?: string;
   gap?: number;
+  padding?: number;
+  paddingH?: number;
+  paddingV?: number;
 }
 
 export const VerticalStack = styled.div<StackProps>`
@@ -32,6 +35,8 @@ export const VerticalStack = styled.div<StackProps>`
   align-items: ${props => props.align || 'flex-start'};
   justify-content: center;
   gap: ${props => props.gap || 0}px;
+  ${props => !!props.padding ? `padding: ${props.padding}px` : ""}
+  ${props => (!!props.paddingH && !!props.paddingV) ? `padding: ${props.paddingV}px ${props.paddingH}px;` : ""}
 `;
 
 export const HorizontalStack = styled.div<StackProps>`
@@ -40,6 +45,8 @@ export const HorizontalStack = styled.div<StackProps>`
   justify-content: ${props => props.align || 'flex-start'};
   align-items: center;
   gap: ${props => props.gap || 0}px;
+  ${props => !!props.padding ? `padding: ${props.padding}px;` : ""}
+  ${props => (!!props.paddingH || !!props.paddingV) ? `padding: ${props.paddingV || 0}px ${props.paddingH || 0}px;` : ""}
 `;
 
 export const Grid = {

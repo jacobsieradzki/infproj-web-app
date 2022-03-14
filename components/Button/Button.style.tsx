@@ -8,6 +8,7 @@ type ButtonStyleProps = {
 export const ButtonStyle = styled.button<ButtonStyleProps>`
   font-weight: 600;
   cursor: pointer;
+  transition: all 150ms;
   
   &.sm {
     padding: 8px 16px;

@@ -18,11 +18,6 @@ export const LoginPopup: React.FC<PopupProps & LoginPopupProps> = ({ isOpen, clo
   const { setUser, setCredentials } = useAuthContext();
 
   useEffect(() => {
-    console.log('!!!');
-  }, [isOpen]);
-
-  useEffect(() => {
-    console.log('hey')
     if (!isOpen) {
       setLoading(false);
       setError(false);
@@ -38,7 +33,6 @@ export const LoginPopup: React.FC<PopupProps & LoginPopupProps> = ({ isOpen, clo
   const [password, _setPassword] = useState("");
 
   const setUsername = (str: string) => {
-    console.log('!!! --- 1')
     if (!loading) _setUsername(str);
   }
 
@@ -70,32 +64,37 @@ export const LoginPopup: React.FC<PopupProps & LoginPopupProps> = ({ isOpen, clo
     setError("Something went wrong - please try again later. (" + error + ")");
   }
 
-  console.log(isOpen, closeModal, username, setUsername);
-
   return (
     <Popup isOpen={isOpen} closeModal={closeModal} title={"Login"}>
       <LoginPopupStyles.Layout>
         <Spacer />
 
-        <div className={"text-field"}>
-          <TextField fullWidth
-            variant={"outlined"}
-            margin={"dense"}
-            label={"Username"}
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          />
-        </div>
+        <div className={"form"}>
+          <h3>👋 Welcome to Classroom!</h3>
+          <p>Sign in to your account to engage in discussions, leave feedback and create links between your learning material.</p>
 
-        <div className={"text-field"}>
-          <TextField fullWidth
-            variant={"outlined"}
-            margin={"dense"}
-            label={"Password"}
-            type={"password"}
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
+          <div className={"form-space"} />
+
+          <div className={"text-field"}>
+            <TextField fullWidth
+              variant={"outlined"}
+              margin={"dense"}
+              label={"Username"}
+              value={username}
+              onChange={e => setUsername(e.target.value)}
+            />
+          </div>
+
+          <div className={"text-field"}>
+            <TextField fullWidth
+              variant={"outlined"}
+              margin={"dense"}
+              label={"Password"}
+              type={"password"}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
         </div>
 
         {error && <span className={'error'}>{error}</span>}

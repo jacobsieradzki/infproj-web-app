@@ -1,3 +1,4 @@
+import Loader from 'components/Loader/Loader'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -10,15 +11,33 @@ const Container = styled.div`
   gap: 16px;
   width: 100%;
   margin: 16px 0 0;
+  min-height: 70vh;
   
   & > * {
     width: 100%;
   }
   
+  .loader-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  
   .link-prev {
-    width: calc(100% - 20px - 20px);
+    width: calc(100% - 20px);
     margin: 0 auto;
   }
+  
+  .video-container {
+    width: calc(100% - 48px);
+    .video { margin: 0; }
+  }
+
+  .form {
+    width: min(500px, 90%);
+    padding: 32px 0;
+    .form-space { height: 32px; }
+  }
+
   
   .error {
     text-align: center;
@@ -56,9 +75,36 @@ const ChoosePdf = {
   `,
 }
 
+const Header = styled.div`
+  padding: 0 24px;
+  
+  h2 {
+    margin: 32px 0 0;
+  }
+`;
+
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const LoaderComponent = () => (
+  <LoaderWrapper>
+    <Loader />
+  </LoaderWrapper>
+)
+
+const ErrorComponent = ({ error }) => (
+  <span className={"error"}>
+    {error}
+  </span>
+)
+
 const CreateLinkStyle = {
   Container,
   ChoosePdf,
+  Header,
+  LoaderComponent,
+  ErrorComponent,
 }
 
 export default CreateLinkStyle

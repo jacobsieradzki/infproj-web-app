@@ -32,11 +32,9 @@ const CourseScreen: React.FC<CourseScreen> = ({ organisationId, courseId }) => {
   const [tab, setTab] = useState(router.query.tab?.toString() || "events");
 
   useEffect(() => {
-    console.log('!!! -- 2')
     if (!organisationId || !courseId) return;
     let route = COURSE_ROUTE + "?tab=" + tab;
     let path = generateCourseRouteMenu(organisationId, courseId, tab);
-    console.log(COURSE_ROUTE + route, path);
     router.replace(route, path, { shallow: true });
   }, [tab]);
 

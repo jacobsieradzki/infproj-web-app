@@ -8,8 +8,17 @@ const Layout = styled.div`
   width: 100%;
   flex-grow: 2;
   
-  .text-field {
+  .form {
     width: min(500px, 90%);
+    padding: 32px 0;
+  }
+  
+  .form-space {
+    height: 32px;
+  }
+  
+  .text-field {
+    
     margin: 8px 0;
   }
   

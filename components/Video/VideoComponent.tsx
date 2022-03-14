@@ -59,15 +59,15 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
 
   useEffect(() => {
     if (!videoRef.current) return;
-    setPlayerId(videoRef.current.id);
+    setPlayerId(videoRef.current?.id);
     videoRef.current.onplay = e => setPlayerPlaying(true);
     videoRef.current.onpause = e => setPlayerPlaying(false);
-    videoRef.current.ontimeupdate = e => setPlayerSeconds(videoRef.current.currentTime)
-    videoRef.current.ondurationchange = e => setPlayerDuration(videoRef.current.duration);
-    videoRef.current.onvolumechange = e => setPlayerVolume(videoRef.current.volume);
-    setPlayerVolume(videoRef.current.volume);
+    videoRef.current.ontimeupdate = e => setPlayerSeconds(videoRef.current?.currentTime)
+    videoRef.current.ondurationchange = e => setPlayerDuration(videoRef.current?.duration);
+    videoRef.current.onvolumechange = e => setPlayerVolume(videoRef.current?.volume);
+    setPlayerVolume(videoRef.current?.volume);
     videoRef.current.onwaiting = e => setBuffering(true);
-    setPipEnabled(!!videoRef.current.requestPictureInPicture);
+    setPipEnabled(!!videoRef.current?.requestPictureInPicture);
   }, [videoRef.current]);
 
   // --------------------------------------------------
@@ -133,7 +133,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
   let isMuted = playerVolume == 0;
 
   return (
-    <VideoStyles.Container>
+    <VideoStyles.Container className={"video"}>
       <VideoStyles.VideoWrapper>
         <video id={"video-" + resource.id} ref={videoRef} autoPlay>
           <source src={resource.url} type="video/mp4" />
@@ -148,44 +148,37 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
         {(!buffering || isPlaying) ? (<>
           <Button
             iconElement={<Replay10Icon fontSize={'small'} />}
-            onClick={onJumpBackward}
-            label={<>Rewind<br />{JUMP_INTERVAL} seconds</>}
-          />
-
+            onClick={onJumpBackward} />
           <Button
             icon={isPlaying ? faPause : faPlay}
-            onClick={togglePlay}
-          />
-
+            onClick={togglePlay} />
           <Button
             iconElement={<Forward10Icon fontSize={'small'} />}
-            onClick={onJumpForward}
-            label={<>Jump<br />{JUMP_INTERVAL} seconds</>}
-          />
+            onClick={onJumpForward} />
 
           <Spacer />
 
-          <VideoStyles.VolumeControl className={volumeExpanded ? "expand" : ""}>
-            <SliderStyle thumbSize={8}>
-              <Slider
-                type="range"
-                min={0}
-                max={1000}
-                value={Math.round(playerVolume*1000)}
-                onChange={val => setPlayerVolume(val/1000)}
-                className="slider"
-              />
-            </SliderStyle>
-            <Button
-              icon={faVolumeMute}
-              className={"mute" + (isMuted ? " active" : "")}
-              onClick={onMuteClick}
-              label={<>Mute</>}/>
-            <Button
-              icon={faVolumeUp}
-              onClick={onVolumeClick}
-              label={<>Volume</>} />
-          </VideoStyles.VolumeControl>
+          {/*<VideoStyles.VolumeControl className={volumeExpanded ? "expand" : ""}>*/}
+          {/*  <SliderStyle thumbSize={8}>*/}
+          {/*    <Slider*/}
+          {/*      type="range"*/}
+          {/*      min={0}*/}
+          {/*      max={1000}*/}
+          {/*      value={Math.round(playerVolume*1000)}*/}
+          {/*      onChange={val => setPlayerVolume(val/1000)}*/}
+          {/*      className="slider"*/}
+          {/*    />*/}
+          {/*  </SliderStyle>*/}
+          {/*  <Button*/}
+          {/*    icon={faVolumeMute}*/}
+          {/*    className={"mute" + (isMuted ? " active" : "")}*/}
+          {/*    onClick={onMuteClick}*/}
+          {/*    label={<>Mute</>}/>*/}
+          {/*  <Button*/}
+          {/*    icon={faVolumeUp}*/}
+          {/*    onClick={onVolumeClick}*/}
+          {/*    label={<>Volume</>} />*/}
+          {/*</VideoStyles.VolumeControl>*/}
 
           {pipEnabled && <Button
             iconElement={<PictureInPictureIcon fontSize={"small"} style={{ marginTop: 3 }} />}

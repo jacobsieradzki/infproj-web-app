@@ -20,6 +20,7 @@ type HighlightListProps = {
   links: Link[];
   currentHighlight?: string;
   isDiscussion?: boolean;
+  refreshLinks: () => void;
 }
 
 export const HighlightList: React.FC<HighlightListProps> = ({
@@ -31,13 +32,14 @@ export const HighlightList: React.FC<HighlightListProps> = ({
   links,
   currentHighlight,
   isDiscussion,
+  refreshLinks,
 }) => {
 
   const { authState } = useAuthContext();
   const { memberships } = authState;
   const membership = useMembership(memberships);
 
-  const [linkProps, setLinksProps] = useState(null);
+  const [linkProps, setLinkProps] = useState(null);
 
   const getHighlightsForPage = (pageClip: Clip): Clip[] => {
     return (highlights?.filter(clip => {
@@ -67,13 +69,12 @@ export const HighlightList: React.FC<HighlightListProps> = ({
   console.log("ALL LINKS", links);
   console.log("PAGE CLIPS", pageClips);
 
-  const showConnectionForHighlight = (clip: Clip) => setLinksProps(clip.id);
+  const showConnectionForHighlight = (clip: Clip) => setLinkProps(clip.id);
 
   return (
     <>
-      <CreateLinkPopup isOpen={!!linkProps} closeModal={() => setLinksProps(null)} course={course}
-        selectedId={resource.id} selectedType={"RESOURCE"} anchorSubtitleId={linkProps}
-        handleCreatedLink={() => {}} />
+      <CreateLinkPopup isOpen={!!linkProps} closeModal={() => setLinkProps(null)} course={course}
+        selectedId={linkProps} selectedType={"CLIP"} handleCreatedLink={refreshLinks} />
 
       <SubtitlesStyles.Container id={"highlights-list"}>
         <div>

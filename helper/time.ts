@@ -1,3 +1,4 @@
+import Clip from 'models/Clip'
 
 export const formatHHMMSS = (secs: number): string => {
   let hours = Math.floor(secs / 3600);
@@ -12,5 +13,14 @@ export const formatHHMMSS = (secs: number): string => {
     return hoursStr + ':' + minutesStr + ':' + secondsStr;
   } else {
     return minutesStr + ':' + secondsStr;
+  }
+}
+
+export const captionForVideoClipPreview = (clip: Clip): string => {
+  let timeDifference = clip.end_location - clip.start_location;
+  if (timeDifference == 0) {
+    return `${formatHHMMSS(clip.start_location)}`;
+  } else {
+    return `${timeDifference} second clip`;
   }
 }

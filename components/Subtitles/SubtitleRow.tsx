@@ -24,7 +24,8 @@ export const SubtitleRow: React.FC<SubtitleRowProps> = ({
   addConnection
 }) => {
 
-  const { seekPlayer } = useVideoContext();
+  const { videoState, seekPlayer } = useVideoContext();
+  const { isPlaying } = videoState;
 
   const onClick = e => {
     seekPlayer(subtitle.start_seconds);
@@ -44,7 +45,7 @@ export const SubtitleRow: React.FC<SubtitleRowProps> = ({
           ))}
         </VerticalStack>
       }
-      {showAddConnection && <AddConnectionButton className={'add'} onClick={addConnection} />}
+      {showAddConnection && !isPlaying && <AddConnectionButton className={'add'} onClick={addConnection} />}
     </SubtitlesStyles.Item>
   )
 }

@@ -26,8 +26,7 @@ const Button: React.FC<ButtonProps> = ({
       case "neutral": return ["var(--text2-color)", "var(--background-color)"];
       case "inverse": return ["var(--text-color)", "var(--background-color)"];
       case "inverse-neutral": return ["var(--light-text2-color)", "white"];
-      default:
-        return ["var(--background-color)", "white"];
+      default: return ["var(--background-color)", "white"];
     }
   }
 

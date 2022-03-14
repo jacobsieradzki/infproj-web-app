@@ -76,7 +76,7 @@ export const useStorage = <T>(state: T, setState: (val: T) => void) => {
         }
       });
     }
-    init().then(x => setError(null)).catch(err => console.log('!!! #6', err));
+    init().then(x => setError(null)).catch(err => console.log('storage error', err));
   }, []);
 
   useEffect(() => {

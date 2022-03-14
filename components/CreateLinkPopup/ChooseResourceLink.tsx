@@ -4,19 +4,29 @@ import { CreateLinkPopupProps } from 'components/CreateLinkPopup/CreateLinkPopup
 import LinkView from 'components/Link/LinkView'
 import Resource from 'models/Resource'
 
-interface ChooseResourceLinkProps { handleSelectedResource: (res: Resource) => void };
+export type ChooseResourceFilter = "VIDEO" | "DOCS" | "WEB";
+interface ChooseResourceLinkProps {
+  filter: ChooseResourceFilter;
+  handleSelectedResource: (res: Resource) => void;
+}
 const ChooseResourceLink: React.FC<CreateLinkPopupProps & ChooseResourceLinkProps> = ({
   course,
   selectedType,
   selectedId,
+  filter = null,
   handleSelectedResource,
 }) => {
 
-
   const { data } = useGetResources({ courseId: course.id });
   let resources = data.filter(x => {
-    if (selectedType === "RESOURCE") return selectedId != x.id;
-    return true;
+    let isSame = false;
+    if (selectedType === "RESOURCE") isSame = selectedId == x.id;
+    switch (filter || "") {
+      case "VIDEO": return ["VID", "YT"].includes(x.type) && !isSame;
+      case "DOCS": return ["PDF"].includes(x.type) && !isSame;
+      case "WEB": return ["URL", "YT"].includes(x.type) && !isSame;
+      default: return true && !isSame;
+    }
   });
 
   const handleClick = (resource: Resource) => handleSelectedResource(resource);
@@ -31,14 +41,14 @@ const ChooseResourceLink: React.FC<CreateLinkPopupProps & ChooseResourceLinkProp
 }
 
 interface ChooseResourceLinkPreviewProps { resource?: Resource; onClick?: () => void; }
-export const ChooseResourceLinkPreview: React.FC<ChooseResourceLinkPreviewProps> = ({ resource: r, onClick }) => {
+export const ChooseResourceLinkPreview: React.FC<ChooseResourceLinkPreviewProps> = ({ resource: r, onClick = null }) => {
   let resource = new Resource(r);
   let title = resource.name;
   let subtitle = <><b>{resource.getTypeLabel()}</b> • {resource.description}</>;
 
   if (resource.type == "VID") {
     return (
-      <LinkView
+      <LinkView light
         title={title}
         subtitle={subtitle}
         icon={resource.getIcon()}
@@ -50,19 +60,7 @@ export const ChooseResourceLinkPreview: React.FC<ChooseResourceLinkPreviewProps>
 
   if (resource.type == "PDF") {
     return (
-      <LinkView
-        title={title}
-        subtitle={subtitle}
-        icon={resource.getIcon()}
-        color={"var(--background-color)"}
-        onClick={onClick}
-      />
-    )
-  }
-
-  if (resource.type == "IMG") {
-    return (
-      <LinkView
+      <LinkView light
         title={title}
         subtitle={subtitle}
         icon={resource.getIcon()}
@@ -74,7 +72,7 @@ export const ChooseResourceLinkPreview: React.FC<ChooseResourceLinkPreviewProps>
 
   if (resource.type == "YT") {
     return (
-      <LinkView
+      <LinkView light
         title={title}
         subtitle={subtitle}
         icon={resource.getIcon()}
@@ -86,7 +84,7 @@ export const ChooseResourceLinkPreview: React.FC<ChooseResourceLinkPreviewProps>
 
   if (resource.type == "URL") {
     return (
-      <LinkView
+      <LinkView light
         title={title}
         subtitle={subtitle}
         icon={resource.getIcon()}
@@ -97,7 +95,7 @@ export const ChooseResourceLinkPreview: React.FC<ChooseResourceLinkPreviewProps>
   }
 
   return (
-    <LinkView
+    <LinkView light
       title={title}
       subtitle={subtitle}
       icon={resource.getIcon()}

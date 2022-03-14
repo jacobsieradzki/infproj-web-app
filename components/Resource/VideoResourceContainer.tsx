@@ -29,6 +29,8 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
       <ResourceStyles.Content>
         <ResourceHeader {...{ organisation, course, event, resource }} />
 
+        <VideoComponent resource={resource} />
+
         {shouldShowPrimaryEvents &&
           <ResourceStyles.Links>
             {resource.parent_events.map(event => (
@@ -39,8 +41,6 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
             ))}
           </ResourceStyles.Links>
         }
-
-        <VideoComponent resource={resource} />
 
         {nonSubtitleLinks.length > 0 &&
           <ResourceStyles.Links>

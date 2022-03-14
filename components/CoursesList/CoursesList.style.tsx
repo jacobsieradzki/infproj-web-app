@@ -16,6 +16,7 @@ const Grid = styled(GlobalGrid.Container)`
 
 const Box = styled(GlobalGrid.Box)`
   padding: 0;
+  transition: all 0.1s;
   
   &:hover {
     box-shadow: var(--shadow);

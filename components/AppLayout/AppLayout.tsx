@@ -17,7 +17,6 @@ const AppLayout: React.FC = ({ children }) => {
   const closeLoginPopup = () => setLoginPopup(false);
 
   useEffect(() => {
-    console.log('!!! -- 3')
     if (isLoggedIn && setMemberships) {
       fetchMemberships(authState)
         .then(x => setMemberships(x))

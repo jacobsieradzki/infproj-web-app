@@ -23,7 +23,6 @@ const useGetClips = ({ courseId, resourceId, onCompleted }: GetClipsProps): Endp
 export const refreshUseGetClips = async ({ courseId, resourceId }: GetClipsProps) => {
   let path = "clip/" + courseId;
   if (resourceId) path += "?resource_id=" + resourceId;
-  console.log('mutating path...', path);
   await mutate(path);
 }
 
