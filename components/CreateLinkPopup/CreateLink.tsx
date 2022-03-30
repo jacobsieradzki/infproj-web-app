@@ -1,4 +1,4 @@
-import { faFilter, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faFileAlt, faFilter, faLink, faPlus, faVideo } from '@fortawesome/free-solid-svg-icons'
 import ChooseUrlLink from 'components/CreateLinkPopup/ChooseUrlLink'
 import ChooseVideoLink from 'components/CreateLinkPopup/ChooseVideoLink'
 import React, { useState } from 'react'
@@ -16,9 +16,9 @@ import CreateLinkStyle from 'components/CreateLinkPopup/CreateLink.style'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const TABS = [
-  { id: "VIDEO", label: "Videos" },
-  { id: "DOCS", label: "Documents" },
-  { id: "WEB", label: "Web links" },
+  { id: "VIDEO", label: "Videos", icon: faVideo },
+  { id: "DOCS", label: "Documents", icon: faFileAlt },
+  { id: "WEB", label: "URLs", icon: faLink },
 ]
 
 export type HandleCreateVideoClipLinkProps = (
@@ -154,9 +154,18 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
 
   return (
     <CreateLinkStyle.Container>
-      <HorizontalStack gap={16} style={{ padding: "0 20px 16px" }}>
+      <HorizontalStack gap={8} style={{ padding: "0 20px 16px" }}>
+        <Button onClick={e => setShowWebLinkType("URL")} size={"sm"}>
+          <FontAwesomeIcon icon={faPlus} />&nbsp;
+          URL
+        </Button>
+        <Button onClick={e => setShowWebLinkType("YT")} size={"sm"}>
+          <FontAwesomeIcon icon={faPlus} />&nbsp;
+          YouTube
+        </Button>
         {TABS.map(item =>
-          <Button key={item.id} onClick={e => handleFilter(item.id)} style={tabStyle(item.id)}>
+          <Button key={item.id} onClick={e => handleFilter(item.id)} style={tabStyle(item.id)} size={"sm"}>
+            <FontAwesomeIcon icon={item.icon} />&nbsp;
             {item.label}
           </Button>
         )}
@@ -179,14 +188,7 @@ const CreateLink: React.FC<CreateLinkPopupProps> = props => {
               Clear
             </Button>
           </>) : (<>
-            <Button onClick={e => setShowWebLinkType("URL")}>
-              <FontAwesomeIcon icon={faPlus} />&nbsp;
-              Web link
-            </Button>
-            <Button onClick={e => setShowWebLinkType("YT")}>
-              <FontAwesomeIcon icon={faPlus} />&nbsp;
-              YouTube
-            </Button>
+
           </>)}
           <Spacer />
           <Button onClick={closeModal} style={"inverse-neutral"}>

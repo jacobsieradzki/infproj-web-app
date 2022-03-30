@@ -58,6 +58,8 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
         title={title}
         subtitle={resource.description}
         icon={resource.getIcon()}
+        href={resource.url}
+        openInNewTab={true}
         color={"white"}
       />
     )
