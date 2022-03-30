@@ -4,6 +4,7 @@ import { createContext, useContext } from 'react';
 type VideoContextProps = {
   playerId: string;
   isPlaying: boolean;
+  isFinished: boolean;
   playerSeconds: number;
   playerDuration: number;
   playerVolume: number;
@@ -15,11 +16,13 @@ type VideoProviderProps = {
   videoState: VideoContextProps;
   videoDispatch: React.Dispatch<ActionType>;
   seekPlayer: (secs: number) => void;
+  setPlayerFinished: (finished: boolean) => void;
 }
 
 const INITIAL_STATE: VideoContextProps = {
   playerId: null,
   isPlaying: false,
+  isFinished: false,
   playerSeconds: 0,
   playerDuration: 0,
   playerVolume: 1,
@@ -33,6 +36,7 @@ export const useVideoContext = () => useContext(VideoContext);
 type ActionType = {
   type: "SET_PLAYER_ID" |
     "SET_PLAYER_PLAYING" |
+    "SET_PLAYER_FINISHED" |
     "SET_PLAYER_SECONDS" |
     "SET_CLIP_START" |
     "SET_CLIP_END" |
@@ -54,6 +58,8 @@ function reducer(state: VideoContextProps, action: ActionType): VideoContextProp
         return { ...state, playerId: action.payload };
       case "SET_PLAYER_PLAYING":
         return { ...state, isPlaying: action.payload };
+      case "SET_PLAYER_FINISHED":
+        return { ...state, isFinished: action.payload };
       case "SET_PLAYER_SECONDS":
         return { ...state, playerSeconds: action.payload };
       case "SET_CLIP_START":
@@ -82,11 +88,13 @@ export const VideoContextProvider: React.FunctionComponent = ({ children }) => {
   const [videoState, videoDispatch] = useReducer(reducer, INITIAL_STATE);
 
   const seekPlayer = (x: number) => videoDispatch({ type: "SEEK_PLAYER", payload: x });
+  const setPlayerFinished = (x: boolean) => videoDispatch({ type: "SET_PLAYER_FINISHED", payload: x });
 
   const props: VideoProviderProps = {
     videoState,
     videoDispatch,
     seekPlayer,
+    setPlayerFinished,
   };
 
   return (

@@ -1,10 +1,12 @@
 import { useGetLinksForResource } from 'classroomapi/useGetLinks'
+import CompletionView from 'components/Completion/CompletionView'
 import ResourceHeader from 'components/Header/ResourceHeader'
 import EventPreview from 'components/Link/EventPreview'
 import LinkPreview from 'components/Link/LinkPreview'
 import { StaffDiscussionMembershipAlert } from 'components/Membership/MembershipAlerts'
 import { ResourceContainerProps, TabItem, TabType } from 'components/Resource/ResourceContainer'
 import SubtitleList from 'components/Subtitles/SubtitleList'
+import useVideoContext from 'contexts/VideoContext'
 import React, { useState } from 'react'
 import { HorizontalStack } from 'components/GlobalStyles'
 import ResourceStyles from 'components/Resource/ResourceContainer.style'
@@ -18,6 +20,8 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
 }) => {
 
   const [tab, setTab] = useState<TabType>("RESOURCES");
+  const { videoState, setPlayerFinished } = useVideoContext();
+  const { isFinished } = videoState;
 
   const { data: links, refresh } = useGetLinksForResource({ id: resource.id , courseId: course.id });
   let nonSubtitleLinks = links.filter(x => !x.subtitle_id && x.source_link?.type != "VIDEO_CLIP");
@@ -29,7 +33,11 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
       <ResourceStyles.Content>
         <ResourceHeader {...{ organisation, course, event, resource }} />
 
-        <VideoComponent resource={resource} />
+        {isFinished ? (
+          <CompletionView course={course} links={links} onCancel={() => setPlayerFinished(false)} />
+        ) : (
+          <VideoComponent resource={resource} />
+        )}
 
         {shouldShowPrimaryEvents &&
           <ResourceStyles.Links>
@@ -53,20 +61,20 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
 
       </ResourceStyles.Content>
 
-      <ResourceStyles.Column>
+      {!isFinished && <ResourceStyles.Column>
         <HorizontalStack gap={16}>
-          <TabItem tabId={"RESOURCES"} {...{ tab, setTab }}>
+          <TabItem tabId={'RESOURCES'} {...{ tab, setTab }}>
             Resources
           </TabItem>
-          <TabItem tabId={"DISCUSSION"} {...{ tab, setTab }}>
+          <TabItem tabId={'DISCUSSION'} {...{ tab, setTab }}>
             Discussion
           </TabItem>
-          <TabItem tabId={"SUBTITLES"} {...{ tab, setTab }}>
+          <TabItem tabId={'SUBTITLES'} {...{ tab, setTab }}>
             Subtitles
           </TabItem>
         </HorizontalStack>
-        <ResourceStyles.ColumnContent className={"with-tabs border"}>
-          {tab === "RESOURCES" && (
+        <ResourceStyles.ColumnContent className={'with-tabs border'}>
+          {tab === 'RESOURCES' && (
             <SubtitleList
               course={course}
               resource={resource}
@@ -75,7 +83,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
               isDiscussion={false}
             />
           )}
-          {tab === "DISCUSSION" && (
+          {tab === 'DISCUSSION' && (
             <SubtitleList
               course={course}
               resource={resource}
@@ -84,7 +92,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
               isDiscussion={true}
             />
           )}
-          {tab === "SUBTITLES" && (
+          {tab === 'SUBTITLES' && (
             <SubtitleList
               course={course}
               resource={resource}
@@ -94,7 +102,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
           )}
         </ResourceStyles.ColumnContent>
 
-      </ResourceStyles.Column>
+      </ResourceStyles.Column>}
     </ResourceStyles.Container>
   )
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Loader from 'components/Loader/Loader'
-import Slider from 'react-slider'
 import { useRouter } from 'next/router'
 import { faExpand, faPause, faPlay, faVolumeMute, faVolumeUp, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,7 +12,7 @@ import VideoOverlay, { VideoOverlayType } from 'components/Video/VideoOverlay'
 import VideoSlider from 'components/Video/VideoSlider'
 import useVideoContext from 'contexts/VideoContext'
 import Resource from 'models/Resource'
-import VideoStyles, { SliderStyle } from './VideoComponent.style'
+import VideoStyles from './VideoComponent.style'
 
 export const JUMP_INTERVAL = 10;
 
@@ -32,8 +31,8 @@ const Button = ({ active = false, icon, iconElement, onClick, label, className =
 
 const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
 
-  const { videoState, videoDispatch, seekPlayer } = useVideoContext();
-  const { playerId, isPlaying, playerSeconds, playerDuration, playerVolume, startClip, endClip } = videoState;
+  const { videoState, videoDispatch, seekPlayer, setPlayerFinished } = useVideoContext();
+  const { isPlaying, playerSeconds, playerDuration, playerVolume, startClip, endClip } = videoState;
 
   const [pipEnabled, setPipEnabled] = useState(false);
   const [buffering, setBuffering] = useState(false);
@@ -65,6 +64,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
     videoRef.current.ontimeupdate = e => setPlayerSeconds(videoRef.current?.currentTime)
     videoRef.current.ondurationchange = e => setPlayerDuration(videoRef.current?.duration);
     videoRef.current.onvolumechange = e => setPlayerVolume(videoRef.current?.volume);
+    videoRef.current.onended = e => setPlayerFinished(true);
     setPlayerVolume(videoRef.current?.volume);
     videoRef.current.onwaiting = e => setBuffering(true);
     setPipEnabled(!!videoRef.current?.requestPictureInPicture);
@@ -93,8 +93,6 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
   // Actions
   // --------------------------------------------------
 
-  const [volumeExpanded, setVolumeExpanded] = useState(false);
-
   const togglePlay = e => {
     isPlaying ? videoRef.current?.pause() : videoRef.current?.play();
     setPlayerPlaying(!isPlaying);
@@ -110,8 +108,6 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
     seekPlayer(Math.min(playerSeconds + JUMP_INTERVAL, playerDuration));
   }
 
-  const onVolumeClick = e => setVolumeExpanded(!volumeExpanded);
-  const onMuteClick = e => setPlayerVolume(playerVolume == 0 ? 1 : 0);
   const onFullScreen = async e => await videoRef.current?.requestFullscreen();
   const onPictureInPicture = async e => await videoRef.current?.requestPictureInPicture();
 
@@ -129,8 +125,6 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
   // --------------------------------------------------
   // Render
   // --------------------------------------------------
-
-  let isMuted = playerVolume == 0;
 
   return (
     <VideoStyles.Container className={"video"}>
@@ -158,37 +152,13 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
 
           <Spacer />
 
-          {/*<VideoStyles.VolumeControl className={volumeExpanded ? "expand" : ""}>*/}
-          {/*  <SliderStyle thumbSize={8}>*/}
-          {/*    <Slider*/}
-          {/*      type="range"*/}
-          {/*      min={0}*/}
-          {/*      max={1000}*/}
-          {/*      value={Math.round(playerVolume*1000)}*/}
-          {/*      onChange={val => setPlayerVolume(val/1000)}*/}
-          {/*      className="slider"*/}
-          {/*    />*/}
-          {/*  </SliderStyle>*/}
-          {/*  <Button*/}
-          {/*    icon={faVolumeMute}*/}
-          {/*    className={"mute" + (isMuted ? " active" : "")}*/}
-          {/*    onClick={onMuteClick}*/}
-          {/*    label={<>Mute</>}/>*/}
-          {/*  <Button*/}
-          {/*    icon={faVolumeUp}*/}
-          {/*    onClick={onVolumeClick}*/}
-          {/*    label={<>Volume</>} />*/}
-          {/*</VideoStyles.VolumeControl>*/}
-
           {pipEnabled && <Button
             iconElement={<PictureInPictureIcon fontSize={"small"} style={{ marginTop: 3 }} />}
-            onClick={onPictureInPicture}
-            label={<>Picture in Picture</>} />}
+            onClick={onPictureInPicture} />}
 
           <Button
             icon={faExpand}
-            onClick={onFullScreen}
-            label={<>Full Screen</>} />
+            onClick={onFullScreen} />
         </>) : (
           <Loader size={24} />
         )}

@@ -21,9 +21,12 @@ const CONTENT_TAB_HEIGHT = 80;
 
 const Content = styled.div`
   flex-grow: 2;
-  padding-right: 44px;
   display: flex;
   flex-flow: column nowrap;
+  
+  &:not(:only-child) {
+    padding-right: 44px;
+  }
 `;
 
 const Links = styled.div`

@@ -112,29 +112,6 @@ const Controls = styled.div`
   .loader { margin: 8px; }
 `;
 
-const VolumeControl = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  
-  .slider {
-    width: 100px;
-    margin-right: 8px;
-  }
-  
-  .slider, .mute:not(.active) {
-    max-width: 0;
-    opacity: 0;
-  }
-
-  &.expand {
-    .slider, .mute {
-      opacity: 1;
-      max-width: 100px;
-    }
-  }
-`;
-
 const Button = styled.button`
   width: 36px;
   height: 36px;
@@ -164,7 +141,6 @@ const VideoStyles = {
   SliderOverlay,
   MiniSlider,
   Controls,
-  VolumeControl,
   Button,
 }
 
