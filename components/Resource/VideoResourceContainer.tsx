@@ -6,6 +6,7 @@ import LinkPreview from 'components/Link/LinkPreview'
 import { StaffDiscussionMembershipAlert } from 'components/Membership/MembershipAlerts'
 import { ResourceContainerProps, TabItem, TabType } from 'components/Resource/ResourceContainer'
 import SubtitleList from 'components/Subtitles/SubtitleList'
+import VideoReactions from 'components/Video/VideoReactions'
 import useVideoContext from 'contexts/VideoContext'
 import React, { useState } from 'react'
 import { HorizontalStack } from 'components/GlobalStyles'
@@ -35,9 +36,10 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
 
         {isFinished ? (
           <CompletionView course={course} links={links} onCancel={() => setPlayerFinished(false)} />
-        ) : (
+        ) : (<>
           <VideoComponent resource={resource} />
-        )}
+          <VideoReactions />
+        </>)}
 
         {shouldShowPrimaryEvents &&
           <ResourceStyles.Links>
@@ -87,7 +89,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
             <SubtitleList
               course={course}
               resource={resource}
-              links={links}
+              links={[]}
               refreshLinks={refresh}
               isDiscussion={true}
             />

@@ -1,3 +1,6 @@
+import HelpfulSectionBar from 'components/Video/HelpfulSectionBar'
+import VideoEmojiDisplay from 'components/Video/VideoEmojiDisplay'
+import EmojiDisplayContainer from 'components/Video/VideoEmojiDisplay.style'
 import React, { useEffect, useRef, useState } from 'react'
 import Loader from 'components/Loader/Loader'
 import { useRouter } from 'next/router'
@@ -134,7 +137,9 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
         </video>
         <VideoOverlay state={overlayState} />
         <VideoStyles.SliderOverlay>
+          <VideoEmojiDisplay />
           <VideoSlider />
+          <HelpfulSectionBar />
         </VideoStyles.SliderOverlay>
         <MiniVideoSlider />
       </VideoStyles.VideoWrapper>

@@ -10,6 +10,7 @@ type VideoContextProps = {
   playerVolume: number;
   startClip: number;
   endClip: number;
+  reactions: string[];
 }
 
 type VideoProviderProps = {
@@ -17,6 +18,8 @@ type VideoProviderProps = {
   videoDispatch: React.Dispatch<ActionType>;
   seekPlayer: (secs: number) => void;
   setPlayerFinished: (finished: boolean) => void;
+  addReaction: (reaction: string) => void;
+  popReaction: () => void;
 }
 
 const INITIAL_STATE: VideoContextProps = {
@@ -28,6 +31,7 @@ const INITIAL_STATE: VideoContextProps = {
   playerVolume: 1,
   startClip: null,
   endClip: null,
+  reactions: [],
 };
 
 export const VideoContext = createContext<Partial<VideoProviderProps>>({});
@@ -42,7 +46,9 @@ type ActionType = {
     "SET_CLIP_END" |
     "SET_PLAYER_DURATION" |
     "SET_PLAYER_VOLUME" |
-    "SEEK_PLAYER";
+    "SEEK_PLAYER" |
+    "ADD_REACTION" |
+    "POP_REACTION";
   payload?: any;
 };
 
@@ -74,6 +80,10 @@ function reducer(state: VideoContextProps, action: ActionType): VideoContextProp
       case "SEEK_PLAYER":
         if (player) player.currentTime = action.payload;
         return { ...state, playerSeconds: action.payload };
+      case "ADD_REACTION":
+        return { ...state, reactions: [...state.reactions, action.payload] };
+      case "POP_REACTION":
+        return { ...state, reactions: state.reactions.slice(1) };
       default:
         return state;
     }
@@ -90,11 +100,16 @@ export const VideoContextProvider: React.FunctionComponent = ({ children }) => {
   const seekPlayer = (x: number) => videoDispatch({ type: "SEEK_PLAYER", payload: x });
   const setPlayerFinished = (x: boolean) => videoDispatch({ type: "SET_PLAYER_FINISHED", payload: x });
 
+  const addReaction = (x: string) => videoDispatch({ type: "ADD_REACTION", payload: x });
+  const popReaction = () => videoDispatch({ type: "POP_REACTION" });
+
   const props: VideoProviderProps = {
     videoState,
     videoDispatch,
     seekPlayer,
     setPlayerFinished,
+    addReaction,
+    popReaction,
   };
 
   return (

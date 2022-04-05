@@ -69,8 +69,11 @@ const SliderOverlay = styled.div`
   left: 0;
   width: 100%;
   padding: 32px 16px 16px;
-  background: #000;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  
+  &:not(.clear) {
+    background: #000;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  }
   
   p { color: white; }
   
@@ -189,5 +192,25 @@ export const SliderStyle = styled.div<SliderStyleProps>`
     .thumb {
       background-color: white;
     }
+  }
+`;
+
+type HelpfulStyleProps = { left: number; width: boolean; };
+export const HelpfulStyle = styled.div<HelpfulStyleProps>`
+  width: 100%;
+  z-index: 2000;
+  padding: 8px 0;
+  
+  .bar {
+    height: 8px;
+    background-color: rgba(255, 149, 0, 0.5);
+    margin: 0 200px 0 400px;
+    border-radius: 999px;
+  }
+  
+  p {
+    font-size: 12px;
+    margin-bottom: 8px;
+    margin-left: 400px;
   }
 `;
