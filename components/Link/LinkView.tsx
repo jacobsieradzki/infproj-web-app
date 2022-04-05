@@ -51,8 +51,8 @@ const LinkView: React.FC<LinkViewProps> = ({
           {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
           {image && <img className={"icon"} src={image} alt={title} />}
           <LinkStyles.Content>
+            {caption && <span className={"caption"}>{caption}</span>}
             <p className={"title"}>{title}</p>
-            {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
             {subtitle && <span className={"content"}>{subtitle}</span>}
             {contentImage && <img className={'content'} src={contentImage} alt={title} />}
           </LinkStyles.Content>
@@ -68,8 +68,8 @@ const LinkView: React.FC<LinkViewProps> = ({
         {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
         {image && <img className={"icon"} src={image} alt={title} />}
         <LinkStyles.Content>
+          {caption && <span className={"caption"}>{caption}</span>}
           <p className={"title"}>{title}</p>
-          {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
           {subtitle && <span className={"content"}>{subtitle}</span>}
           {contentImage && <img className={'content'} src={contentImage} alt={title} />}
         </LinkStyles.Content>

@@ -1,3 +1,4 @@
+import useAuthContext from 'contexts/AuthContext'
 import useVideoContext from 'contexts/VideoContext'
 import React from 'react'
 import styled from 'styled-components'
@@ -32,12 +33,15 @@ const ReactionBox = styled.button`
 
 const VideoReactions: React.FC = () => {
 
+  const { isLoggedIn } = useAuthContext();
   const { addReaction, popReaction } = useVideoContext();
 
   const handleClick = reaction => {
     addReaction(reaction.emoji);
     setTimeout(popReaction, 8000);
   }
+
+  if (!isLoggedIn) return <></>;
 
   return (
     <Layout id={"reactions-actions"}>

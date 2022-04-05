@@ -1,15 +1,20 @@
+import { faFileVideo } from '@fortawesome/free-solid-svg-icons'
+import { captionForVideoClipPreview, formatHHMMSS } from 'helper/time'
+import Link from 'models/Link'
 import React from 'react'
 import { useRouter } from 'next/router';
 import { LinkPreviewProps } from 'components/Link/LinkPreview'
 import LinkView from 'components/Link/LinkView'
-import { generateEventRoute, generateResourceRoute, RESOURCE_ROUTE } from 'constants/navigation'
+import { generateEventRoute, generateResourceRoute, generateResourceVideoClipRoute, RESOURCE_ROUTE } from 'constants/navigation'
 import Resource from 'models/Resource'
 
 interface ResourcePreviewProps {
+  link?: Link;
   resource?: Resource;
+  reactions?: boolean;
 }
 
-const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
+const ResourcePreview: React.FC<ResourcePreviewProps> = ({ link, resource, reactions = false, }) => {
 
   const router = useRouter();
   const organisationId = router?.query?.organisationId?.toString() || "";
@@ -25,6 +30,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
         icon={resource.getIcon()}
         color={"white"}
         href={generateResourceRoute(organisationId, resource.course_id, resource.id)}
+        reactions={reactions}
       />
     )
   }
@@ -37,6 +43,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
         icon={resource.getIcon()}
         color={"white"}
         href={generateResourceRoute(organisationId, resource.course_id, resource.id)}
+        reactions={reactions}
       />
     )
   }
@@ -48,6 +55,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
         subtitle={subtitle}
         icon={resource.getIcon()}
         color={"white"}
+        reactions={reactions}
       />
     )
   }
@@ -61,6 +69,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
         href={resource.url}
         openInNewTab={true}
         color={"white"}
+        reactions={reactions}
       />
     )
   }
@@ -74,6 +83,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
         href={resource.url}
         openInNewTab={true}
         color={"white"}
+        reactions={reactions}
       />
     )
   }
@@ -84,6 +94,7 @@ const ResourcePreview: React.FC<ResourcePreviewProps> = ({ resource }) => {
       subtitle={subtitle}
       icon={resource.getIcon()}
       color={"white"}
+      reactions={reactions}
     />
   )
 }

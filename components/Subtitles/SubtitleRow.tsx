@@ -41,7 +41,7 @@ export const SubtitleRow: React.FC<SubtitleRowProps> = ({
       {links.length > 0 &&
         <VerticalStack gap={16} className={'links'}>
           {links.map((link, index) => (
-            <LinkPreview key={index} link={link} />
+            <LinkPreview key={index} link={link} reactions />
           ))}
         </VerticalStack>
       }

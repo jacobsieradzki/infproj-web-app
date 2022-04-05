@@ -1,4 +1,5 @@
 import LinkStyle from 'components/Link/Link.style'
+import useAuthContext from 'contexts/AuthContext'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { EMOJI_REACTIONS } from 'constants/emoji'
@@ -30,6 +31,8 @@ const ReactionBox = styled.button`
 
 const LinkReactions: React.FC = () => {
 
+  const { isLoggedIn } = useAuthContext();
+
   const [reactions, setReactions] = useState({});
 
   const setReaction = (reaction, num) => setReactions({ ...reactions, [reaction]: num });
@@ -37,11 +40,11 @@ const LinkReactions: React.FC = () => {
   const handleClick = reaction => setReaction(reaction, getReactionCount(reaction) + 1);
   const getClassName = r => getReactionCount(r) > 0 ? "" : " add-reaction";
 
-  let arr = EMOJI_REACTIONS;
+  if (!isLoggedIn) return <></>;
 
   return (
     <LinkStyle.Reactions id={"links-reactions"}>
-      {arr.map(x => (
+      {EMOJI_REACTIONS.map(x => (
         <ReactionBox key={x.label} onClick={() => handleClick(x.emoji)} className={getClassName(x.emoji)}>
           {x.emoji}
           &nbsp;&nbsp;

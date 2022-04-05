@@ -33,12 +33,9 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   isDiscussion = null,
 }) => {
 
-  const { authState } = useAuthContext();
-  const { memberships } = authState;
-  const membership = useMembership(memberships);
-
+  const { isLoggedIn } = useAuthContext();
   const { videoState, videoDispatch, seekPlayer } = useVideoContext();
-  const { playerId, isPlaying, playerSeconds, startClip,  } = videoState;
+  const { isPlaying, playerSeconds, startClip } = videoState;
 
   const refList = useRef(null);
   const [selectedSecs, setSelectedSecs] = useState(0);
@@ -105,8 +102,7 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
     )
   }
 
-  let showAddConnection = (isDiscussion && membership.hasStudentMembershipToCourse(course))
-    || (!isDiscussion && membership.hasStaffPermissionForCourse(course));
+  let subtitlesArr = subtitles.sort((a, b) => (a.start_seconds - b.start_seconds));
 
   return (
     <>
@@ -115,16 +111,14 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
         handleCreatedLink={refreshLinks} />
 
       <SubtitlesStyles.Container ref={refList} id={"subtitles-list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
-        <StudentDiscussionMembershipAlert value={course} />
-
         <div className={"subtitle-rows"}>
-          {subtitles.map((subtitle, index) => (
+          {subtitlesArr.map((subtitle, index) => (
             <SubtitleRow
               key={index}
               subtitle={subtitle}
               isSelected={subtitle.start_seconds == selectedSecs}
               links={getLinksForSubtitle(subtitle)}
-              showAddConnection={isDiscussion != null && showAddConnection}
+              showAddConnection={isLoggedIn}
               addConnection={() => showConnectionForSubtitle(subtitle)}
             />
           ))}

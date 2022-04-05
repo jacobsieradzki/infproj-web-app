@@ -93,6 +93,13 @@ const Reactions = styled.div`
   display: flex;
   flex-flow: row wrap;
   gap: 6px;
+
+  .tooltip-text {
+    top: 120%;
+    left: 50%;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+    font-weight: 600;
+  }
 `;
 
 const LinkStyles = {

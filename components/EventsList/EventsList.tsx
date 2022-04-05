@@ -17,8 +17,6 @@ type EventsListProps = {
 
 const EventsList: React.FC<EventsListProps> = ({ organisation, course }) => {
 
-  const { isLoggedIn } = useAuthContext();
-
   const { data: events, loading } = useGetEvents({ courseId: course.id });
 
   if (loading) {

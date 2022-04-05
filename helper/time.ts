@@ -1,4 +1,5 @@
 import Clip from 'models/Clip'
+import Link from 'models/Link'
 
 export const formatHHMMSS = (secs: number): string => {
   let hours = Math.floor(secs / 3600);

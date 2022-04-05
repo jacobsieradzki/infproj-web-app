@@ -36,7 +36,7 @@ const ChoosePdfLink: React.FC<CreateLinkPopupProps & ChoosePdfLinkProps> = ({
     return true;
   });
 
-  let pages = resources.filter(x => x.type == "PDF_PAGE");
+  let pages = resources.filter(x => x.type == "PDF_PAGE").sort((a, b) => a.start_location - b.start_location);
   let clips = resources.filter(x => x.type != "PDF_PAGE");
 
   return (

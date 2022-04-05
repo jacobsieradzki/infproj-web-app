@@ -11,9 +11,10 @@ import LinkView from 'components/Link/LinkView'
 
 interface ClipPreviewProps {
   clip: Clip;
+  reactions?: boolean;
 }
 
-const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
+const ClipPreview: React.FC<ClipPreviewProps> = ({ clip, reactions = false }) => {
 
   const router = useRouter();
   const organisationId = router?.query?.organisationId?.toString() || "";
@@ -26,10 +27,11 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
         title={resource.name}
         subtitle={clip.isImage() ? null : clip.content}
         image={clip.isImage() ? clip.content : null}
-        caption={clip.description}
+        caption={"Excerpt from " + clip.description}
         icon={faHighlighter}
         color={"white"}
         href={generateResourcePDFClipRoute(clip, organisationId)}
+        reactions={reactions}
       />
     )
   }
@@ -46,6 +48,7 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
         icon={clip.isImage() ? null : resource.getIcon()}
         color={"white"}
         href={generateResourcePDFClipRoute(clip, organisationId)}
+        reactions={reactions}
       />
     )
   }
@@ -59,6 +62,7 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
         icon={faFileVideo}
         color={"white"}
         href={generateResourceVideoClipRoute(clip, organisationId)}
+        reactions={reactions}
       />
     )
   }
@@ -69,6 +73,7 @@ const ClipPreview: React.FC<ClipPreviewProps> = ({ clip }) => {
       subtitle={clip.type}
       icon={faExclamationTriangle}
       color={"orange"}
+      reactions={reactions}
     />
   )
 }

@@ -11,15 +11,16 @@ import Link from 'models/Link'
 
 export type LinkPreviewProps = {
   link: Link;
+  reactions?: boolean;
 }
 
-const LinkPreview: React.FC<LinkPreviewProps> = ({ link}) => {
+const LinkPreview: React.FC<LinkPreviewProps> = ({ link, reactions = false}) => {
 
   if (link.link_type == "RESOURCE")
-    return <ResourcePreview resource={new Resource(link.link)} />
+    return <ResourcePreview resource={new Resource(link.link)} reactions={reactions} />
 
   if (link.link_type == "CLIP")
-    return <ClipPreview clip={new Clip(link.link)} />
+    return <ClipPreview clip={new Clip(link.link)} reactions={reactions} />
 
   return (
     <LinkView
@@ -27,6 +28,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ link}) => {
       subtitle={""}
       icon={faExclamationTriangle}
       color={"orange"}
+      reactions={reactions}
     />
   )
 }
