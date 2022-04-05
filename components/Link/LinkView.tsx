@@ -1,4 +1,5 @@
-import React from 'react'
+import LinkReactions from 'components/Link/LinkReactions'
+import React, { useState } from 'react'
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CaptionUppercase } from 'components/GlobalStyles'
@@ -32,6 +33,8 @@ const LinkView: React.FC<LinkViewProps> = ({
   light = false,
 }) => {
 
+  const [emojis, setEmojis] = useState()
+
   let className = [
     "link-prev",
     !subtitle ? "center" : "",
@@ -41,29 +44,35 @@ const LinkView: React.FC<LinkViewProps> = ({
 
   if (href) {
     return (
-      <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={className}>
-        {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
-        {image && <img className={"icon"} src={image} alt={title} />}
-        <LinkStyles.Content>
-          <p>{title}</p>
-          {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
-          {subtitle && <span className={"content"}>{subtitle}</span>}
-          {contentImage && <img className={'content'} src={contentImage} alt={title} />}
-        </LinkStyles.Content>
-      </LinkStyles.Link>
+      <LinkStyles.Layout>
+        <LinkStyles.Link href={href} onClick={onClick} target={openInNewTab ? "_blank" : null} className={className}>
+          {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
+          {image && <img className={"icon"} src={image} alt={title} />}
+          <LinkStyles.Content>
+            <p className={"title"}>{title}</p>
+            {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
+            {subtitle && <span className={"content"}>{subtitle}</span>}
+            {contentImage && <img className={'content'} src={contentImage} alt={title} />}
+          </LinkStyles.Content>
+        </LinkStyles.Link>
+        <LinkReactions />
+      </LinkStyles.Layout>
     )
   }
 
   return (
     <LinkStyles.Container onClick={onClick} className={className}>
-      {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
-      {image && <img className={"icon"} src={image} alt={title} />}
-      <LinkStyles.Content>
-        <p>{title}</p>
-        {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
-        {subtitle && <span>{subtitle}</span>}
-        {contentImage && <img className={'content'} src={contentImage} alt={title} />}
-      </LinkStyles.Content>
+      <LinkStyles.Layout>
+        {icon && <FontAwesomeIcon icon={icon} color={color} className={'icon'} />}
+        {image && <img className={"icon"} src={image} alt={title} />}
+        <LinkStyles.Content>
+          <p className={"title"}>{title}</p>
+          {caption && <CaptionUppercase className={"caption"}>{caption}</CaptionUppercase>}
+          {subtitle && <span className={"content"}>{subtitle}</span>}
+          {contentImage && <img className={'content'} src={contentImage} alt={title} />}
+        </LinkStyles.Content>
+      </LinkStyles.Layout>
+      <LinkReactions />
     </LinkStyles.Container>
   )
 }

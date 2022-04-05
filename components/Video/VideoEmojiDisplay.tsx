@@ -2,6 +2,7 @@ import React from 'react'
 import EmojiDisplayContainer from 'components/Video/VideoEmojiDisplay.style'
 import useVideoContext from 'contexts/VideoContext'
 
+// Built using: https://codepen.io/AntoineDemailly/pen/YVwwGP
 const VideoEmojiDisplay = () => {
 
   const { videoState } = useVideoContext();

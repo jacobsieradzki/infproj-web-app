@@ -203,7 +203,7 @@ export const HelpfulStyle = styled.div<HelpfulStyleProps>`
   
   .bar {
     height: 8px;
-    background-color: rgba(255, 149, 0, 0.5);
+    background-color: rgba(255, 149, 0, 1.0);
     margin: 0 200px 0 400px;
     border-radius: 999px;
   }

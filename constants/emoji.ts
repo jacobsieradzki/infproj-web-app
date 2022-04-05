@@ -4,6 +4,8 @@ type EmojiReaction = {
   label: string;
 }
 
+export const JUST_EMOJIS_REACTIONS = ["👍", "🙌", "🔥", "💡", "👎", "🤔", "❓"];
+
 export const EMOJI_REACTIONS: EmojiReaction[] = [
   { emoji: "👍", label: "Agree" },
   { emoji: "🙌", label: "Helpful" },

@@ -16,11 +16,20 @@ const ContainerCss = `
     max-height: 100px;
   }
   
+  p.title {
+    font-size: 16px;
+  }
+  
   span.content {
+    font-size: 14px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;  
     overflow: hidden;
+  }
+  
+  span.caption {
+    font-size: 12px;
   }
   
   &.noclick {
@@ -49,6 +58,10 @@ const ContainerCss = `
   }
 `;
 
+const Layout = styled.div`
+  width: 100%;
+`;
+
 const Container = styled.button`
   ${ContainerCss}
 `;
@@ -75,10 +88,19 @@ const Content = styled.div`
   }
 `;
 
+const Reactions = styled.div`
+  margin: 8px 0;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 6px;
+`;
+
 const LinkStyles = {
+  Layout,
   Container,
   Link,
   Content,
+  Reactions,
 }
 
 export default LinkStyles

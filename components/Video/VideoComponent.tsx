@@ -1,10 +1,9 @@
+import React, { useEffect, useRef, useState } from 'react'
 import HelpfulSectionBar from 'components/Video/HelpfulSectionBar'
 import VideoEmojiDisplay from 'components/Video/VideoEmojiDisplay'
-import EmojiDisplayContainer from 'components/Video/VideoEmojiDisplay.style'
-import React, { useEffect, useRef, useState } from 'react'
 import Loader from 'components/Loader/Loader'
 import { useRouter } from 'next/router'
-import { faExpand, faPause, faPlay, faVolumeMute, faVolumeUp, IconDefinition } from '@fortawesome/free-solid-svg-icons'
+import { faExpand, faPause, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import PictureInPictureIcon from '@mui/icons-material/PictureInPicture';
 import Replay10Icon from '@mui/icons-material/Replay10';
@@ -138,8 +137,8 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
         <VideoOverlay state={overlayState} />
         <VideoStyles.SliderOverlay>
           <VideoEmojiDisplay />
-          <VideoSlider />
           <HelpfulSectionBar />
+          <VideoSlider />
         </VideoStyles.SliderOverlay>
         <MiniVideoSlider />
       </VideoStyles.VideoWrapper>
