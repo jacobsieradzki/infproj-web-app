@@ -115,8 +115,7 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
         handleCreatedLink={refreshLinks} />
 
       <SubtitlesStyles.Container ref={refList} id={"subtitles-list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
-        {isDiscussion === false && <StaffDiscussionMembershipAlert value={course} />}
-        {isDiscussion === true && <StudentDiscussionMembershipAlert value={course} />}
+        <StudentDiscussionMembershipAlert value={course} />
 
         <div className={"subtitle-rows"}>
           {subtitles.map((subtitle, index) => (

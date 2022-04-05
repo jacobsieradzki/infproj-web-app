@@ -81,6 +81,7 @@ export const EmojiDisplayContainer = styled.div`
 
           span.emoji {
             font-size: 20px;
+            color: white;
           }
         }
       }

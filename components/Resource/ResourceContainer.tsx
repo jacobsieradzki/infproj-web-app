@@ -34,8 +34,6 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
 
   const { organisation = null, course = null, event = null, resource = null } = props;
 
-  const [tab, setTab] = useState<TabType>("RESOURCES");
-
   let isLectureVideo = !!resource?.url && resource?.type == "VID";
   if (isLectureVideo) return <VideoResourceContainer {...props} />
 
@@ -47,24 +45,6 @@ const ResourceContainer: React.FC<ResourceContainerProps> = props => {
       <ResourceStyles.Content>
         <ResourceHeader organisation={organisation} course={course} resource={resource} />
       </ResourceStyles.Content>
-
-      {!!resource && <ResourceStyles.Column>
-        <HorizontalStack gap={16}>
-          <TabItem tabId={'RESOURCES'} {...{ tab, setTab }}>
-            Resources
-          </TabItem>
-          <TabItem tabId={'DISCUSSION'} {...{ tab, setTab }}>
-            Discussion
-          </TabItem>
-        </HorizontalStack>
-        <ResourceStyles.ColumnContent className={"with-tabs border"}>
-          {tab === 'RESOURCES' ? (
-            <p>Resources!</p>
-          ) : (
-            <p>Discussion!</p>
-          )}
-        </ResourceStyles.ColumnContent>
-      </ResourceStyles.Column>}
     </ResourceStyles.Container>
   )
 }

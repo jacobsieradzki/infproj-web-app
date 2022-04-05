@@ -17,6 +17,7 @@ type LinkViewProps = {
   openInNewTab?: boolean;
   onClick?: () => void;
   light?: boolean;
+  reactions?: boolean;
 }
 
 const LinkView: React.FC<LinkViewProps> = ({
@@ -31,6 +32,7 @@ const LinkView: React.FC<LinkViewProps> = ({
   openInNewTab = true,
   onClick = () => {},
   light = false,
+  reactions = false,
 }) => {
 
   const [emojis, setEmojis] = useState()
@@ -55,7 +57,7 @@ const LinkView: React.FC<LinkViewProps> = ({
             {contentImage && <img className={'content'} src={contentImage} alt={title} />}
           </LinkStyles.Content>
         </LinkStyles.Link>
-        <LinkReactions />
+        {reactions && <LinkReactions />}
       </LinkStyles.Layout>
     )
   }
@@ -72,7 +74,7 @@ const LinkView: React.FC<LinkViewProps> = ({
           {contentImage && <img className={'content'} src={contentImage} alt={title} />}
         </LinkStyles.Content>
       </LinkStyles.Layout>
-      <LinkReactions />
+      {reactions && <LinkReactions />}
     </LinkStyles.Container>
   )
 }

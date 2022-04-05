@@ -29,8 +29,6 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   const { authState } = useAuthContext();
   const { hasStudentMembershipToCourse, hasStaffPermissionForCourse } = useMembership(authState.memberships);
 
-  const [tab, setTab] = useState<TabType>("RESOURCES");
-
   const { pdfDocument, error: pdfError } = usePdfLoader({
     url: resource.url,
     beforeLoad: <Loader style={{ margin: "24px auto" }} />
@@ -111,40 +109,18 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
       </ResourceStyles.Content>
 
       <ResourceStyles.Column>
-        <HorizontalStack gap={16}>
-          <TabItem tabId={"RESOURCES"} {...{ tab, setTab }}>
-            Resources
-          </TabItem>
-          <TabItem tabId={"DISCUSSION"} {...{ tab, setTab }}>
-            Discussion
-          </TabItem>
-        </HorizontalStack>
-        <ResourceStyles.ColumnContent className={"with-tabs border"}>
-          {tab === "RESOURCES" ? (
-            <HighlightList
-              loading={loading}
-              course={course}
-              resource={resource}
-              highlights={highlights}
-              links={links}
-              pageClips={pages}
-              currentHighlight={currentHighlight}
-              isDiscussion={false}
-              refreshLinks={refreshLinks}
-            />
-          ) : (
-            <HighlightList
-              loading={loading}
-              course={course}
-              resource={resource}
-              highlights={highlights}
-              links={[]}
-              pageClips={[]}
-              currentHighlight={null}
-              isDiscussion={true}
-              refreshLinks={refreshLinks}
-            />
-          )}
+        <ResourceStyles.ColumnContent className={"border"}>
+          <HighlightList
+            loading={loading}
+            course={course}
+            resource={resource}
+            highlights={highlights}
+            links={links}
+            pageClips={pages}
+            currentHighlight={currentHighlight}
+            isDiscussion={false}
+            refreshLinks={refreshLinks}
+          />
         </ResourceStyles.ColumnContent>
       </ResourceStyles.Column>
     </ResourceStyles.Container>

@@ -20,7 +20,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
   resource
 }) => {
 
-  const [tab, setTab] = useState<TabType>("RESOURCES");
+  const [tab, setTab] = useState<TabType>("DISCUSSION");
   const { videoState, setPlayerFinished } = useVideoContext();
   const { isFinished } = videoState;
 
@@ -65,9 +65,6 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
 
       {!isFinished && <ResourceStyles.Column>
         <HorizontalStack gap={16}>
-          <TabItem tabId={'RESOURCES'} {...{ tab, setTab }}>
-            Resources
-          </TabItem>
           <TabItem tabId={'DISCUSSION'} {...{ tab, setTab }}>
             Discussion
           </TabItem>
@@ -76,22 +73,13 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
           </TabItem>
         </HorizontalStack>
         <ResourceStyles.ColumnContent className={'with-tabs border'}>
-          {tab === 'RESOURCES' && (
+          {tab === 'DISCUSSION' && (
             <SubtitleList
               course={course}
               resource={resource}
               links={links}
               refreshLinks={refresh}
               isDiscussion={false}
-            />
-          )}
-          {tab === 'DISCUSSION' && (
-            <SubtitleList
-              course={course}
-              resource={resource}
-              links={[]}
-              refreshLinks={refresh}
-              isDiscussion={true}
             />
           )}
           {tab === 'SUBTITLES' && (
@@ -103,7 +91,6 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
             />
           )}
         </ResourceStyles.ColumnContent>
-
       </ResourceStyles.Column>}
     </ResourceStyles.Container>
   )
