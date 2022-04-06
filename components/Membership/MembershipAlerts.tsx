@@ -76,7 +76,7 @@ export const StudentCourseNewEnrollmentLoginAlert = () => {
   const { isLoggedIn } = useAuthContext();
   return (!isLoggedIn) ? (
     <Alert title={"Login to enroll in this class."} icon={faGraduationCap} className={"permissions"}>
-      <p className={"subtitle"}>You can comment in discussions and events will display in your feed.</p>
+      <p className={"subtitle"}>You can contribute to discussions and leave feedback to others.</p>
     </Alert>
   ) : <></>;
 }

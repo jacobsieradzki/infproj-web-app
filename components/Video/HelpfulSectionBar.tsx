@@ -11,10 +11,12 @@ const HelpfulSectionBar: React.FC = () => {
   let showTime = playerSeconds < START_SHOW_TIME_INTERVAL
     || (playerDuration-playerSeconds) < END_SHOW_TIME_INTERVAL;
 
+
+
   return (
     <VideoStyles.SliderOverlay className={"timeline clear" + (showTime ? " showTime" : "")}>
       <HelpfulStyle>
-        <p>🙌 Your class found this section helpful</p>
+        <p>🙌&nbsp;&nbsp;Your class found this section helpful</p>
         <div className={"bar"} />
       </HelpfulStyle>
     </VideoStyles.SliderOverlay>

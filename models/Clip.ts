@@ -80,7 +80,7 @@ export class Clip {
     let description = _clip?.description;
 
     let clip =  new Clip({
-      id: _clip.id || 0,
+      id: _clip?.id || 0,
       course_id: _clip?.course_id || 0,
       description: `Page ${i.toString()}${description ? ": " + description : ""}`,
       content: showImage ? _clip?.content : null,

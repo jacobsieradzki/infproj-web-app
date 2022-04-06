@@ -17,6 +17,7 @@ const Header = styled.div`
   padding: 0 var(--page-space);
   position: sticky;
   top: 0;
+  z-index: 99999;
 `;
 
 const Content = styled.div`

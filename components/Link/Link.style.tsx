@@ -23,7 +23,7 @@ const ContainerCss = `
   span.content {
     font-size: 14px;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;  
     overflow: hidden;
   }
@@ -42,6 +42,10 @@ const ContainerCss = `
   }
   
   & > .svg-inline--fa { margin: 12px 16px 0 4px; }
+  & > .fa-chevron-right, .fa-external-link-square-alt { 
+    margin: 0 0px 0 16px;
+    align-self: center !important;
+  }
   
   &.center {
     align-items: center;

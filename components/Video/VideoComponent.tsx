@@ -34,7 +34,7 @@ const Button = ({ active = false, icon, iconElement, onClick, label, className =
 const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
 
   const { videoState, videoDispatch, seekPlayer, setPlayerFinished } = useVideoContext();
-  const { isPlaying, playerSeconds, playerDuration, playerVolume, startClip, endClip } = videoState;
+  const { isPlaying, playerSeconds, playerDuration, startClip, endClip } = videoState;
 
   const [pipEnabled, setPipEnabled] = useState(false);
   const [buffering, setBuffering] = useState(false);
@@ -131,14 +131,14 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ resource }) => {
   return (
     <VideoStyles.Container className={"video"}>
       <VideoStyles.VideoWrapper>
-        <video id={"video-" + resource.id} ref={videoRef} autoPlay>
+        <video id={"video-" + resource.id} ref={videoRef}>
           <source src={resource.url} type="video/mp4" />
         </video>
         <VideoOverlay state={overlayState} />
         <VideoStyles.SliderOverlay>
           <VideoEmojiDisplay />
-          <HelpfulSectionBar />
           <VideoSlider />
+          <HelpfulSectionBar />
         </VideoStyles.SliderOverlay>
         <MiniVideoSlider />
       </VideoStyles.VideoWrapper>

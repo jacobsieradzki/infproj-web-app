@@ -13,6 +13,7 @@ export class Link {
   public source_link: Resource | Event | Clip;
   public source_id: number;
   public link: Resource | Event | Clip;
+  public approved: boolean;
 
   constructor(json: any) {
     if (!json) return null;
@@ -24,6 +25,7 @@ export class Link {
     this.link_other_count = json.link_other_count;
     this.source_id = json.source_id;
     this.link = json.link;
+    this.approved = json.approved === true;
   }
 
 }

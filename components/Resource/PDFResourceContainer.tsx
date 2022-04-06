@@ -26,7 +26,7 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
   resource
 }) => {
   const router = useRouter();
-  const { authState } = useAuthContext();
+  const { isLoggedIn, authState } = useAuthContext();
   const { hasStudentMembershipToCourse, hasStaffPermissionForCourse } = useMembership(authState.memberships);
 
   const { pdfDocument, error: pdfError } = usePdfLoader({
@@ -118,7 +118,7 @@ const PDFResourceContainer: React.FC<ResourceContainerProps> = ({
             links={links}
             pageClips={pages}
             currentHighlight={currentHighlight}
-            isDiscussion={false}
+            showAdd={isLoggedIn}
             refreshLinks={refreshLinks}
           />
         </ResourceStyles.ColumnContent>

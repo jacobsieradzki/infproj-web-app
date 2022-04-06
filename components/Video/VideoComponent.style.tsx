@@ -203,14 +203,15 @@ export const HelpfulStyle = styled.div<HelpfulStyleProps>`
   
   .bar {
     height: 8px;
-    background-color: rgba(255, 149, 0, 1.0);
+    background-color: rgba(40, 205, 65, 1.00);
     margin: 0 200px 0 400px;
     border-radius: 999px;
   }
   
   p {
-    font-size: 12px;
-    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
     margin-left: 400px;
   }
 `;

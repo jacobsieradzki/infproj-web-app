@@ -54,9 +54,9 @@ const CompletionView: React.FC<CompletionViewProps> = ({ course, links, onCancel
         {"If you're finished, have a go at adding a new resource?"}
       </p>
       {/*<p>{"Adding connections can deepen understanding of the content, and help your class community."}</p>*/}
-      <p>{"Try to find a resource that can help to support a topic in this lecture."}</p>
-      <p>{"This can deepen your understanding and help your class community."}</p>
-      <p><b>{"This is optional, the choice is yours."}</b></p>
+      {/*<p>{"Try to find a resource that can help to support a topic in this lecture."}</p>*/}
+      {/*<p>{"This can deepen your understanding and help your class community."}</p>*/}
+      <p>{"This is optional to do, but it will help your class to collaborate in discussion."}</p>
 
       <CompletionViewStyle.Actions>
         <Button variant={"filled"} style={"secondary"} onClick={onCancel}>

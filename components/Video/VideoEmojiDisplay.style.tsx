@@ -80,7 +80,7 @@ export const EmojiDisplayContainer = styled.div`
           animation: scaleOut ${wave_duration};
 
           span.emoji {
-            font-size: 20px;
+            font-size: 44px;
             color: white;
           }
         }

@@ -78,7 +78,7 @@ const VideoResourceContainer: React.FC<ResourceContainerProps> = ({
               resource={resource}
               links={links}
               refreshLinks={refresh}
-              isDiscussion={false}
+              showAdd
             />
           )}
           {tab === 'SUBTITLES' && (

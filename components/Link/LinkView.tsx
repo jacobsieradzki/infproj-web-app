@@ -1,8 +1,8 @@
-import LinkReactions from 'components/Link/LinkReactions'
 import React, { useState } from 'react'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import LinkReactions from 'components/Link/LinkReactions'
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CaptionUppercase } from 'components/GlobalStyles'
 import LinkStyles from 'components/Link/Link.style'
 
 type LinkViewProps = {
@@ -42,7 +42,7 @@ const LinkView: React.FC<LinkViewProps> = ({
     !subtitle ? "center" : "",
     light ? "light" : "",
     (!onClick && !href) ? "noclick" : ""
-  ].filter(x => x.length > 0).join(" ")
+  ].filter(x => x.length > 0).join(" ");
 
   if (href) {
     return (
@@ -56,6 +56,7 @@ const LinkView: React.FC<LinkViewProps> = ({
             {subtitle && <span className={"content"}>{subtitle}</span>}
             {contentImage && <img className={'content'} src={contentImage} alt={title} />}
           </LinkStyles.Content>
+          <FontAwesomeIcon icon={faChevronRight} />
         </LinkStyles.Link>
         {reactions && <LinkReactions />}
       </LinkStyles.Layout>
@@ -73,6 +74,7 @@ const LinkView: React.FC<LinkViewProps> = ({
           {subtitle && <span className={"content"}>{subtitle}</span>}
           {contentImage && <img className={'content'} src={contentImage} alt={title} />}
         </LinkStyles.Content>
+        <FontAwesomeIcon icon={faChevronRight} />
       </LinkStyles.Layout>
       {reactions && <LinkReactions />}
     </LinkStyles.Container>

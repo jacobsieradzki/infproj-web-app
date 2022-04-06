@@ -1,8 +1,9 @@
+import React, { useState } from 'react'
 import LinkStyle from 'components/Link/Link.style'
 import useAuthContext from 'contexts/AuthContext'
-import React, { useState } from 'react'
 import styled from 'styled-components'
 import { EMOJI_REACTIONS } from 'constants/emoji'
+import Tooltip from '@mui/material/Tooltip';
 
 const ReactionBox = styled.button`
   background-color: transparent;
@@ -45,11 +46,13 @@ const LinkReactions: React.FC = () => {
   return (
     <LinkStyle.Reactions id={"links-reactions"}>
       {EMOJI_REACTIONS.map(x => (
-        <ReactionBox key={x.label} onClick={() => handleClick(x.emoji)} className={getClassName(x.emoji)}>
-          {x.emoji}
-          &nbsp;&nbsp;
-          {getReactionCount(x.emoji) || 0}
-        </ReactionBox>
+        <Tooltip title={x.label}>
+          <ReactionBox key={x.label} onClick={() => handleClick(x.emoji)} className={getClassName(x.emoji)}>
+            {x.emoji}
+            &nbsp;&nbsp;
+            {getReactionCount(x.emoji) || 0}
+          </ReactionBox>
+        </Tooltip>
       ))}
     </LinkStyle.Reactions>
   )

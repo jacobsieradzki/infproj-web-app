@@ -45,7 +45,7 @@ export const SubtitleRow: React.FC<SubtitleRowProps> = ({
           ))}
         </VerticalStack>
       }
-      {showAddConnection && !isPlaying && <AddConnectionButton className={'add'} onClick={addConnection} />}
+      {showAddConnection && <AddConnectionButton className={'add'} onClick={addConnection} />}
     </SubtitlesStyles.Item>
   )
 }

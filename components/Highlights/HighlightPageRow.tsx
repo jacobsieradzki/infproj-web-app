@@ -1,3 +1,4 @@
+import useAuthContext from 'contexts/AuthContext'
 import React from 'react'
 import AddConnectionButton from 'components/AddConnectionButton'
 import { VerticalStack } from 'components/GlobalStyles'
@@ -47,9 +48,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
     });
   }
 
-  console.log('aaaa', pageClip);
   const handleAddPage = e => {
-    console.log('handle add page', pageClip);
     handleAddConnection(pageClip);
   }
 

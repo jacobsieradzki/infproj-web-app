@@ -1,8 +1,5 @@
-import CreateLinkPopup from 'components/CreateLinkPopup/CreateLinkPopup'
-import Subtitle from 'models/Subtitle'
 import React, { useState } from 'react'
-import useAuthContext from 'contexts/AuthContext'
-import useMembership from 'helper/useMembership'
+import CreateLinkPopup from 'components/CreateLinkPopup/CreateLinkPopup'
 import HighlightPageRow from 'components/Highlights/HighlightPageRow'
 import Loader from 'components/Loader/Loader'
 import Clip from 'models/Clip'
@@ -19,7 +16,7 @@ type HighlightListProps = {
   pageClips: Clip[];
   links: Link[];
   currentHighlight?: string;
-  isDiscussion?: boolean;
+  showAdd?: boolean;
   refreshLinks: () => void;
 }
 
@@ -31,13 +28,9 @@ export const HighlightList: React.FC<HighlightListProps> = ({
   pageClips,
   links,
   currentHighlight,
-  isDiscussion,
+  showAdd,
   refreshLinks,
 }) => {
-
-  const { authState } = useAuthContext();
-  const { memberships } = authState;
-  const membership = useMembership(memberships);
 
   const [linkProps, setLinkProps] = useState(null);
 
@@ -62,13 +55,6 @@ export const HighlightList: React.FC<HighlightListProps> = ({
     )
   }
 
-  let showAddConnection = (isDiscussion && membership.hasStudentMembershipToCourse(course))
-    || (!isDiscussion && membership.hasStaffPermissionForCourse(course));
-
-  console.log("ALL HIGHLIGHTS", highlights);
-  console.log("ALL LINKS", links);
-  console.log("PAGE CLIPS", pageClips);
-
   const showConnectionForHighlight = (clip: Clip) => setLinkProps(clip.id);
 
   return (
@@ -85,7 +71,7 @@ export const HighlightList: React.FC<HighlightListProps> = ({
               currentHighlight={currentHighlight}
               highlights={getHighlightsForPage(pageClip)}
               links={getLinksForPage(pageClip)}
-              showAddConnection={showAddConnection}
+              showAddConnection={showAdd}
               handleAddConnection={showConnectionForHighlight}
             />
           ))}

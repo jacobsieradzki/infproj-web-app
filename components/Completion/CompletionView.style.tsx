@@ -69,7 +69,16 @@ const Links = styled.div`
   margin: 40px auto;
   
   & > * {
-    width: calc((100% - 48px) / 4);
+    width: calc((100% - 48px) / 4) !important;
+  }
+  
+  .link-prev {
+    height: 100%;
+    align-items: center;
+
+    .svg-inline--fa:first-child {
+      margin: 0 16px 0 8px;
+    }
   }
 `;
 

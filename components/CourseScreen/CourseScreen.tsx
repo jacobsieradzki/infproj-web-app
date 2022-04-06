@@ -80,8 +80,8 @@ const CourseScreen: React.FC<CourseScreen> = ({ organisationId, courseId }) => {
           <HorizontalStack gap={16}>
             <TabItem compact tabId={"events"} {...{ tab, setTab }}>Events</TabItem>
             <TabItem compact tabId={"resources"} {...{ tab, setTab }}>Resources</TabItem>
-            <TabItem compact tabId={"clips"} {...{ tab, setTab }}>Clips</TabItem>
-            <TabItem compact tabId={"links"} {...{ tab, setTab }}>Links</TabItem>
+            {/*<TabItem compact tabId={"clips"} {...{ tab, setTab }}>Clips</TabItem>*/}
+            {/*<TabItem compact tabId={"links"} {...{ tab, setTab }}>Links</TabItem>*/}
             <Spacer />
             {showAdd && <CourseAddButton {...{ organisationId, courseId }} />}
           </HorizontalStack>

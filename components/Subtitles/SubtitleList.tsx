@@ -1,28 +1,31 @@
+import { FormHelperText } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
 import { faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useGetSubtitles from 'classroomapi/useGetSubtitles'
 import CreateLinkPopup from 'components/CreateLinkPopup/CreateLinkPopup'
 import { Spacer } from 'components/GlobalStyles'
 import Loader from 'components/Loader/Loader'
-import { StaffDiscussionMembershipAlert, StudentDiscussionMembershipAlert } from 'components/Membership/MembershipAlerts'
+import { StudentCourseNewEnrollmentLoginAlert } from 'components/Membership/MembershipAlerts'
 import SubtitleRow from 'components/Subtitles/SubtitleRow'
 import useAuthContext from 'contexts/AuthContext'
+import usePopupContext from 'contexts/PopupContext'
 import useVideoContext from 'contexts/VideoContext'
-import useMembership from 'helper/useMembership'
 import Course from 'models/Course'
 import Link from 'models/Link'
-import organisation from 'models/Organisation'
 import Resource from 'models/Resource'
 import Subtitle from 'models/Subtitle'
-import React, { useEffect, useRef, useState } from 'react'
 import SubtitlesStyles from 'components/Subtitles/SubtitleList.style'
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 type SubtitleListProps = {
   course: Course;
   resource: Resource;
   links: Link[];
   refreshLinks: () => void;
-  isDiscussion?: boolean;
+  showAdd?: boolean;
 }
 
 export const SubtitleList: React.FC<SubtitleListProps> = ({
@@ -30,10 +33,11 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   resource,
   links,
   refreshLinks,
-  isDiscussion = null,
+  showAdd = false,
 }) => {
 
   const { isLoggedIn } = useAuthContext();
+  const { showError } = usePopupContext();
   const { videoState, videoDispatch, seekPlayer } = useVideoContext();
   const { isPlaying, playerSeconds, startClip } = videoState;
 
@@ -42,6 +46,8 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   const [autoPlay, setAutoPlay] = useState(true);
 
   const [linkProps, setLinksProps] = useState(null);
+
+  const [showAllResults, setShowAllResults] = useState(false);
 
   const { data: subtitles, loading, error } = useGetSubtitles({
     courseId: course.id,
@@ -80,6 +86,8 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
 
   const getLinksForSubtitle = (subtitle: Subtitle): Link[] => {
     return links.filter(link => {
+      return showAllResults || link.approved;
+    }).filter(link => {
       if (link.source_link?.type == "VIDEO_CLIP") {
         return getClosestSubtitleSeconds(link.source_link.start_location) == subtitle.start_seconds;
       } else {
@@ -89,8 +97,12 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   }
 
   const showConnectionForSubtitle = (subtitle: Subtitle) => {
-    setLinksProps(subtitle.id);
-    videoDispatch({ type: "SET_PLAYER_PLAYING", payload: false });
+    if (isLoggedIn) {
+      setLinksProps(subtitle.id);
+      videoDispatch({ type: "SET_PLAYER_PLAYING", payload: false });
+    } else {
+      showError("Please login to create connections in discussion.");
+    }
   }
 
 
@@ -103,6 +115,7 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
   }
 
   let subtitlesArr = subtitles.sort((a, b) => (a.start_seconds - b.start_seconds));
+  let switchLabel = showAllResults ? "Toggle to show reviewed resources" : "Toggle to show replies from all students";
 
   return (
     <>
@@ -111,6 +124,17 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
         handleCreatedLink={refreshLinks} />
 
       <SubtitlesStyles.Container ref={refList} id={"subtitles-list"} className={isPlaying && autoPlay ? "autoplay" : ""}>
+        <StudentCourseNewEnrollmentLoginAlert />
+
+        <FormGroup className={"reply-filter"}>
+          <FormControlLabel control={<Switch value={showAllResults}
+            onChange={e => setShowAllResults(e.target.checked)} />}
+            label={switchLabel} />
+          {showAllResults && <FormHelperText>
+            Reviewed resources are posted by instructors, or a student reply that has been promoted by an instructor.
+          </FormHelperText>}
+        </FormGroup>
+
         <div className={"subtitle-rows"}>
           {subtitlesArr.map((subtitle, index) => (
             <SubtitleRow
@@ -118,7 +142,7 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
               subtitle={subtitle}
               isSelected={subtitle.start_seconds == selectedSecs}
               links={getLinksForSubtitle(subtitle)}
-              showAddConnection={isLoggedIn}
+              showAddConnection={showAdd}
               addConnection={() => showConnectionForSubtitle(subtitle)}
             />
           ))}

@@ -9,6 +9,13 @@ const Container = styled.div`
   .alert {
     margin: 20px;
   }
+  
+  .reply-filter {
+    margin: 24px 32px;
+    p, span {
+      color: white;
+    }
+  }
 
   &.autoplay {
     .item:not(.selected):not(:hover) {
