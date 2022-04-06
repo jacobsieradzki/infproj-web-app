@@ -67,6 +67,10 @@ const CompletionView: React.FC<CompletionViewProps> = ({ course, links, onCancel
         </Button>
       </CompletionViewStyle.Actions>
 
+      <p className={"message"}>
+        {"Or, review resources from this lecture:"}
+      </p>
+
       <CompletionViewStyle.Links>
         {links.map(link => (
           <LinkPreview key={link.id} link={link} />

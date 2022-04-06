@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import LinkStyle from 'components/Link/Link.style'
 import useAuthContext from 'contexts/AuthContext'
 import styled from 'styled-components'
-import { EMOJI_REACTIONS } from 'constants/emoji'
+import { createInitialEmojiReactions, EMOJI_REACTIONS } from 'constants/emoji'
 import Tooltip from '@mui/material/Tooltip';
 
 const ReactionBox = styled.button`
@@ -17,6 +17,9 @@ const ReactionBox = styled.button`
   
   &.add-reaction {
     opacity: 0.3;
+  }
+  &:not(.add-reaction) {
+    border-color: rgba(255,255,255,0.7);
   }
   
   &:hover {
@@ -34,7 +37,7 @@ const LinkReactions: React.FC = () => {
 
   const { isLoggedIn } = useAuthContext();
 
-  const [reactions, setReactions] = useState({});
+  const [reactions, setReactions] = useState(createInitialEmojiReactions());
 
   const setReaction = (reaction, num) => setReactions({ ...reactions, [reaction]: num });
   const getReactionCount = (reaction) => reactions[reaction] || 0;

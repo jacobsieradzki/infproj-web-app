@@ -14,3 +14,19 @@ export const EMOJI_REACTIONS: EmojiReaction[] = [
   { emoji: "🤔", label: "Unsure" },
   { emoji: "❓", label: "Why?" },
 ]
+
+const RANDOM_REACTION_ARRAY = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3];
+const calculateRandomReaction = () => {
+  return RANDOM_REACTION_ARRAY[Math.floor(Math.random()*RANDOM_REACTION_ARRAY.length)];
+}
+
+export const createInitialEmojiReactions = () => {
+  return {
+    "👍": calculateRandomReaction(),
+    "🙌": calculateRandomReaction(),
+    "🔥": calculateRandomReaction(),
+    "💡": calculateRandomReaction(),
+    "🤔": calculateRandomReaction(),
+    "❓": calculateRandomReaction(),
+  }
+}
