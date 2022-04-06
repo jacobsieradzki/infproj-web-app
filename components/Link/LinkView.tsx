@@ -74,7 +74,7 @@ const LinkView: React.FC<LinkViewProps> = ({
           {subtitle && <span className={"content"}>{subtitle}</span>}
           {contentImage && <img className={'content'} src={contentImage} alt={title} />}
         </LinkStyles.Content>
-        <FontAwesomeIcon icon={faChevronRight} />
+        {/*<FontAwesomeIcon icon={faChevronRight} />*/}
       </LinkStyles.Layout>
       {reactions && <LinkReactions />}
     </LinkStyles.Container>

@@ -49,7 +49,7 @@ const LinkReactions: React.FC = () => {
   return (
     <LinkStyle.Reactions id={"links-reactions"}>
       {EMOJI_REACTIONS.map(x => (
-        <Tooltip title={x.label}>
+        <Tooltip key={x.emoji} title={x.label}>
           <ReactionBox key={x.label} onClick={() => handleClick(x.emoji)} className={getClassName(x.emoji)}>
             {x.emoji}
             &nbsp;&nbsp;
