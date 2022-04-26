@@ -2,6 +2,8 @@ import { PDF_DOCUMENT_HASH_ID_PREFIX, PDF_DOCUMENT_HASH_PAGE_ID_PREFIX } from 'h
 import Clip from 'models/Clip'
 
 export const HOME_ROUTE = '/'
+export const ABOUT_ROUTE = '/about'
+
 export const ALL_ORGANISATIONS_ROUTE = '/'
 export const ORGANISATION_COURSES_ROUTE = '/organisation/[organisationId]'
 export const COURSE_ROUTE = '/organisation/[organisationId]/course/[courseId]';

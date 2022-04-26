@@ -70,7 +70,7 @@ export const HighlightPageRow: React.FC<HighlightPageRowProps> = ({
         <SubtitlesStyles.Inset>
           <VerticalStack gap={8} className={'links page-links'}>
             {pageAttachedLinks.map((link, index) => (
-              <LinkPreview key={index} link={link} />
+              <LinkPreview key={index} link={link} reactions />
             ))}
           </VerticalStack>
         </SubtitlesStyles.Inset>

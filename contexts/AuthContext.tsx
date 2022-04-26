@@ -15,6 +15,7 @@ export type AuthContextProps = {
   user: User;
   credentials: string;
   memberships: Membership[];
+  popup: boolean;
 }
 
 type AuthProviderProps = {
@@ -26,12 +27,14 @@ type AuthProviderProps = {
   logOut: () => void;
   setMemberships: (x: Membership[]) => void;
   membership: UseMembershipCallbackProps;
+  setPopup: (x: boolean) => void;
 }
 
 const INITIAL_STATE: AuthContextProps = {
   user: null,
   credentials: null,
   memberships: [],
+  popup: false,
 };
 
 export const AuthContext = createContext<Partial<AuthProviderProps>>({});
@@ -41,7 +44,8 @@ type ActionType = {
   type: "REHYDRATE" |
     "SET_USER" |
     "SET_CREDENTIALS" |
-    "SET_MEMBERSHIPS";
+    "SET_MEMBERSHIPS" |
+    "SET_POPUP";
   payload?: any;
 };
 
@@ -55,6 +59,8 @@ function reducer(state: AuthContextProps, action: ActionType): AuthContextProps 
       return { ...state, credentials: action.payload };
     case "SET_MEMBERSHIPS":
       return { ...state, memberships: action.payload };
+    case "SET_POPUP":
+      return { ...state, popup: action.payload };
     default:
       return state;
   }
@@ -74,6 +80,8 @@ export const AuthContextProvider: React.FunctionComponent = ({ children }) => {
 
   const setMemberships = (m: Membership[]) => authDispatch({ type: "SET_MEMBERSHIPS", payload: m });
 
+  const setPopup = (x: boolean) => authDispatch({ type: "SET_POPUP", payload: x });
+
   const logOut = () => {
     setUser(null);
     setCredentials(null);
@@ -87,7 +95,8 @@ export const AuthContextProvider: React.FunctionComponent = ({ children }) => {
     setCredentials,
     logOut,
     setMemberships,
-    membership: useMembership(authState.memberships)
+    membership: useMembership(authState.memberships),
+    setPopup,
   };
 
   const { rehydrated, error } = useStorage(authState, payload => authDispatch({ type: 'REHYDRATE', payload }));

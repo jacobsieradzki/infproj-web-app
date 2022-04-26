@@ -4,6 +4,7 @@ import CourseBox from 'components/CoursesList/CourseBox'
 import Loader from 'components/Loader/Loader'
 import { StaffOrganisationMembershipAlert } from 'components/Membership/MembershipAlerts'
 import { generateOrganisationRoute, HOME_ROUTE } from 'constants/navigation'
+import Course from 'models/Course'
 import React from 'react'
 import CoursesListStyles from './CoursesList.style'
 import useGetCoursesForOrganisation from 'classroomapi/useGetCoursesForOrganisation'
@@ -47,7 +48,7 @@ const CoursesList: React.FC<CoursesListProps> = ({ organisationId }) => {
 
       <CoursesListStyles.Grid className={"wide"}>
         {courses?.map(course =>
-          <CourseBox key={course.id} course={course} />
+          <CourseBox key={course.id} course={new Course(course)} />
         )}
       </CoursesListStyles.Grid>
     </CoursesListStyles.Container>

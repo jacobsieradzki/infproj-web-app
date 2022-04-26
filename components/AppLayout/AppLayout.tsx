@@ -1,5 +1,6 @@
 import Button from 'components/Button/Button'
-import { HOME_ROUTE } from 'constants/navigation'
+import { ABOUT_ROUTE, HOME_ROUTE } from 'constants/navigation'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import fetchMemberships from 'classroomapi/fetchMemberships'
 import AppLayoutStyle from 'components/AppLayout/AppLayout.style'
@@ -10,11 +11,11 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 const AppLayout: React.FC = ({ children }) => {
 
-  const { authState, isLoggedIn, setMemberships, logOut } = useAuthContext();
-  const { user = null } = authState;
+  const router = useRouter();
+  const { authState, isLoggedIn, setMemberships, logOut, setPopup } = useAuthContext();
+  const { user = null, popup } = authState;
 
-  const [loginPopup, setLoginPopup] = useState(false);
-  const closeLoginPopup = () => setLoginPopup(false);
+  const closeLoginPopup = () => setPopup(false);
 
   useEffect(() => {
     if (isLoggedIn && setMemberships) {
@@ -26,24 +27,27 @@ const AppLayout: React.FC = ({ children }) => {
     }
   }, [isLoggedIn]);
 
+  let showUser = router.pathname != "/about";
+  let href = router.pathname == HOME_ROUTE ? ABOUT_ROUTE : HOME_ROUTE;
+
   return (
     <AppLayoutStyle.Page id={"page"}>
       <CssBaseline />
 
-      <LoginPopup isOpen={loginPopup} closeModal={closeLoginPopup} />
+      <LoginPopup isOpen={popup} closeModal={closeLoginPopup} />
 
       <AppLayoutStyle.Header>
-        <a id={"logo"} href={HOME_ROUTE}>Classroom</a>
+        <a id={"logo"} href={href}>Classroom</a>
         <Spacer />
 
-        <HorizontalStack gap={20} align={"center"}>
+        {showUser && <HorizontalStack gap={20} align={'center'}>
           {isLoggedIn && <CaptionUppercase>{user?.first_name} {user?.last_name}</CaptionUppercase>}
           {isLoggedIn ? (
-            <Button onClick={() => logOut()} style={"secondary"} size={"sm"}>Log Out</Button>
+            <Button onClick={() => logOut()} style={'secondary'} size={'sm'}>Log Out</Button>
           ) : (
-            <Button onClick={() => setLoginPopup(true)} style={"secondary"} size={"sm"}>Login</Button>
+            <Button onClick={() => setPopup(true)} style={'secondary'} size={'sm'}>Login</Button>
           )}
-        </HorizontalStack>
+        </HorizontalStack>}
       </AppLayoutStyle.Header>
 
       <AppLayoutStyle.Content>

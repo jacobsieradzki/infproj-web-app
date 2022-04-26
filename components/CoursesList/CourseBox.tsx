@@ -1,3 +1,4 @@
+import { formatCourseDate } from 'helper/time'
 import React from 'react'
 import { CaptionUppercase } from 'components/GlobalStyles'
 import { generateCourseRoute } from 'constants/navigation'
@@ -16,8 +17,11 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
         <p>{course.name}</p>
       </LecturePreview>
       <BoxContent>
-        <p>Description</p>
-        <CaptionUppercase>{course.organisation_id}</CaptionUppercase>
+        <p>
+          <b>Course starts</b> {formatCourseDate(course.getStartDate())}
+          <br />
+          <b>ends</b> {formatCourseDate(course.getEndDate())}
+        </p>
       </BoxContent>
     </CoursesListStyles.Box>
   )

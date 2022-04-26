@@ -127,9 +127,11 @@ export const SubtitleList: React.FC<SubtitleListProps> = ({
         <StudentCourseNewEnrollmentLoginAlert />
 
         <FormGroup className={"reply-filter"}>
-          <FormControlLabel control={<Switch value={showAllResults}
-            onChange={e => setShowAllResults(e.target.checked)} />}
-            label={switchLabel} />
+          {links.length > 0 && isLoggedIn &&
+            <FormControlLabel control={<Switch value={showAllResults}
+              onChange={e => setShowAllResults(e.target.checked)} />}
+              label={switchLabel} />
+          }
           {showAllResults && <FormHelperText>
             Reviewed resources are posted by instructors, or a student reply that has been promoted by an instructor.
           </FormHelperText>}

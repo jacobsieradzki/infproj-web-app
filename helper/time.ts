@@ -1,5 +1,4 @@
 import Clip from 'models/Clip'
-import Link from 'models/Link'
 
 export const formatHHMMSS = (secs: number): string => {
   let hours = Math.floor(secs / 3600);
@@ -25,3 +24,15 @@ export const captionForVideoClipPreview = (clip: Clip): string => {
     return `${timeDifference} second clip`;
   }
 }
+
+export const formatCourseDate = (date: Date): string => {
+  let options: Intl.DateTimeFormatOptions = { dateStyle: 'medium', timeStyle: 'short' };
+  return date.toLocaleString("en-GB", options);
+}
+
+
+
+
+
+
+

@@ -6,11 +6,22 @@ const Container = styled.div`
 `;
 
 const Grid = styled(GlobalGrid.Container)`
-  &:not(.wide) > * {
-    width: calc(100% / 3);
+  &:not(.wide) > * { width: calc(100% / 3); }
+  &.wide > * { width: calc(100% / 4); }
+
+  @media (max-width: 1024px) {
+    &:not(.wide) > * { width: calc(100% / 2); }
+    &.wide > * { width: calc(100% / 3); }
   }
-  &.wide > * {
-    width: calc(100% / 4);
+  
+  @media (max-width: 768px) {
+    &:not(.wide) > * { width: calc(100% / 1); }
+    &.wide > * { width: calc(100% / 1); }
+  }
+
+  @media (max-width: 450px) {
+    &:not(.wide) > * { width: 100%; }
+    &.wide > * { width: 100%; }
   }
 `;
 
@@ -67,6 +78,7 @@ export const BoxContent = styled.div`
   justify-content: center;
   padding: 16px 20px;
   gap: 8px;
+  width: 100%;
   
   p {
     margin: 0;

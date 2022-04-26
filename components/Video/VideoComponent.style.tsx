@@ -1,8 +1,7 @@
-import { VIDEO_OVERLAY_ANIMATION_TIME_MS } from 'components/Video/VideoOverlay'
 import styled from 'styled-components';
 
 const Container = styled.div`
-  margin: 24px 0;
+  margin: 0 0 24px;
   position: relative;
   padding-top: 56.25%; /* 16:9 Aspect Ratio */
   border: 2px solid rgb(76 95 114);

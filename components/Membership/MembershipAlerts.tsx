@@ -73,10 +73,14 @@ export const StudentCourseNewEnrollmentAlert: MembershipAlertProps<Course> = ({ 
 }
 
 export const StudentCourseNewEnrollmentLoginAlert = () => {
-  const { isLoggedIn } = useAuthContext();
+  const { isLoggedIn, setPopup } = useAuthContext();
   return (!isLoggedIn) ? (
     <Alert title={"Login to enroll in this class."} icon={faGraduationCap} className={"permissions"}>
       <p className={"subtitle"}>You can contribute to discussions and leave feedback to others.</p>
+      <div style={{ height: 8 }} />
+      <Button onClick={() => setPopup(true)}>
+        Login
+      </Button>
     </Alert>
   ) : <></>;
 }

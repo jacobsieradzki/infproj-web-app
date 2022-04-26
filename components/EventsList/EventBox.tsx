@@ -1,3 +1,4 @@
+import { formatCourseDate } from 'helper/time'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { CaptionUppercase } from 'components/GlobalStyles'
@@ -36,7 +37,7 @@ const EventBox: React.FC<EventBoxProps> = ({ organisation, event }) => {
         <p>{event.name}</p>
       </LecturePreview>
       <BoxContent>
-        <CaptionUppercase>{event.getStartDate().toDateString()}, {event.getStartDate().toLocaleTimeString()} ({duration})</CaptionUppercase>
+        <CaptionUppercase><b>{formatCourseDate(event.getStartDate())} ({duration})</b></CaptionUppercase>
         <p>{event.description}</p>
       </BoxContent>
     </CoursesListStyles.Box>
