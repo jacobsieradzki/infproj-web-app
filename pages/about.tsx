@@ -9,6 +9,17 @@ const Layout = styled.div`
   text-align: center;
   width: 90%;
   margin: 0 auto;
+  padding-bottom: 52px;
+  
+  .youtube {
+    width: min(700px, 95%);
+    margin: 0 auto;
+    
+    iframe {
+      width: 100%;
+      height: 400px;
+    }
+  }
   
   .space {
     height: 40px;
@@ -22,7 +33,7 @@ const Layout = styled.div`
     color: var(--background-color);
     font-size: 18px;
     font-weight: 600;
-    width: min(100%, 500px);
+    width: min(95%, 700px);
     cursor: pointer;
     transition: all 0.1s;
     
@@ -51,6 +62,12 @@ const Page: NextPage = () => {
         Dissertation
       </a>
 
+      <div className={"youtube"}>
+        <iframe src="https://www.youtube.com/embed/4MYFiDqbkiI" title="YouTube video player" frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+        ></iframe>
+      </div>
+
       <div className={"space"} />
 
       <h2>
@@ -59,7 +76,6 @@ const Page: NextPage = () => {
         &nbsp;
         Repositories
       </h2>
-
 
       <a href={"https://github.com/jacobsieradzki/infproj-web-app"}>
         <FontAwesomeIcon icon={faWindowMaximize} />
